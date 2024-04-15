@@ -36,7 +36,7 @@ export default function DropdownProfile({ align }: {
         <Menu.Items as="ul" className="focus:outline-none">
           <Menu.Item as="li">
             {({ active }) => (
-              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="/settings">
+              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="/settings/account">
                 Settings
               </Link>
             )}
