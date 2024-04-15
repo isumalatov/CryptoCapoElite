@@ -36,14 +36,14 @@ export default function DropdownProfile({ align }: {
         <Menu.Items as="ul" className="focus:outline-none">
           <Menu.Item as="li">
             {({ active }) => (
-              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="#0">
+              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="/settings">
                 Settings
               </Link>
             )}
           </Menu.Item>
           <Menu.Item as="li">
             {({ active }) => (
-              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="#0">
+              <Link className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`} href="/signin">
                 Sign Out
               </Link>
             )}
