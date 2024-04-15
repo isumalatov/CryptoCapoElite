@@ -35,7 +35,7 @@ export default function SignIn() {
                 </div>
                 <div className="flex items-center justify-between mt-6">
                   <div className="mr-1">
-                    <Link className="text-sm underline hover:no-underline" href="/reset-password">¿No te acuerdas de la contraseña?</Link>
+                    <Link className="text-sm underline hover:no-underline" href="/reset-password">¿Contraseña olvidada?</Link>
                   </div>
                   <Link className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3" href="/">Iniciar Sesión</Link>
                 </div>
