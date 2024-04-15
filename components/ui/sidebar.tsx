@@ -106,7 +106,7 @@ export default function Sidebar() {
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Apartados</span>
             </h3>
             <ul className="mt-3">
-              {/* Dashboard */}
+              {/* Preventas */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${segments.includes('preventas') && 'bg-slate-900'}`}>
                 <SidebarLink href="/preventas">
                   <div className="flex items-center">
