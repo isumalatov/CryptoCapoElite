@@ -30,6 +30,7 @@ export default function SignUp() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       className="form-input w-full"
                       type="email"
                     />
@@ -43,6 +44,7 @@ export default function SignUp() {
                     </label>
                     <input
                       id="name"
+                      name="name"
                       className="form-input w-full"
                       type="text"
                     />
@@ -56,6 +58,7 @@ export default function SignUp() {
                     </label>
                     <input
                       id="password"
+                      name="password"
                       className="form-input w-full"
                       type="password"
                     />
@@ -68,6 +71,7 @@ export default function SignUp() {
                         type="checkbox"
                         className="form-checkbox"
                         id="allowemail"
+                        name="allowemail"
                       />
                       <span className="text-sm ml-2">
                         Avisame de novedades por correo

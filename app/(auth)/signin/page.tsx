@@ -30,6 +30,7 @@ export default function SignIn() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       className="form-input w-full"
                       type="email"
                     />
@@ -43,6 +44,7 @@ export default function SignIn() {
                     </label>
                     <input
                       id="password"
+                      name="password"
                       className="form-input w-full"
                       type="password"
                     />

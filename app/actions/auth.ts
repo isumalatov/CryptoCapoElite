@@ -1,17 +1,24 @@
 "use server";
 
-import { createSession, deleteSession } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 
 export async function signup(formData: FormData) {
-  console.log("signup", formData);
-  await createSession("1");
+  const rawFormData = {
+    email: formData.get("email"),
+    name: formData.get("name"),
+    password: formData.get("password"),
+    allowemail: formData.get("allowemail"),
+  };
+  console.log("signup", rawFormData);
   redirect("/");
 }
 
 export async function signin(formData: FormData) {
-  console.log("signin", formData);
-  await createSession("1");
+  const rawFormData = {
+    email: formData.get("email"),
+    name: formData.get("password"),
+  };
+  console.log("signin", rawFormData);
   redirect("/");
 }
 
