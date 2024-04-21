@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import { createSession, deleteSession } from "../lib/session";
