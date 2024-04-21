@@ -8,14 +8,16 @@ import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const router = useRouter();
   const [message, formAction] = useFormState(signin, null);
   useEffect(() => {
     if (message?.success === false) {
       toast.error(message.message);
     } else if (message?.success === true) {
-      toast.success(message.message);
+      router.push("/dashboard");
     }
   }, [message]);
 
