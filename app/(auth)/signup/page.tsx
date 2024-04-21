@@ -4,10 +4,24 @@ import Link from "next/link";
 import AuthHeader from "../auth-header";
 import AuthImage from "../auth-image";
 import { signup } from "@/app/actions/auth";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUp() {
+  const [message, formAction] = useFormState(signup, null);
+  useEffect(() => {
+    if (message?.success === false) {
+      toast.error(message.message);
+    } else if (message?.success === true) {
+      toast.success(message.message);
+    }
+  }, [message]);
+
   return (
     <main className="bg-white dark:bg-slate-900">
+      <ToastContainer />
       <div className="relative md:flex">
         {/* Content */}
         <div className="md:w-1/2">
@@ -19,7 +33,7 @@ export default function SignUp() {
                 ¡Crea tu cuenta! ✨
               </h1>
               {/* Form */}
-              <form action={signup}>
+              <form action={formAction}>
                 <div className="space-y-4">
                   <div>
                     <label
@@ -59,6 +73,20 @@ export default function SignUp() {
                     <input
                       id="password"
                       name="password"
+                      className="form-input w-full"
+                      type="password"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="repeatpassword"
+                    >
+                      Repetir Contraseña
+                    </label>
+                    <input
+                      id="repeatpassword"
+                      name="repeatpassword"
                       className="form-input w-full"
                       type="password"
                     />
