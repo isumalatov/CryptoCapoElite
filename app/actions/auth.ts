@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
+import { createSession, deleteSession } from "../lib/session";
+import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
   try {
@@ -54,16 +56,19 @@ export async function signup(prevState: any, formData: FormData) {
       return { success: false, message: "El email ya está registrado" };
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new User({
       email: email,
       name: name,
-      password: password,
+      password: hashedPassword,
       allowemail: allowemail,
       discord: null,
       telegram: null,
     });
     await user.save();
-    return { success: true, message: "Cuenta creada con éxito" };
+    await createSession(user._id);
+    return { success: true, message: "Cuenta creada correctamente" };
   } catch (error) {
     // Handle the error here
     console.error(error);
@@ -87,12 +92,11 @@ export async function signin(prevState: any, formData: FormData) {
       return { success: false, message: "Email o contraseña incorrectos" };
     }
 
-    if(password !== user.password) {
+    if (!(await bcrypt.compare(password, user.password))) {
       return { success: false, message: "Email o contraseña incorrectos" };
     }
-
-    return { success: true, message: "Sesión iniciada con éxito" };
-    
+    await createSession(user._id);
+    return { success: true, message: "Inicio de sesión correcto" };
   } catch (error) {
     // Handle the error here
     console.error(error);
@@ -101,5 +105,9 @@ export async function signin(prevState: any, formData: FormData) {
 }
 
 export async function logout() {
-  redirect("/signin");
+  try {
+    deleteSession();
+  } catch (error) {
+    console.error(error);
+  }
 }
