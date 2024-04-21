@@ -4,10 +4,24 @@ import Link from "next/link";
 import AuthHeader from "../auth-header";
 import AuthImage from "../auth-image";
 import { signin } from "@/app/actions/auth";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignIn() {
+  const [message, formAction] = useFormState(signin, null);
+  useEffect(() => {
+    if (message?.success === false) {
+      toast.error(message.message);
+    } else if (message?.success === true) {
+      toast.success(message.message);
+    }
+  }, [message]);
+
   return (
     <main className="bg-white dark:bg-slate-900">
+      <ToastContainer />
       <div className="relative md:flex">
         {/* Content */}
         <div className="md:w-1/2">
@@ -19,7 +33,7 @@ export default function SignIn() {
                 ¡Bienvenido! ✨
               </h1>
               {/* Form */}
-              <form action={signin}>
+              <form action={formAction}>
                 <div className="space-y-4">
                   <div>
                     <label
