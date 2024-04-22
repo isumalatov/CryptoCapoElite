@@ -6,7 +6,9 @@ export interface Users extends mongoose.Document {
     password: string;
     discord: string;
     telegram: string;
-    allowemail: boolean;
+    allowemailprev: boolean;
+    allowemailcancel: boolean;
+    allowemailnew: boolean;
 }
 
 const UserSchema = new mongoose.Schema<Users>({
@@ -15,7 +17,9 @@ const UserSchema = new mongoose.Schema<Users>({
     password: { type: String, required: true },
     discord: { type: String, required: false },
     telegram: { type: String, required: false },
-    allowemail: { type: Boolean, required: true }
+    allowemailprev: { type: Boolean, required: true },
+    allowemailcancel: { type: Boolean, required: true },
+    allowemailnew: { type: Boolean, required: true },
 });
 
 export default mongoose.models.User || mongoose.model<Users>("User", UserSchema);

@@ -62,6 +62,8 @@ export async function signup(prevState: any, formData: FormData) {
       name: name,
       password: hashedPassword,
       allowemail: allowemail,
+      allowemailcancel: allowemail,
+      allowemailnew: allowemail,
       discord: "",
       telegram: "",
     });
