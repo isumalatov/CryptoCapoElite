@@ -10,3 +10,10 @@ export interface SignUpFormData {
   repeatpassword: string;
   allowemail: boolean;
 }
+
+export interface ProfileFormData {
+  name: string;
+  email: string;
+  telegram: string;
+  discord: string;
+}

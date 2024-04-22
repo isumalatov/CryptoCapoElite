@@ -37,6 +37,11 @@ export async function createSession(userId: string) {
   });
 }
 
+export async function getSession() {
+  const session = cookies().get("session")?.value;
+  return await decrypt(session);
+}
+
 export async function updateSession() {
   const session = cookies().get("session")?.value;
   const payload = await decrypt(session);
