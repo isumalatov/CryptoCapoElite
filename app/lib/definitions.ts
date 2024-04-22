@@ -23,3 +23,8 @@ export interface NotificationFormData {
   allowemailcancel: boolean;
   allowemailnew: boolean;
 }
+
+export interface FeedbackFormData {
+  score: number;
+  opinion: string;
+}
