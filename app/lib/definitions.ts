@@ -17,3 +17,9 @@ export interface ProfileFormData {
   telegram: string;
   discord: string;
 }
+
+export interface NotificationFormData {
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
