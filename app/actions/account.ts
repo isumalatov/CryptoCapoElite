@@ -10,11 +10,11 @@ export async function fetchprofile() {
     await dbConnect();
     const session = await getSession();
     if (!session) {
-      return { success: false, message: "Error al cargar datos de usuario" };
+      return { success: false, message: "Error al cargar datos del usuario" };
     }
     const user = await User.findOne({ _id: session.userId });
     if (!user) {
-      return { success: false, message: "Error al cargar datos de usuario" };
+      return { success: false, message: "Error al cargar datos del usuario" };
     }
     const userProfile = {
       name: user.name,
@@ -26,7 +26,7 @@ export async function fetchprofile() {
     return { success: true, message: userProfile };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Error al cargar datos de usuario" };
+    return { success: false, message: "Error al cargar datos del usuario" };
   }
 }
 
@@ -35,11 +35,11 @@ export async function changeprofile(profileData: ProfileFormData) {
     await dbConnect();
     const session = await getSession();
     if (!session) {
-      return { success: false, message: "Error al cargar datos de usuario" };
+      return { success: false, message: "Error al modificar datos del usuario" };
     }
     const user = await User.findOne({ _id: session.userId });
     if (!user) {
-      return { success: false, message: "Error al cargar datos de usuario" };
+      return { success: false, message: "Error al modificar datos del usuario" };
     }
     user.name = profileData.name;
     user.email = profileData.email;
@@ -49,6 +49,6 @@ export async function changeprofile(profileData: ProfileFormData) {
     return { success: true, message: "Perfil actualizado" };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Error al cargar datos de usuario" };
+    return { success: false, message: "Error al cargar datos del usuario" };
   }
 }

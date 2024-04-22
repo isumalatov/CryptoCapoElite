@@ -62,8 +62,8 @@ export async function signup(prevState: any, formData: FormData) {
       name: name,
       password: hashedPassword,
       allowemail: allowemail,
-      discord: null,
-      telegram: null,
+      discord: "",
+      telegram: "",
     });
     await user.save();
     await createSession(user._id);

@@ -18,8 +18,8 @@ export default function AccountPanel() {
   useEffect(() => {
     async function fetchData() {
       const { success, message } = await fetchprofile();
-      if (!success && message === "Error al cargar datos de usuario") {
-        toast.error("Error al cargar datos de usuario");
+      if (!success && message === "Error al cargar datos del usuario") {
+        toast.error("Error al cargar datos del usuario");
       }
       if (success) {
         const { name, email, telegram, discord } = message as ProfileFormData;
@@ -31,9 +31,26 @@ export default function AccountPanel() {
     }
     fetchData();
   }, []);
-  
+
+  async function handleSaveChanges() {
+    const profileData = {
+      name,
+      email,
+      telegram,
+      discord,
+    };
+    const { success, message } = await changeprofile(profileData);
+    if (!success && message === "Error al modificar datos del usuario") {
+      toast.error("Error al modificar datos del usuario");
+    }
+    if (success) {
+      toast.success("Perfil actualizado");
+    }
+  }
+
   return (
     <div className="grow">
+      <ToastContainer />
       {/* Panel body */}
       <div className="p-6 space-y-6">
         <h2 className="text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">
@@ -157,12 +174,12 @@ export default function AccountPanel() {
             >
               Cancelar
             </Link>
-            <Link
+            <button
               className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3"
-              href="/"
+              onClick={handleSaveChanges}
             >
               Guardar cambios
-            </Link>
+            </button>
           </div>
         </div>
       </footer>
