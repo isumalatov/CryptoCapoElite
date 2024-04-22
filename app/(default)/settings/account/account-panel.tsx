@@ -56,27 +56,10 @@ export default function AccountPanel() {
         <h2 className="text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">
           Mi Perfil
         </h2>
-        {/* Picture */}
-        <section>
-          <div className="flex items-center">
-            <div className="mr-4">
-              <Image
-                className="w-20 h-20 rounded-full"
-                src={AccountImage}
-                width={80}
-                height={80}
-                alt="User upload"
-              />
-            </div>
-            <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
-              Editar
-            </button>
-          </div>
-        </section>
         {/* Business Profile */}
         <section>
           <h2 className="text-xl leading-snug text-slate-800 dark:text-slate-100 font-bold mb-1">
-            Perfil{" "}
+            Información{" "}
           </h2>
           <div className="text-sm">
             Edita la información de tu perfil de usuario.{" "}

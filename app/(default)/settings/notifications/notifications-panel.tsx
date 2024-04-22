@@ -18,7 +18,6 @@ export default function NotificationsPanel() {
 
         {/* General */}
         <section>
-          <h3 className="text-xl leading-snug text-slate-800 dark:text-slate-100 font-bold mb-1">General</h3>
           <ul>
             <li className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
               {/* Left */}
