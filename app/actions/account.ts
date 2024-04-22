@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import Feedback from "@/models/Feedback";
+import Feedback from "@/models/FeedBack";
 import { getSession } from "../lib/session";
 import {
   ProfileFormData,
