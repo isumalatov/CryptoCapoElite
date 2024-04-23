@@ -3,7 +3,7 @@ import { Users } from "./User"; // Import the 'User' interface from the appropri
 
 export interface Helps extends Document {
   user: Users;
-  opinion: string;
+  help: string;
 }
 
 const HelpSchema = new mongoose.Schema<Helps>({
@@ -11,7 +11,7 @@ const HelpSchema = new mongoose.Schema<Helps>({
     id: { type: String, required: true },
     name: { type: String, required: true },
   },
-  opinion: { type: String, required: true },
+  help: { type: String, required: true },
 });
 
 export default mongoose.models.Help ||

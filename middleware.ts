@@ -9,13 +9,14 @@ const protectedRoutes = [
   "/referrals",
   "/settings",
   "/settings/account",
-  "/settings/feedback",
+  "/settings/help",
   "/settings/notifications",
   "/not-found",
   "/admin",
   "/admin/help",
-  "/admin/presale",
   "/admin/news",
+  "/admin/notifications",
+  "/admin/presale",
   "/admin/users",
 ];
 const publicRoutes = ["/signin", "/signup", "/reset-password"];

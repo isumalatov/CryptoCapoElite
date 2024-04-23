@@ -43,11 +43,11 @@ export default function HelpPanel() {
             Escribenos tu pregunta
           </h3>
           {/* Form */}
-          <label className="sr-only" htmlFor="feedback">
+          <label className="sr-only" htmlFor="help">
             Escribenos tu pregunta
           </label>
           <textarea
-            id="feedback"
+            id="help"
             className="form-textarea w-full focus:border-slate-300"
             rows={4}
             placeholder="En CryptoCapoElite, al acceder a…"

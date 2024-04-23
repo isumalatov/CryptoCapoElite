@@ -135,11 +135,11 @@ export async function createhelp(helpData: HelpFormData) {
         message: "Error al enviar pregunta",
       };
     }
-    const feedback = new Help({
+    const help = new Help({
       user: { id: user._id, name: user.name },
-      opinion: helpData.help,
+      help: helpData.help,
     });
-    await feedback.save();
+    await help.save();
     return { success: true, message: "Pregunta enviada" };
   } catch (err) {
     console.log(err);
