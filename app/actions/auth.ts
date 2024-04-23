@@ -112,7 +112,10 @@ export async function userisadmin() {
     if (!session) {
       return { success: false, message: "Error al cargar datos del usuario" };
     }
-    return { success: true, message: session.admin };
+    const isAdmin = {
+      admin: session.admin,
+    };
+    return { success: true, message: isAdmin };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Error al cargar datos del usuario" };
