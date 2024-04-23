@@ -31,3 +31,8 @@ export interface HelpFormData {
 export interface isAdministrator {
   admin: boolean;
 }
+
+export interface WelcomeBannerAdminProps {
+  title: string;
+  subtitle: string;
+}
