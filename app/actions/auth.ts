@@ -69,7 +69,7 @@ export async function signup(prevState: any, formData: FormData) {
       telegram: "",
     });
     await user.save();
-    await createSession(user._id);
+    await createSession(user._id, user.admin);
     return { success: true, message: "Cuenta creada correctamente" };
   } catch (error) {
     // Handle the error here
@@ -97,7 +97,7 @@ export async function signin(prevState: any, formData: FormData) {
     if (!(await bcrypt.compare(password, user.password))) {
       return { success: false, message: "Email o contraseña incorrectos" };
     }
-    await createSession(user._id);
+    await createSession(user._id, user.admin);
     return { success: true, message: "Inicio de sesión correcto" };
   } catch (error) {
     // Handle the error here
@@ -108,17 +108,11 @@ export async function signin(prevState: any, formData: FormData) {
 
 export async function userisadmin() {
   try {
-    await dbConnect();
     const session = await getSession();
     if (!session) {
       return { success: false, message: "Error al cargar datos del usuario" };
     }
-    const user = await User.findOne({ _id: session.userId });
-    if (!user) {
-      return { success: false, message: "Error al cargar datos del usuario" };
-    }
-
-    return { success: true, message: user.admin };
+    return { success: true, message: session.admin };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Error al cargar datos del usuario" };

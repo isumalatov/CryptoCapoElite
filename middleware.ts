@@ -26,8 +26,14 @@ export default async function middleware(req: NextRequest) {
   const cookie = cookies().get("session")?.value;
   const session = await decrypt(cookie);
 
-  // 5. Redirect to /signin if the user is not authenticated
-  if (isProtectedRoute && !session?.userId) {
+  // 4. Check if the user is an admin
+  const isAdmin = session?.admin;
+
+  // 5. Redirect to /signin if the user is not authenticated or if the user is trying to access an admin route but is not an admin
+  if (
+    (isProtectedRoute && !session?.userId) ||
+    (path === "/admin" && !isAdmin)
+  ) {
     return NextResponse.redirect(new URL("/signin", req.nextUrl));
   }
 
