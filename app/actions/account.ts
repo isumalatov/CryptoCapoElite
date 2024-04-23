@@ -2,12 +2,12 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import Feedback from "@/models/FeedBack";
+import Help from "@/models/Help";
 import { getSession } from "../lib/session";
 import {
   ProfileFormData,
   NotificationFormData,
-  FeedbackFormData,
+  HelpFormData,
 } from "@/app/lib/definitions";
 
 export async function fetchprofile() {
@@ -118,32 +118,31 @@ export async function changenotifications(
   }
 }
 
-export async function createfeedback(feedbackData: FeedbackFormData) {
+export async function createhelp(helpData: HelpFormData) {
   try {
     await dbConnect();
     const session = await getSession();
     if (!session) {
       return {
         success: false,
-        message: "Error al enviar feedback",
+        message: "Error al enviar pregunta",
       };
     }
     const user = await User.findOne({ _id: session.userId });
     if (!user) {
       return {
         success: false,
-        message: "Error al enviar feedback",
+        message: "Error al enviar pregunta",
       };
     }
-    const feedback = new Feedback({
+    const feedback = new Help({
       user: { id: user._id, name: user.name },
-      score: feedbackData.score,
-      opinion: feedbackData.opinion,
+      opinion: helpData.help,
     });
     await feedback.save();
-    return { success: true, message: "¡Feedback enviado!" };
+    return { success: true, message: "Pregunta enviada" };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Error al enviar feedback" };
+    return { success: false, message: "Error al enviar pregunta" };
   }
 }

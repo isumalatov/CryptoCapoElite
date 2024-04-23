@@ -82,15 +82,15 @@ export default function SettingsSidebar() {
         <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <Link
-              href="/settings/feedback"
+              href="/settings/help"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes("/settings/feedback") &&
+                pathname.includes("/settings/help") &&
                 "bg-indigo-50 dark:bg-indigo-500/30"
               }`}
             >
               <svg
                 className={`w-4 h-4 shrink-0 fill-current mr-2 ${
-                  pathname.includes("/settings/feedback")
+                  pathname.includes("/settings/help")
                     ? "text-indigo-500 dark:text-indigo-400"
                     : "text-slate-400 dark:text-slate-500"
                 }`}
@@ -100,12 +100,12 @@ export default function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes("/settings/feedback")
+                  pathname.includes("/settings/help")
                     ? "text-indigo-500 dark:text-indigo-400"
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-200"
                 }`}
               >
-                Ayudanos a Mejorar
+                ¿Necesitas ayuda?
               </span>
             </Link>
           </li>

@@ -1,31 +1,29 @@
 export const metadata = {
-  title: 'Feedback Settings - Mosaic',
-  description: 'Page description',
-}
+  title: "Feedback Settings - Mosaic",
+  description: "Page description",
+};
 
-import SettingsSidebar from '../settings-sidebar'
-import FeedbackPanel from './feedback-panel'
+import SettingsSidebar from "../settings-sidebar";
+import HelpPanel from "./help-panel";
 
-export default function FeedbackSettings() {
+export default function HelpSettings() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
-
       {/* Page header */}
       <div className="mb-8">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">Ajustes ✨</h1>
+        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
+          Ajustes ✨
+        </h1>
       </div>
 
       {/* Content */}
       <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm mb-8">
         <div className="flex flex-col md:flex-row md:-mr-px">
-
           <SettingsSidebar />
-          <FeedbackPanel />
-
+          <HelpPanel />
         </div>
       </div>
-
     </div>
-  )
+  );
 }

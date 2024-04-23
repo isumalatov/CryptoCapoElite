@@ -24,9 +24,8 @@ export interface NotificationFormData {
   allowemailnew: boolean;
 }
 
-export interface FeedbackFormData {
-  score: number;
-  opinion: string;
+export interface HelpFormData {
+  help: string;
 }
 
 export interface isAdministrator {
