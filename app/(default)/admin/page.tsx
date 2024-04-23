@@ -1,10 +1,5 @@
 "use client";
 
-export const metadata = {
-  title: "Admin",
-  description: "Pagina de admin",
-};
-
 import WelcomeBannerAdmin from "./welcome-banner-admin";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
