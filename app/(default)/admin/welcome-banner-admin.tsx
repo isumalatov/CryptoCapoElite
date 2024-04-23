@@ -47,7 +47,7 @@ export default function WelcomeBannerAdmin() {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">¡Bienvenido al Panel del Jefe! 👋</h1>
-        <p className="dark:text-indigo-200">Aqui podras Crear,Cambiar y Borrar todo lo necesario:</p>
+        <p className="dark:text-indigo-200">Aqui podras Crear, Cambiar y Borrar todo lo necesario:</p>
       </div>
 
     </div>

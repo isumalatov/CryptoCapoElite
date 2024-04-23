@@ -55,7 +55,7 @@ export default function Sidebar() {
     };
   }, [breakpoint]);
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -73,6 +73,7 @@ export default function Sidebar() {
 
   return (
     <div className={`min-w-fit ${sidebarExpanded ? "sidebar-expanded" : ""}`}>
+      <ToastContainer />
       {/* Sidebar backdrop (mobile only) */}
       <Transition
         className="fixed inset-0 bg-slate-900 bg-opacity-30 z-40 lg:hidden lg:z-auto"
