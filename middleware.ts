@@ -13,6 +13,10 @@ const protectedRoutes = [
   "/settings/notifications",
   "/not-found",
   "/admin",
+  "/admin/help",
+  "/admin/presale",
+  "/admin/news",
+  "/admin/users",
 ];
 const publicRoutes = ["/signin", "/signup", "/reset-password"];
 
