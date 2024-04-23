@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import { createSession, deleteSession } from "../lib/session";
+import { createSession, deleteSession, getSession } from "../lib/session";
 import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
@@ -58,6 +58,7 @@ export async function signup(prevState: any, formData: FormData) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
+      admin: false,
       email: email,
       name: name,
       password: hashedPassword,
@@ -102,6 +103,25 @@ export async function signin(prevState: any, formData: FormData) {
     // Handle the error here
     console.error(error);
     return { success: false, message: "Error al iniciar sesión" };
+  }
+}
+
+export async function userisadmin() {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    const user = await User.findOne({ _id: session.userId });
+    if (!user) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+
+    return { success: true, message: user.admin };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Error al cargar datos del usuario" };
   }
 }
 

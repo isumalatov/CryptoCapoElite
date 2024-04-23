@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface Users extends mongoose.Document {
+    admin: boolean;
     name: string;
     email: string;
     password: string;
@@ -12,6 +13,7 @@ export interface Users extends mongoose.Document {
 }
 
 const UserSchema = new mongoose.Schema<Users>({
+    admin: { type: Boolean, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
