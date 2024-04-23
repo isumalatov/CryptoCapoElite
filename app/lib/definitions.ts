@@ -28,3 +28,7 @@ export interface FeedbackFormData {
   score: number;
   opinion: string;
 }
+
+export interface isAdministrator {
+  admin: boolean;
+}

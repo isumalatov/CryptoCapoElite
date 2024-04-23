@@ -5,9 +5,12 @@ import { useAppProvider } from "@/app/app-provider";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { Transition } from "@headlessui/react";
 import { getBreakpoint } from "../utils/utils";
-import SidebarLinkGroup from "./sidebar-link-group";
 import SidebarLink from "./sidebar-link";
 import Logo from "./logo";
+import { userisadmin } from "@/app/actions/auth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { isAdministrator } from "@/app/lib/definitions";
 
 export default function Sidebar() {
   const sidebar = useRef<HTMLDivElement>(null);
@@ -51,6 +54,22 @@ export default function Sidebar() {
       window.removeEventListener("resize", handleBreakpoint);
     };
   }, [breakpoint]);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { success, message } = await userisadmin();
+      if (!success && message === "Error al cargar datos del usuario") {
+        toast.error("Error al cargar datos del usuario");
+      }
+      if (success) {
+        const { admin } = message as isAdministrator;
+        setIsAdmin(admin);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className={`min-w-fit ${sidebarExpanded ? "sidebar-expanded" : ""}`}>
@@ -118,6 +137,48 @@ export default function Sidebar() {
               </span>
             </h3>
             <ul className="mt-3">
+              {/* Admin */}
+              {isAdmin && (
+                <li
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    segments.includes("admin") && "bg-slate-900"
+                  }`}
+                >
+                  <SidebarLink href="/admin">
+                    <div className="flex items-center">
+                      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                        <path
+                          className={`fill-current ${
+                            segments.includes("admin")
+                              ? "text-indigo-600"
+                              : "text-slate-700"
+                          }`}
+                          d="M4.418 19.612A9.092 9.092 0 0 1 2.59 17.03L.475 19.14c-.848.85-.536 2.395.743 3.673a4.413 4.413 0 0 0 1.677 1.082c.253.086.519.131.787.135.45.011.886-.16 1.208-.474L7 21.44a8.962 8.962 0 0 1-2.582-1.828Z"
+                        />
+                        <path
+                          className={`fill-current ${
+                            segments.includes("admin")
+                              ? "text-indigo-500"
+                              : "text-slate-600"
+                          }`}
+                          d="M10.034 13.997a11.011 11.011 0 0 1-2.551-3.862L4.595 13.02a2.513 2.513 0 0 0-.4 2.645 6.668 6.668 0 0 0 1.64 2.532 5.525 5.525 0 0 0 3.643 1.824 2.1 2.1 0 0 0 1.534-.587l2.883-2.882a11.156 11.156 0 0 1-3.861-2.556Z"
+                        />
+                        <path
+                          className={`fill-current ${
+                            segments.includes("admin")
+                              ? "text-indigo-300"
+                              : "text-slate-400"
+                          }`}
+                          d="M21.554 2.471A8.958 8.958 0 0 0 18.167.276a3.105 3.105 0 0 0-3.295.467L9.715 5.888c-1.41 1.408-.665 4.275 1.733 6.668a8.958 8.958 0 0 0 3.387 2.196c.459.157.94.24 1.425.246a2.559 2.559 0 0 0 1.87-.715l5.156-5.146c1.415-1.406.666-4.273-1.732-6.666Zm.318 5.257c-.148.147-.594.2-1.256-.018A7.037 7.037 0 0 1 18.016 6c-1.73-1.728-2.104-3.475-1.73-3.845a.671.671 0 0 1 .465-.129c.27.008.536.057.79.146a7.07 7.07 0 0 1 2.6 1.711c1.73 1.73 2.105 3.472 1.73 3.846Z"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                        Admin
+                      </span>
+                    </div>
+                  </SidebarLink>
+                </li>
+              )}
               {/* Preventas */}
               <li
                 className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
