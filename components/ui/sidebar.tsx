@@ -9,8 +9,7 @@ import SidebarLinkGroup from "./sidebar-link-group";
 import SidebarLink from "./sidebar-link";
 import Logo from "./logo";
 import { userisadmin } from "@/app/actions/auth";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { isAdministrator } from "@/app/lib/definitions";
 
 export default function Sidebar() {
@@ -74,7 +73,6 @@ export default function Sidebar() {
 
   return (
     <div className={`min-w-fit ${sidebarExpanded ? "sidebar-expanded" : ""}`}>
-      <ToastContainer />
       {/* Sidebar backdrop (mobile only) */}
       <Transition
         className="fixed inset-0 bg-slate-900 bg-opacity-30 z-40 lg:hidden lg:z-auto"

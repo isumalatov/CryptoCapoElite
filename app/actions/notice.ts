@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Notice from "@/models/Notice";
-import { NoticeDataTable } from "@/app/lib/definitions";
+import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
 
 export async function fetchnotices() {
   try {
@@ -15,6 +15,7 @@ export async function fetchnotices() {
       return { success: false, message: "No hay noticias" };
     }
     const noticesData: NoticeDataTable[] = notices.map((n) => ({
+      id: n._id,
       title: n.title,
       content: n.content,
     }));
@@ -25,7 +26,7 @@ export async function fetchnotices() {
   }
 }
 
-export async function createnotice(noticeData: NoticeDataTable) {
+export async function createnotice(noticeData: NoticeData) {
   try {
     await dbConnect();
     const notice = new Notice(noticeData);

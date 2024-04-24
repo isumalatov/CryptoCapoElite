@@ -42,6 +42,12 @@ export interface WelcomeBannerProps {
 }
 
 export interface NoticeDataTable {
+  id: string;
+  title: string;
+  content: string;
+}
+
+export interface NoticeData {
   title: string;
   content: string;
 }

@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createhelp } from "@/app/actions/account";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function HelpPanel() {
   const [help, setHelp] = useState<string>("");
@@ -24,7 +23,6 @@ export default function HelpPanel() {
 
   return (
     <div className="grow">
-      <ToastContainer />
       {/* Panel body */}
       <div className="p-6 space-y-6">
         <div>

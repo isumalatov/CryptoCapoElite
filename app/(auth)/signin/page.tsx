@@ -6,8 +6,7 @@ import AuthImage from "../auth-image";
 import { signin } from "@/app/actions/auth";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function SignIn() {
@@ -23,7 +22,6 @@ export default function SignIn() {
 
   return (
     <main className="bg-white dark:bg-slate-900">
-      <ToastContainer />
       <div className="relative md:flex">
         {/* Content */}
         <div className="md:w-1/2">

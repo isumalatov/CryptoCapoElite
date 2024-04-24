@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchnotifications, changenotifications } from "@/app/actions/account";
 import { NotificationFormData } from "@/app/lib/definitions";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function NotificationsPanel() {
   const [allowemailprev, setAllowEmailPrev] = useState<boolean>(true);
@@ -46,7 +45,6 @@ export default function NotificationsPanel() {
 
   return (
     <div className="grow">
-      <ToastContainer />
       {/* Panel body */}
       <div className="p-6 space-y-6">
         <h2 className="text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">

@@ -3,11 +3,10 @@
 import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState } from "react";
 import { fetchnotices, createnotice } from "@/app/actions/notice";
-import { NoticeDataTable } from "@/app/lib/definitions";
+import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
 import NoticesTable from "./notices-table";
 import ModalBasic from "@/components/modal-basic";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function NoticesContent() {
   const [notices, setNotices] = useState<NoticeDataTable[]>([]);
@@ -33,7 +32,7 @@ function NoticesContent() {
   }, []);
 
   async function handleCreateNotice() {
-    const noticeData: NoticeDataTable = {
+    const noticeData: NoticeData = {
       title: title,
       content: content,
     };
@@ -43,7 +42,6 @@ function NoticesContent() {
     }
     if (success) {
       toast.success(message);
-      setNotices([...notices, noticeData]);
       setModalOpen(false);
     }
   }
@@ -145,14 +143,7 @@ function NoticesContent() {
 export default function NoticesAdmin() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
-      <ToastContainer />
       {/* Page header */}
-      <div className="mb-8">
-        {/* Title */}
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
-          Noticias ✨
-        </h1>
-      </div>
       <WelcomeBanner
         title="Administración de Noticias"
         subtitle="Gestiona las noticias a mostrar a los usuarios:"
