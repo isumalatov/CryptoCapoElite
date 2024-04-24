@@ -61,13 +61,11 @@ export default function Sidebar() {
   useEffect(() => {
     async function fetchData() {
       const { success, message } = await userisadmin();
-      console.log(success, message);
       if (!success && message === "Error al cargar datos del usuario") {
         toast.error("Error al cargar datos del usuario");
       }
       if (success) {
         const { admin } = message as isAdministrator;
-        console.log(admin);
         setIsAdmin(admin);
       }
     }

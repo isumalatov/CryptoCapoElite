@@ -24,9 +24,9 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(userId: string, admin: boolean) {
+export async function createSession(userId: string, admin: boolean, name: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-  const session = await encrypt({ userId, admin, expiresAt });
+  const session = await encrypt({ userId, admin, name, expiresAt });
 
   cookies().set("session", session, {
     httpOnly: true,

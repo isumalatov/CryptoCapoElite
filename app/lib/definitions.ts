@@ -32,6 +32,10 @@ export interface isAdministrator {
   admin: boolean;
 }
 
+export interface userName {
+  name: string;
+}
+
 export interface WelcomeBannerProps {
   title: string;
   subtitle: string;

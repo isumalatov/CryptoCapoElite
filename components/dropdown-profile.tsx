@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
-import UserAvatar from "@/public/images/user-avatar-32.png";
 import { logout } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
+import { getname, userisadmin } from "@/app/actions/auth";
+import { userName, isAdministrator } from "@/app/lib/definitions";
+import { useEffect, useState } from "react";
 
 export default function DropdownProfile({
   align,
@@ -19,12 +20,40 @@ export default function DropdownProfile({
     router.push("/signin");
   };
 
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      const { success, message } = await getname();
+      console.log(success, message)
+      if (success) {
+        const { name } = message as userName;
+        console.log(name);
+        setName(name);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { success, message } = await userisadmin();
+      if (success) {
+        const { admin } = message as isAdministrator;
+        setIsAdmin(admin);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <Menu as="div" className="relative inline-flex">
       <Menu.Button className="inline-flex justify-center items-center group">
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-slate-200">
-            CryptoCapoElite
+            {name}
           </span>
           <svg
             className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400"
@@ -47,10 +76,10 @@ export default function DropdownProfile({
       >
         <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200 dark:border-slate-700">
           <div className="font-medium text-slate-800 dark:text-slate-100">
-            CryptoCapoElite
+            {name}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 italic">
-            Usuario
+            {isAdmin ? "Administrador" : "Usuario"}
           </div>
         </div>
         <Menu.Items as="ul" className="focus:outline-none">
