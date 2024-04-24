@@ -40,3 +40,8 @@ export interface WelcomeBannerProps {
   title: string;
   subtitle: string;
 }
+
+export interface NewData {
+  title: string;
+  content: string;
+}

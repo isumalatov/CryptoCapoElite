@@ -57,7 +57,7 @@ export async function changeprofile(profileData: ProfileFormData) {
     user.telegram = profileData.telegram;
     user.discord = profileData.discord;
     await user.save();
-    return { success: true, message: "¡Perfil actualizado!" };
+    return { success: true, message: "Perfil actualizado" };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar datos del usuario" };
@@ -111,7 +111,7 @@ export async function changenotifications(
     user.allowemailcancel = notificationData.allowemailcancel;
     user.allowemailnew = notificationData.allowemailnew;
     await user.save();
-    return { success: true, message: "¡Notificaciones actualizadas!" };
+    return { success: true, message: "Notificaciones actualizadas" };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al modificar notificaciones" };

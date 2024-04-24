@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Users } from "./User"; // Import the 'User' interface from the appropriate module
 
-export interface Helps extends Document {
+export interface Helps extends mongoose.Document {
   user: Users;
   help: string;
 }
