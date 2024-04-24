@@ -15,7 +15,7 @@ export async function fetchnotices() {
       return { success: false, message: "No hay noticias" };
     }
     const noticesData: NoticeDataTable[] = notices.map((n) => ({
-      id: n._id,
+      id: n._id.toString(),
       title: n.title,
       content: n.content,
     }));
@@ -35,5 +35,20 @@ export async function createnotice(noticeData: NoticeData) {
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al crear noticia" };
+  }
+}
+
+export async function deletenotice(id: string) {
+  try {
+    await dbConnect();
+    const notice = await Notice.findById(id);
+    if (!notice) {
+      return { success: false, message: "Noticia no encontrada" };
+    }
+    await Notice.deleteOne({ _id: id });
+    return { success: true, message: "Noticia eliminada" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al eliminar noticia" };
   }
 }
