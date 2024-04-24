@@ -62,7 +62,11 @@ export default function DropdownNotifications({
             <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase pt-1.5 pb-2 px-4">
               Noticias
             </div>
-            <Menu.Items as="ul" className="focus:outline-none">
+            <Menu.Items
+              as="ul"
+              className="focus:outline-none"
+              style={{ maxHeight: "20em", overflow: "auto" }}
+            >
               {notices.map((notice, index) => (
                 <Menu.Item
                   key={index}
@@ -76,7 +80,10 @@ export default function DropdownNotifications({
                         active && "bg-slate-50 dark:bg-slate-700/20"
                       }`}
                     >
-                      <span className="block text-sm mb-2">
+                      <span
+                        className="block text-sm mb-2"
+                        style={{ wordWrap: "break-word", width: "20em" }}
+                      >
                         📣{" "}
                         <span className="font-medium text-slate-800 dark:text-slate-100">
                           {notice.title}
