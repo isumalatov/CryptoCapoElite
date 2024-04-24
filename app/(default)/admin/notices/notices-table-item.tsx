@@ -1,21 +1,15 @@
 import { NoticeDataTable } from "@/app/lib/definitions";
-import { deletenotice } from "@/app/actions/notice";
-import { toast } from "react-toastify";
-
 export default function NoticesTableItem({
   notice,
+  onDelete,
 }: {
   notice: NoticeDataTable;
+  onDelete: (id: string) => void;
 }) {
-  async function handleDeleteNotice(id: string) {
-    const { success, message } = await deletenotice(id);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-    }
+  function handleDeleteNotice(id: string) {
+    onDelete(id);
   }
+
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -29,7 +23,10 @@ export default function NoticesTableItem({
               <path d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z" />
             </svg>
           </button>
-          <button className="text-rose-500 hover:text-rose-600 rounded-full" onClick={() => handleDeleteNotice(notice.id)}>
+          <button
+            className="text-rose-500 hover:text-rose-600 rounded-full"
+            onClick={() => handleDeleteNotice(notice.id)}
+          >
             <span className="sr-only">Delete</span>
             <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
               <path d="M13 15h2v6h-2zM17 15h2v6h-2z" />

@@ -3,8 +3,10 @@ import { NoticeDataTable } from "@/app/lib/definitions";
 
 export default function NoticesTable({
   notices,
+  onDeleteNotice,
 }: {
   notices: NoticeDataTable[];
+  onDeleteNotice: (id: string) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
@@ -34,7 +36,7 @@ export default function NoticesTable({
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {notices.map((notice) => (
-                <NoticesTableItem notice={notice} />
+                <NoticesTableItem notice={notice} onDelete={onDeleteNotice} />
               ))}
             </tbody>
           </table>

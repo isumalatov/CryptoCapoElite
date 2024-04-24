@@ -11,9 +11,6 @@ export async function fetchnotices() {
     if (!notices) {
       return { success: false, message: "Error al cargar noticias" };
     }
-    if (notices.length === 0) {
-      return { success: false, message: "No hay noticias" };
-    }
     const noticesData: NoticeDataTable[] = notices.map((n) => ({
       id: n._id.toString(),
       title: n.title,
