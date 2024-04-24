@@ -9,6 +9,7 @@ import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
 function NoticesContent() {
+  const [noticeCreated, setNoticeCreated] = useState(0); // nuevo estado
   const [notices, setNotices] = useState<NoticeDataTable[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
@@ -29,7 +30,7 @@ function NoticesContent() {
       }
     }
     fetchData();
-  }, []);
+  }, [noticeCreated]);
 
   async function handleCreateNotice() {
     const noticeData: NoticeData = {
@@ -43,6 +44,7 @@ function NoticesContent() {
     if (success) {
       toast.success(message);
       setModalOpen(false);
+      setNoticeCreated(noticeCreated + 1);
     }
   }
 
