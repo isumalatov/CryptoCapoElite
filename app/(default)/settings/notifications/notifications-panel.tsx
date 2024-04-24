@@ -63,8 +63,8 @@ export default function NotificationsPanel() {
                   Nuevas Preventas
                 </div>
                 <div className="text-sm">
-                  Recibe correos para mantenerte siempre informado sobre nuevas
-                  preventas.
+                  Recibe notificationes para mantenerte siempre informado sobre
+                  nuevas preventas.
                 </div>
               </div>
               {/* Right */}
@@ -100,8 +100,7 @@ export default function NotificationsPanel() {
                   Compra Cancelada
                 </div>
                 <div className="text-sm">
-                  Te informaremos por correo si se ha cancelado la compra de un
-                  token.
+                  Te informaremos si se ha cancelado la compra de un token.
                 </div>
               </div>
               {/* Right */}
@@ -137,7 +136,7 @@ export default function NotificationsPanel() {
                   Noticias Sobre CryptoCapoElite
                 </div>
                 <div className="text-sm">
-                  Recibe correos sobre cambios en CryptoCapoElite.
+                  Recibe notificationes sobre cambios en CryptoCapoElite.
                 </div>
               </div>
               {/* Right */}
