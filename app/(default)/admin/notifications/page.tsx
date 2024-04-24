@@ -1,4 +1,4 @@
-import WelcomeBannerAdmin from "../welcome-banner-admin";
+import WelcomeBanner from "../../welcome-banner";
 
 export default function NotificationsAdmin() {
   return (
@@ -10,7 +10,7 @@ export default function NotificationsAdmin() {
           Notificaciones ✨
         </h1>
       </div>
-      <WelcomeBannerAdmin
+      <WelcomeBanner
         title="Administración de Notificaciones"
         subtitle="Gestiona el envio de notificaciones a los usuarios:"
       />

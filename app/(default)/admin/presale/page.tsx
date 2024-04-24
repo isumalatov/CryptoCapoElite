@@ -1,4 +1,4 @@
-import WelcomeBannerAdmin from "../welcome-banner-admin";
+import WelcomeBanner from "../../welcome-banner";
 
 export default function InvestmentsAdmin() {
   return (
@@ -10,7 +10,7 @@ export default function InvestmentsAdmin() {
           Preventas ✨
         </h1>
       </div>
-      <WelcomeBannerAdmin
+      <WelcomeBanner
         title="Administración de Preventas"
         subtitle="Gestiona las preventas:"
       />

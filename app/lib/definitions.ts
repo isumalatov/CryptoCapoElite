@@ -32,7 +32,7 @@ export interface isAdministrator {
   admin: boolean;
 }
 
-export interface WelcomeBannerAdminProps {
+export interface WelcomeBannerProps {
   title: string;
   subtitle: string;
 }

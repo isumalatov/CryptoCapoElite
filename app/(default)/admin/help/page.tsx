@@ -1,4 +1,4 @@
-import WelcomeBannerAdmin from "../welcome-banner-admin";
+import WelcomeBanner from "../../welcome-banner";
 
 export default function HelpsAdmin() {
   return (
@@ -10,7 +10,7 @@ export default function HelpsAdmin() {
           Ayuda ✨
         </h1>
       </div>
-      <WelcomeBannerAdmin
+      <WelcomeBanner
         title="Administración de Ayuda"
         subtitle="Gestiona las peticiones de ayuda de los usuarios:"
       />

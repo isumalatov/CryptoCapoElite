@@ -1,4 +1,4 @@
-import WelcomeBannerAdmin from "../welcome-banner-admin";
+import WelcomeBanner from "../../welcome-banner";
 
 export default function NewsAdmin() {
   return (
@@ -10,7 +10,7 @@ export default function NewsAdmin() {
           Noticias ✨
         </h1>
       </div>
-      <WelcomeBannerAdmin
+      <WelcomeBanner
         title="Administración de Noticias"
         subtitle="Gestiona las noticias a mostrar a los usuarios:"
       />

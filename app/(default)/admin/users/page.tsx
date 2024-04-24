@@ -1,4 +1,4 @@
-import WelcomeBannerAdmin from "../welcome-banner-admin";
+import WelcomeBanner from "../../welcome-banner";
 
 export default function UsersAdmin() {
   return (
@@ -10,7 +10,7 @@ export default function UsersAdmin() {
           Usuarios ✨
         </h1>
       </div>
-      <WelcomeBannerAdmin
+      <WelcomeBanner
         title="Administración de Usuarios"
         subtitle="Gestiona los usuarios de la plataforma:"
       />
