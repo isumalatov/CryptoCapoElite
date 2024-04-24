@@ -19,10 +19,10 @@ function NoticesContent() {
     async function fetchData() {
       const { success, message } = await fetchnotices();
       if (!success && message == "Error al cargar noticias") {
-        console.log(message);
+        toast.error(message);
       }
       if (!success && message == "No hay noticias") {
-        console.log(message);
+        toast.error(message);
       }
       if (success) {
         const noticesData: NoticeDataTable[] = message as NoticeDataTable[];
@@ -124,7 +124,10 @@ function NoticesContent() {
                   >
                     Cancel
                   </button>
-                  <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white" onClick={handleCreateNotice}>
+                  <button
+                    className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
+                    onClick={handleCreateNotice}
+                  >
                     Crear Noticia
                   </button>
                 </div>
