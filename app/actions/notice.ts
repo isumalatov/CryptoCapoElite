@@ -1,33 +1,35 @@
-import dbConnect from "@/app/lib/dbConnect";
-import New from "@/models/New";
-import { NewData } from "@/app/lib/definitions";
+"use server";
 
-export async function fetchnews() {
+import dbConnect from "@/app/lib/dbConnect";
+import Notice from "@/models/Notice";
+import { NoticeDataTable } from "@/app/lib/definitions";
+
+export async function fetchnotices() {
   try {
     await dbConnect();
-    const news = await New.find();
-    if (!news) {
+    const notices = await Notice.find({});
+    if (!notices) {
       return { success: false, message: "Error al cargar noticias" };
     }
-    if (news.length === 0) {
+    if (notices.length === 0) {
       return { success: false, message: "No hay noticias" };
     }
-    const newsData: NewData[] = news.map((n) => ({
+    const noticesData: NoticeDataTable[] = notices.map((n) => ({
       title: n.title,
       content: n.content,
     }));
-    return { success: true, message: newsData };
+    return { success: true, message: noticesData };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar noticias" };
   }
 }
 
-export async function createnew(newData: NewData) {
+export async function createnotice(noticeData: NoticeDataTable) {
   try {
     await dbConnect();
-    const newNew = new New(newData);
-    await newNew.save();
+    const notice = new Notice(noticeData);
+    await notice.save();
     return { success: true, message: "Noticia creada" };
   } catch (err) {
     console.log(err);

@@ -1,9 +1,7 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import AccountImage from "@/public/images/user-avatar-80.png";
 import { fetchprofile, changeprofile } from "@/app/actions/account";
 import { ProfileFormData } from "@/app/lib/definitions";
 import { toast, ToastContainer } from "react-toastify";

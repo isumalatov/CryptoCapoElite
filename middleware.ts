@@ -14,7 +14,7 @@ const protectedRoutes = [
   "/not-found",
   "/admin",
   "/admin/help",
-  "/admin/news",
+  "/admin/notices",
   "/admin/notifications",
   "/admin/presale",
   "/admin/users",
