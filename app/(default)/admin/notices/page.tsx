@@ -2,7 +2,12 @@
 
 import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState } from "react";
-import { fetchnotices, createnotice, deletenotice } from "@/app/actions/notice";
+import {
+  fetchnotices,
+  createnotice,
+  deletenotice,
+  updatenotice,
+} from "@/app/actions/notice";
 import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
 import NoticesTable from "./notices-table";
 import ModalBasic from "@/components/modal-basic";
@@ -11,6 +16,7 @@ import { toast } from "react-toastify";
 function NoticesContent() {
   const [noticeCreated, setNoticeCreated] = useState(0);
   const [noticeDeleted, setNoticeDeleted] = useState(0);
+  const [noticeUpdated, setNoticeUpdated] = useState(0);
   const [notices, setNotices] = useState<NoticeDataTable[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
@@ -31,7 +37,7 @@ function NoticesContent() {
       }
     }
     fetchData();
-  }, [noticeCreated, noticeDeleted]);
+  }, [noticeCreated, noticeDeleted, noticeUpdated]);
 
   async function handleCreateNotice() {
     const noticeData: NoticeData = {
@@ -57,6 +63,17 @@ function NoticesContent() {
     if (success) {
       toast.success(message);
       setNoticeDeleted(noticeDeleted + 1);
+    }
+  }
+
+  async function handleUpdateNotice(id: string, noticeData: NoticeData) {
+    const { success, message } = await updatenotice(id, noticeData);
+    if (!success) {
+      toast.error(message);
+    }
+    if (success) {
+      toast.success(message);
+      setNoticeUpdated(noticeUpdated + 1);
     }
   }
 
@@ -149,7 +166,7 @@ function NoticesContent() {
         </div>
       </div>
       {/* Table */}
-      <NoticesTable notices={notices} onDeleteNotice={handleDeleteNotice} />
+      <NoticesTable notices={notices} onDeleteNotice={handleDeleteNotice} onUpdateNotice={handleUpdateNotice} />
     </div>
   );
 }

@@ -49,3 +49,18 @@ export async function deletenotice(id: string) {
     return { success: false, message: "Error al eliminar noticia" };
   }
 }
+
+export async function updatenotice(id: string, noticeData: NoticeData) {
+  try {
+    await dbConnect();
+    const notice = await Notice.findById(id);
+    if (!notice) {
+      return { success: false, message: "Noticia no encontrada" };
+    }
+    await Notice.updateOne({ _id: id }, noticeData);
+    return { success: true, message: "Noticia actualizada" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al actualizar noticia" };
+  }
+}

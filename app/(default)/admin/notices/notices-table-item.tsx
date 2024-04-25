@@ -1,13 +1,27 @@
-import { NoticeDataTable } from "@/app/lib/definitions";
+import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
+import ModalBasic from "@/components/modal-basic";
+import { useState } from "react";
+
 export default function NoticesTableItem({
   notice,
   onDelete,
+  onUpdate,
 }: {
   notice: NoticeDataTable;
   onDelete: (id: string) => void;
+  onUpdate: (id: string, noticeData: NoticeData) => void;
 }) {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
   function handleDeleteNotice(id: string) {
     onDelete(id);
+  }
+
+  function handleUpdateNotice() {
+    onUpdate(notice.id, { title, content });
+    setModalOpen(false);
   }
 
   return (
@@ -17,7 +31,14 @@ export default function NoticesTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
-          <button className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full">
+          <button
+            className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
+            onClick={() => {
+              setModalOpen(true);
+              setTitle(notice.title);
+              setContent(notice.content);
+            }}
+          >
             <span className="sr-only">Edit</span>
             <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
               <path d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z" />
@@ -33,6 +54,73 @@ export default function NoticesTableItem({
               <path d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z" />
             </svg>
           </button>
+          <ModalBasic
+            isOpen={modalOpen}
+            setIsOpen={setModalOpen}
+            title="Nueva Noticia"
+          >
+            {/* Modal content */}
+            <div className="px-5 py-4">
+              <div className="text-sm">
+                <div className="font-medium text-slate-800 dark:text-slate-100 mb-3">
+                  Editar Noticia 🙌
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="title"
+                  >
+                    Titulo <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    className="form-input w-full px-2 py-1"
+                    type="text"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="required funds"
+                  >
+                    Contenido <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    className="form-input w-full px-2 py-1"
+                    type="text"
+                    required
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* Modal footer */}
+            <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-700">
+              <div className="flex flex-wrap justify-end space-x-2">
+                <button
+                  className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
+                  onClick={() => {
+                    setModalOpen(false);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
+                  onClick={handleUpdateNotice}
+                >
+                  Editar Noticia
+                </button>
+              </div>
+            </div>
+          </ModalBasic>
         </div>
       </td>
     </tr>

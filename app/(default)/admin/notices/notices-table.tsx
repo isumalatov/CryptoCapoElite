@@ -1,12 +1,14 @@
 import NoticesTableItem from "./notices-table-item";
-import { NoticeDataTable } from "@/app/lib/definitions";
+import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
 
 export default function NoticesTable({
   notices,
   onDeleteNotice,
+  onUpdateNotice,
 }: {
   notices: NoticeDataTable[];
   onDeleteNotice: (id: string) => void;
+  onUpdateNotice: (id: string, noticeData: NoticeData) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
@@ -36,7 +38,11 @@ export default function NoticesTable({
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {notices.map((notice) => (
-                <NoticesTableItem notice={notice} onDelete={onDeleteNotice} />
+                <NoticesTableItem
+                  notice={notice}
+                  onDelete={onDeleteNotice}
+                  onUpdate={onUpdateNotice}
+                />
               ))}
             </tbody>
           </table>
