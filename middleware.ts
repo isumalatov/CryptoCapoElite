@@ -36,7 +36,7 @@ export default async function middleware(req: NextRequest) {
   // 5. Redirect to /signin if the user is not authenticated or if the user is trying to access an admin route but is not an admin
   if (
     (isProtectedRoute && !session?.userId) ||
-    (path === "/admin" && !isAdmin)
+    (path.startsWith("/admin") && !isAdmin)
   ) {
     return NextResponse.redirect(new URL("/signin", req.nextUrl));
   }
