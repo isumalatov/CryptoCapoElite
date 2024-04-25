@@ -83,7 +83,7 @@ export default function AccountPanel() {
           </div>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1" htmlFor="title">
+              <label className="block text-sm font-medium mb-1" htmlFor="oldpassword">
                 Antigua Contraseña <span className="text-rose-500">*</span>
               </label>
               <input
@@ -98,7 +98,7 @@ export default function AccountPanel() {
             <div>
               <label
                 className="block text-sm font-medium mb-1"
-                htmlFor="required funds"
+                htmlFor="password"
               >
                 Nueva Contraseña <span className="text-rose-500">*</span>
               </label>
@@ -114,7 +114,7 @@ export default function AccountPanel() {
             <div>
               <label
                 className="block text-sm font-medium mb-1"
-                htmlFor="required funds"
+                htmlFor="repeatpassword"
               >
                 Repite Nueva Contraseña <span className="text-rose-500">*</span>
               </label>
