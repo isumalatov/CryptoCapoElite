@@ -92,7 +92,7 @@ export default function NoticesTableItem({
                   </label>
                   <input
                     id="content"
-                    className="form-input w-full px-2 py-1"
+                    className="form-textarea w-full px-2 py-1"
                     type="text"
                     required
                     value={content}

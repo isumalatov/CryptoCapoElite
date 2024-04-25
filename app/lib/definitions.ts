@@ -68,3 +68,34 @@ export interface HelpData {
   user: string;
   help: string;
 }
+
+export interface PresaleDataTable {
+  id: string;
+  title: string;
+  description: string;
+  state: string;
+  round: string;
+  price: string;
+  min: string;
+  max: string;
+  vesting: string;
+  url: string;
+  urltelegram: string;
+  urltwitter: string;
+  urldocs: string;
+}
+
+export interface PresaleData {
+  title: string;
+  description: string;
+  state: string;
+  round: string;
+  price: string;
+  min: string;
+  max: string;
+  vesting: string;
+  url: string;
+  urltelegram: string;
+  urltwitter: string;
+  urldocs: string;
+}
