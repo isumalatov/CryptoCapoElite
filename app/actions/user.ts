@@ -3,6 +3,7 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import { UserDataTable, UserData } from "@/app/lib/definitions";
+import { getSession } from "../lib/session";
 
 export async function fetchusers() {
   try {
@@ -45,8 +46,15 @@ export async function deleteuser(id: string) {
   try {
     await dbConnect();
     const user = await User.findById(id);
+    const session = await getSession();
     if (!user) {
       return { success: false, message: "Usuario no encontrado" };
+    }
+    if (!session) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    if (session.userId === id) {
+      return { success: false, message: "No puedes eliminarte a ti mismo" };
     }
     await User.deleteOne({
       _id: id,
@@ -62,8 +70,15 @@ export async function updateuser(id: string, userData: UserData) {
   try {
     await dbConnect();
     const user = await User.findById(id);
+    const session = await getSession();
     if (!user) {
       return { success: false, message: "Usuario no encontrado" };
+    }
+    if (!session) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    if (session.userId === id) {
+      return { success: false, message: "No puedes actualizarte a ti mismo" };
     }
     await User.updateOne({ _id: id }, userData);
     return { success: true, message: "Usuario actualizado" };
