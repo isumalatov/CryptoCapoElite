@@ -30,7 +30,6 @@ export default function RootLayout({
       >
         <Theme>
           <AppProvider>
-            <ToastContainer />
             {children}
           </AppProvider>
         </Theme>

@@ -19,6 +19,7 @@ function NoticesContent() {
   useEffect(() => {
     async function fetchData() {
       const { success, message } = await fetchnotices();
+      console.log(success, message);
       if (!success && message == "Error al cargar noticias") {
         toast.error(message);
       }
