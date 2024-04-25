@@ -8,7 +8,7 @@ import {
   updateuser,
   deleteuser,
 } from "@/app/actions/user";
-import { UserDataTable, UserData } from "@/app/lib/definitions";
+import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 import UsersTable from "./users-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
@@ -65,8 +65,8 @@ function UsersContent() {
     }
   }
 
-  async function handleUpdateUser(id: string, userData: UserData) {
-    const { success, message } = await updateuser(id, userData);
+  async function handleUpdateUser(id: string, userDataUpdate: UserDataUpdate) {
+    const { success, message } = await updateuser(id, userDataUpdate);
     if (!success) {
       toast.error(message);
     } else {
@@ -314,7 +314,7 @@ function UsersContent() {
                       className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
                       onClick={handleCreateUser}
                     >
-                      Crear Noticia
+                      Crear Usuario
                     </button>
                   </div>
                 </div>

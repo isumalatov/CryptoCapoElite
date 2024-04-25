@@ -1,4 +1,4 @@
-import { UserDataTable, UserData } from "@/app/lib/definitions";
+import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export default function NoticesTableItem({
 }: {
   user: UserDataTable;
   onDelete: (id: string) => void;
-  onUpdate: (id: string, userData: UserData) => void;
+  onUpdate: (id: string, userDataUpdate: UserDataUpdate) => void;
 }) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [admin, setAdmin] = useState(false);
@@ -31,7 +31,6 @@ export default function NoticesTableItem({
       admin,
       name,
       email,
-      password,
       discord,
       telegram,
       allowemailprev,
@@ -145,22 +144,6 @@ export default function NoticesTableItem({
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="password"
-                  >
-                    Contraseña <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="password"
-                    className="form-input w-full px-2 py-1"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div>
@@ -288,7 +271,7 @@ export default function NoticesTableItem({
                     className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
                     onClick={handleUpdateUser}
                   >
-                    Editar Noticia
+                    Editar Usuario
                   </button>
                 </div>
               </div>

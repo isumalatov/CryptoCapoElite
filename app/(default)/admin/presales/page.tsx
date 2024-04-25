@@ -332,7 +332,7 @@ function PresalesContent() {
                       className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
                       onClick={handleCreatePresale}
                     >
-                      Crear Noticia
+                      Crear Preventa
                     </button>
                   </div>
                 </div>

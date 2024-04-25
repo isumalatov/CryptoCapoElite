@@ -2,8 +2,9 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import { UserDataTable, UserData } from "@/app/lib/definitions";
+import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
+import bcrypt from "bcryptjs";
 
 export async function fetchusers() {
   try {
@@ -33,6 +34,7 @@ export async function fetchusers() {
 export async function createuser(userData: UserData) {
   try {
     await dbConnect();
+    userData.password = await bcrypt.hash(userData.password, 10);
     const user = new User(userData);
     await user.save();
     return { success: true, message: "Usuario creado" };
@@ -66,7 +68,7 @@ export async function deleteuser(id: string) {
   }
 }
 
-export async function updateuser(id: string, userData: UserData) {
+export async function updateuser(id: string, userData: UserDataUpdate) {
   try {
     await dbConnect();
     const user = await User.findById(id);

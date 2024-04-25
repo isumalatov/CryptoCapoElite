@@ -1,5 +1,5 @@
 import UsersTableItem from "./users-table-item";
-import { UserDataTable, UserData } from "@/app/lib/definitions";
+import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 
 export default function UsersTable({
   users,
@@ -8,7 +8,7 @@ export default function UsersTable({
 }: {
   users: UserDataTable[];
   onDeleteUser: (id: string) => void;
-  onUpdateUser: (id: string, userData: UserData) => void;
+  onUpdateUser: (id: string, userDataUpdate: UserDataUpdate) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">

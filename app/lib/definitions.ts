@@ -123,3 +123,14 @@ export interface UserData {
   allowemailcancel: boolean;
   allowemailnew: boolean;
 }
+
+export interface UserDataUpdate {
+  admin: boolean;
+  name: string;
+  email: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
