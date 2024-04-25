@@ -208,7 +208,7 @@ export default function Sidebar() {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                             <li className="mb-1 last:mb-0">
-                              <SidebarLink href="/admin/presale">
+                              <SidebarLink href="/admin/presales">
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Preventas
                                 </span>
@@ -222,7 +222,7 @@ export default function Sidebar() {
                               </SidebarLink>
                             </li>
                             <li className="mb-1 last:mb-0">
-                              <SidebarLink href="/admin/help">
+                              <SidebarLink href="/admin/helps">
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Ayuda
                                 </span>
