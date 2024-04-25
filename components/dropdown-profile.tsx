@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { getname, userisadmin } from "@/app/actions/auth";
 import { userName, isAdministrator } from "@/app/lib/definitions";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 export default function DropdownProfile({
   align,
@@ -25,6 +24,7 @@ export default function DropdownProfile({
 
   useEffect(() => {
     async function fetchData() {
+      console.log("fetching data");
       const { success, message } = await getname();
       console.log(message);
       if (success) {
