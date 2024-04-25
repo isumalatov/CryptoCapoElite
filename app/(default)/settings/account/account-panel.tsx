@@ -3,14 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchprofile, changeprofile } from "@/app/actions/account";
-import { ProfileFormData } from "@/app/lib/definitions";
+import { changepassword } from "@/app/actions/auth";
+import { ProfileFormData, ChangePasswordFormData } from "@/app/lib/definitions";
 import { toast } from "react-toastify";
+import ModalBasic from "@/components/modal-basic";
 
 export default function AccountPanel() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [telegram, setTelegram] = useState("");
   const [discord, setDiscord] = useState("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [oldpassword, setOldPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatpassword, setRepeatPassword] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -45,8 +51,104 @@ export default function AccountPanel() {
     }
   }
 
+  async function handleChangePassword() {
+    const passwordData: ChangePasswordFormData = {
+      oldpassword,
+      password,
+      repeatpassword,
+    };
+    const { success, message } = await changepassword(passwordData);
+    if (!success) {
+      toast.error(message);
+    }
+    if (success) {
+      toast.success(message);
+      setModalOpen(false);
+    }
+  }
+
   return (
     <div className="grow">
+      <ModalBasic
+        isOpen={modalOpen}
+        setIsOpen={setModalOpen}
+        title="Cambiar Contraseña"
+      >
+        {/* Modal content */}
+        <div className="px-5 py-4">
+          <div className="text-sm">
+            <div className="font-medium text-slate-800 dark:text-slate-100 mb-3">
+              Cambiar Contraseña 🙌
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium mb-1" htmlFor="title">
+                Antigua Contraseña <span className="text-rose-500">*</span>
+              </label>
+              <input
+                id="oldpassword"
+                className="form-input w-full px-2 py-1"
+                type="text"
+                required
+                value={oldpassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                className="block text-sm font-medium mb-1"
+                htmlFor="required funds"
+              >
+                Nueva Contraseña <span className="text-rose-500">*</span>
+              </label>
+              <input
+                id="password"
+                className="form-input w-full px-2 py-1"
+                type="text"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                className="block text-sm font-medium mb-1"
+                htmlFor="required funds"
+              >
+                Repite Nueva Contraseña <span className="text-rose-500">*</span>
+              </label>
+              <input
+                id="repeatpassword"
+                className="form-input w-full px-2 py-1"
+                type="text"
+                required
+                value={repeatpassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        {/* Modal footer */}
+        <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-700">
+          <div className="flex flex-wrap justify-end space-x-2">
+            <button
+              className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
+              onClick={() => {
+                setModalOpen(false);
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
+              onClick={handleChangePassword}
+            >
+              Cambiar Contraseña
+            </button>
+          </div>
+        </div>
+      </ModalBasic>
       {/* Panel body */}
       <div className="p-6 space-y-6">
         <h2 className="text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">
@@ -76,12 +178,12 @@ export default function AccountPanel() {
             <div className="sm:w-1/3">
               <label
                 className="block text-sm font-medium mb-1"
-                htmlFor="business-id"
+                htmlFor="telegram"
               >
                 Telegram
               </label>
               <input
-                id="business-id"
+                id="telegram"
                 className="form-input w-full"
                 type="text"
                 value={telegram}
@@ -91,12 +193,12 @@ export default function AccountPanel() {
             <div className="sm:w-1/3">
               <label
                 className="block text-sm font-medium mb-1"
-                htmlFor="location"
+                htmlFor="discord"
               >
                 Discord
               </label>
               <input
-                id="location"
+                id="discord"
                 className="form-input w-full"
                 type="text"
                 value={discord}
@@ -137,7 +239,10 @@ export default function AccountPanel() {
             Cambia la contraseña vinculada a la cuenta.
           </div>
           <div className="mt-5">
-            <button className="btn border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm text-indigo-500">
+            <button
+              className="btn border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm text-indigo-500"
+              onClick={() => setModalOpen(true)}
+            >
               Establecer nueva contraseña
             </button>
           </div>

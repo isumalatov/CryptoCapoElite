@@ -51,3 +51,9 @@ export interface NoticeData {
   title: string;
   content: string;
 }
+
+export interface ChangePasswordFormData {
+  oldpassword: string;
+  password: string;
+  repeatpassword: string;
+}

@@ -3,6 +3,7 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import { createSession, deleteSession, getSession } from "../lib/session";
+import { ChangePasswordFormData } from "../lib/definitions";
 import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
@@ -103,6 +104,41 @@ export async function signin(prevState: any, formData: FormData) {
     // Handle the error here
     console.error(error);
     return { success: false, message: "Error al iniciar sesión" };
+  }
+}
+
+export async function changepassword(changepasswordData: ChangePasswordFormData) {
+  try {
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    const user = await User.findById(session.userId);
+    if (!user) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+
+    if (!(await bcrypt.compare(changepasswordData.oldpassword, user.password))) {
+      return { success: false, message: "Contraseña actual incorrecta" };
+    }
+
+    if (changepasswordData.password !== changepasswordData.repeatpassword) {
+      return { success: false, message: "Las contraseñas no coinciden" };
+    }
+
+    if (changepasswordData.password.length < 8 || changepasswordData.password.length > 20) {
+      return {
+        success: false,
+        message: "La contraseña debe tener entre 8 y 20 caracteres",
+      };
+    }
+
+    const hashedPassword = await bcrypt.hash(changepasswordData.password, 10);
+    await User.updateOne({ _id: session.userId }, { password: hashedPassword });
+    return { success: true, message: "Contraseña actualizada correctamente" };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Error al actualizar la contraseña" };
   }
 }
 

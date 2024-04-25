@@ -57,7 +57,7 @@ export default function NoticesTableItem({
           <ModalBasic
             isOpen={modalOpen}
             setIsOpen={setModalOpen}
-            title="Nueva Noticia"
+            title="Editar Noticia"
           >
             {/* Modal content */}
             <div className="px-5 py-4">
@@ -75,7 +75,7 @@ export default function NoticesTableItem({
                     Titulo <span className="text-rose-500">*</span>
                   </label>
                   <input
-                    id="name"
+                    id="title"
                     className="form-input w-full px-2 py-1"
                     type="text"
                     required
@@ -86,12 +86,12 @@ export default function NoticesTableItem({
                 <div>
                   <label
                     className="block text-sm font-medium mb-1"
-                    htmlFor="required funds"
+                    htmlFor="content"
                   >
                     Contenido <span className="text-rose-500">*</span>
                   </label>
                   <input
-                    id="email"
+                    id="content"
                     className="form-input w-full px-2 py-1"
                     type="text"
                     required
@@ -110,7 +110,7 @@ export default function NoticesTableItem({
                     setModalOpen(false);
                   }}
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
