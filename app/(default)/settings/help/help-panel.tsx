@@ -31,7 +31,7 @@ export default function HelpPanel() {
           </h2>
           <div className="text-sm">
             ¡Si tienes alguna pregunta o necesitas ayuda, no dudes en
-            preguntarnos!
+            preguntarnos! Te contestaremos lo antes posible mediante correo, telegram o discord.
           </div>
         </div>
 

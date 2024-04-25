@@ -18,6 +18,12 @@ export interface ProfileFormData {
   discord: string;
 }
 
+export interface ChangePasswordFormData {
+  oldpassword: string;
+  password: string;
+  repeatpassword: string;
+}
+
 export interface NotificationFormData {
   allowemailprev: boolean;
   allowemailcancel: boolean;
@@ -52,8 +58,13 @@ export interface NoticeData {
   content: string;
 }
 
-export interface ChangePasswordFormData {
-  oldpassword: string;
-  password: string;
-  repeatpassword: string;
+export interface HelpDataTable {
+  id: string;
+  user: string;
+  help: string;
+}
+
+export interface HelpData {
+  user: string;
+  help: string;
 }
