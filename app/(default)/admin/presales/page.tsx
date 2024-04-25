@@ -1,7 +1,7 @@
 "use client";
 
 import WelcomeBanner from "../../welcome-banner";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   fetchpresales,
   createpresale,
@@ -10,6 +10,8 @@ import {
 } from "@/app/actions/presale";
 import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
 import PresalesTable from "./presales-table";
+import { type PutBlobResult } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
@@ -31,6 +33,8 @@ function PresalesContent() {
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
   const [urldocs, setUrlDocs] = useState("");
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -61,6 +65,18 @@ function PresalesContent() {
       urltwitter: urltwitter,
       urldocs: urldocs,
     };
+    if (!inputFileRef.current?.files) {
+      throw new Error("No file selected");
+    }
+
+    const file = inputFileRef.current.files[0];
+
+    const newBlob = await upload(file.name, file, {
+      access: "public",
+      handleUploadUrl: "/api/upload",
+    });
+
+    setBlob(newBlob);
     const { success, message } = await createpresale(presaleData);
     if (!success) {
       toast.error(message);
@@ -125,6 +141,20 @@ function PresalesContent() {
                   </div>
                 </div>
                 <div className="space-y-3">
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="image"
+                    >
+                      Imagen <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="image"
+                      name="file"
+                      ref={inputFileRef}
+                      type="file"
+                    />
+                  </div>
                   <div>
                     <label
                       className="block text-sm font-medium mb-1"
