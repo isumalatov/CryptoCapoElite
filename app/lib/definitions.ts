@@ -99,3 +99,27 @@ export interface PresaleData {
   urltwitter: string;
   urldocs: string;
 }
+
+export interface UserDataTable {
+  id: string;
+  admin: boolean;
+  name: string;
+  email: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
+
+export interface UserData {
+  admin: boolean;
+  name: string;
+  email: string;
+  password: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}

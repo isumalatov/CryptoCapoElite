@@ -17,9 +17,6 @@ function HelpsContent() {
       if (!success && message == "Error al cargar preguntas") {
         toast.error(message);
       }
-      if (!success && message == "No hay preguntas") {
-        toast.error(message);
-      }
       if (success) {
         const helpsData: HelpDataTable[] = message as HelpDataTable[];
         setHelps(helpsData);

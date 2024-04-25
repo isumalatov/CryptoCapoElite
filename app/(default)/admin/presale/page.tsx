@@ -38,9 +38,6 @@ function PresalesContent() {
       if (!success && message == "Error al cargar preventas") {
         toast.error(message);
       }
-      if (!success && message == "No hay preventas") {
-        toast.error(message);
-      }
       if (success) {
         const presalesData: PresaleDataTable[] = message as PresaleDataTable[];
         setPresales(presalesData);

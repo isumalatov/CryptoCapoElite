@@ -28,9 +28,6 @@ function NoticesContent() {
       if (!success && message == "Error al cargar noticias") {
         toast.error(message);
       }
-      if (!success && message == "No hay noticias") {
-        toast.error(message);
-      }
       if (success) {
         const noticesData: NoticeDataTable[] = message as NoticeDataTable[];
         setNotices(noticesData);
