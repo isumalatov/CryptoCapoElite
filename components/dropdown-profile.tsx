@@ -24,9 +24,7 @@ export default function DropdownProfile({
 
   useEffect(() => {
     async function fetchData() {
-      console.log("fetching data");
       const { success, message } = await getname();
-      console.log(message);
       if (success) {
         const { name } = message as userName;
         setName(name);
