@@ -235,14 +235,17 @@ function PresalesContent() {
                     >
                       Estado
                     </label>
-                    <input
+                    <select
                       id="state"
-                      className="form-input w-full px-2 py-1"
-                      type="text"
+                      className="form-select w-full px-2 py-1"
                       required
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                    />
+                    >
+                      <option value="">Selecciona un estado</option>
+                      <option value="Participar">Participar</option>
+                      <option value="Deal Completado">Deal Completado</option>
+                    </select>
                   </div>
                   <div>
                     <label

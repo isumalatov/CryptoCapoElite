@@ -3,6 +3,7 @@ import ModalBasic from "@/components/modal-basic";
 import { useState, useRef } from "react";
 import { deleteImage, uploadImage } from "@/app/actions/presale";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function NoticesTableItem({
   presale,
@@ -13,6 +14,7 @@ export default function NoticesTableItem({
   onDelete: (id: string) => void;
   onUpdate: (id: string, presaleData: PresaleData) => void;
 }) {
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -125,6 +127,16 @@ export default function NoticesTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
+          <button className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full" onClick={() => router.push(`/admin/presales/${presale.id}`)}>
+            <svg
+              className="w-4 h-4 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 mb-[7px] mr-2"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
+              <path d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z" />
+            </svg>
+          </button>
           <button
             className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
             onClick={() => {
@@ -246,14 +258,17 @@ export default function NoticesTableItem({
                     >
                       Estado
                     </label>
-                    <input
+                    <select
                       id="state"
-                      className="form-input w-full px-2 py-1"
-                      type="text"
+                      className="form-select w-full px-2 py-1"
                       required
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                    />
+                    >
+                      <option value="">Selecciona un estado</option>
+                      <option value="Participar">Participar</option>
+                      <option value="Deal Completado">Deal Completado</option>
+                    </select>
                   </div>
                   <div>
                     <label

@@ -30,7 +30,7 @@ export default function PresalesTable({
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
                   <div className="font-semibold text-left">TITULO</div>
                 </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">ACCIONES</div>
                 </th>
               </tr>
