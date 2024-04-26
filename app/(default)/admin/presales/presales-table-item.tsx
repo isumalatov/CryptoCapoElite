@@ -16,6 +16,7 @@ export default function NoticesTableItem({
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [wallet, setWallet] = useState("");
   const [imagename, setImageName] = useState("");
   const [imageurl, setImageUrl] = useState("");
   const [state, setState] = useState("");
@@ -75,6 +76,7 @@ export default function NoticesTableItem({
             onUpdate(presale.id, {
               title,
               description,
+              wallet,
               imagename: newImageName,
               imageurl: newImageUrl,
               state,
@@ -94,6 +96,7 @@ export default function NoticesTableItem({
         onUpdate(presale.id, {
           title,
           description,
+          wallet,
           imagename,
           imageurl,
           state,
@@ -128,6 +131,7 @@ export default function NoticesTableItem({
               setModalOpen(true);
               setTitle(presale.title);
               setDescription(presale.description);
+              setWallet(presale.wallet);
               setImageName(presale.imagename);
               setImageUrl(presale.imageurl);
               setState(presale.state);
@@ -187,42 +191,60 @@ export default function NoticesTableItem({
                     type="file"
                   />
                 </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="title"
-                  >
-                    Titulo <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="title"
-                    className="form-input w-full px-2 py-1"
-                    type="text"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="description"
-                  >
-                    Descripción <span className="text-rose-500">*</span>
-                  </label>
-                  <textarea
-                    id="description"
-                    className="form-textarea w-full px-2 py-1"
-                    required
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                <div className="space-y-3">
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="title"
+                    >
+                      Titulo <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="title"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="description"
+                    >
+                      Descripción
+                    </label>
+                    <textarea
+                      id="description"
+                      className="form-textarea w-full px-2 py-1"
+                      required
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="wallet"
+                    >
+                      Wallet
+                    </label>
+                    <input
+                      id="wallet"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
                   <div>
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="state"
                     >
-                      Estado <span className="text-rose-500">*</span>
+                      Estado
                     </label>
                     <input
                       id="state"
@@ -238,7 +260,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="round"
                     >
-                      Ronda <span className="text-rose-500">*</span>
+                      Ronda
                     </label>
                     <input
                       id="round"
@@ -254,7 +276,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="price"
                     >
-                      Precio <span className="text-rose-500">*</span>
+                      Precio
                     </label>
                     <input
                       id="price"
@@ -270,7 +292,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="min"
                     >
-                      Minimo <span className="text-rose-500">*</span>
+                      Minimo
                     </label>
                     <input
                       id="min"
@@ -286,7 +308,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="max"
                     >
-                      Maximo <span className="text-rose-500">*</span>
+                      Maximo
                     </label>
                     <input
                       id="max"
@@ -302,7 +324,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="vesting"
                     >
-                      Vesting <span className="text-rose-500">*</span>
+                      Vesting
                     </label>
                     <input
                       id="vesting"
@@ -318,7 +340,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="url"
                     >
-                      URL <span className="text-rose-500">*</span>
+                      URL
                     </label>
                     <input
                       id="url"
@@ -334,7 +356,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="urltelegram"
                     >
-                      URL Telegram <span className="text-rose-500">*</span>
+                      URL Telegram
                     </label>
                     <input
                       id="urltelegram"
@@ -350,7 +372,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="urltwitter"
                     >
-                      URL Twitter <span className="text-rose-500">*</span>
+                      URL Twitter
                     </label>
                     <input
                       id="urltwitter"
@@ -366,7 +388,7 @@ export default function NoticesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="urldocs"
                     >
-                      URL Docs <span className="text-rose-500">*</span>
+                      URL Docs
                     </label>
                     <input
                       id="urldocs"

@@ -16,6 +16,7 @@ export async function fetchpresales() {
     const presalesData: PresaleDataTable[] = presales.map((n) => ({
       id: n._id.toString(),
       title: n.title,
+      wallet: n.wallet,
       description: n.description,
       imagename: n.imagename,
       imageurl: n.imageurl,

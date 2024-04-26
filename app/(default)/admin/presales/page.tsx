@@ -22,6 +22,7 @@ function PresalesContent() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
   const [round, setRound] = useState("");
   const [price, setPrice] = useState("");
@@ -74,6 +75,7 @@ function PresalesContent() {
         const presaleData: PresaleData = {
           title,
           description,
+          wallet,
           imagename: imageName,
           imageurl: imageUrl,
           state,
@@ -200,7 +202,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="description"
                     >
-                      Descripción <span className="text-rose-500">*</span>
+                      Descripción
                     </label>
                     <textarea
                       id="description"
@@ -209,186 +211,202 @@ function PresalesContent() {
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="state"
-                      >
-                        Estado <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="state"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="round"
-                      >
-                        Ronda <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="round"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={round}
-                        onChange={(e) => setRound(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="price"
-                      >
-                        Precio <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="price"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="min"
-                      >
-                        Minimo <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="min"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={min}
-                        onChange={(e) => setMin(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="max"
-                      >
-                        Maximo <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="max"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={max}
-                        onChange={(e) => setMax(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="vesting"
-                      >
-                        Vesting <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="vesting"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={vesting}
-                        onChange={(e) => setVesting(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="url"
-                      >
-                        URL <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="url"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="urltelegram"
-                      >
-                        URL Telegram <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="urltelegram"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={urltelegram}
-                        onChange={(e) => setUrlTelegram(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="urltwitter"
-                      >
-                        URL Twitter <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="urltwitter"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={urltwitter}
-                        onChange={(e) => setUrlTwitter(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="urldocs"
-                      >
-                        URL Docs <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        id="urldocs"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        required
-                        value={urldocs}
-                        onChange={(e) => setUrlDocs(e.target.value)}
-                      />
-                    </div>
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="wallet"
+                    >
+                      Wallet
+                    </label>
+                    <input
+                      id="wallet"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={wallet}
+                      onChange={(e) => setWallet(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="state"
+                    >
+                      Estado
+                    </label>
+                    <input
+                      id="state"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="round"
+                    >
+                      Ronda
+                    </label>
+                    <input
+                      id="round"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={round}
+                      onChange={(e) => setRound(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="price"
+                    >
+                      Precio
+                    </label>
+                    <input
+                      id="price"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="min"
+                    >
+                      Minimo
+                    </label>
+                    <input
+                      id="min"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={min}
+                      onChange={(e) => setMin(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="max"
+                    >
+                      Maximo
+                    </label>
+                    <input
+                      id="max"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={max}
+                      onChange={(e) => setMax(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="vesting"
+                    >
+                      Vesting
+                    </label>
+                    <input
+                      id="vesting"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={vesting}
+                      onChange={(e) => setVesting(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="url"
+                    >
+                      URL
+                    </label>
+                    <input
+                      id="url"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="urltelegram"
+                    >
+                      URL Telegram
+                    </label>
+                    <input
+                      id="urltelegram"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={urltelegram}
+                      onChange={(e) => setUrlTelegram(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="urltwitter"
+                    >
+                      URL Twitter
+                    </label>
+                    <input
+                      id="urltwitter"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={urltwitter}
+                      onChange={(e) => setUrlTwitter(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="urldocs"
+                    >
+                      URL Docs
+                    </label>
+                    <input
+                      id="urldocs"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={urldocs}
+                      onChange={(e) => setUrlDocs(e.target.value)}
+                    />
                   </div>
                 </div>
-                {/* Modal footer */}
-                <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-700">
-                  <div className="flex flex-wrap justify-end space-x-2">
-                    <button
-                      className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
-                      onClick={() => {
-                        setModalOpen(false);
-                      }}
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
-                      onClick={handleCreatePresale}
-                    >
-                      Crear Preventa
-                    </button>
-                  </div>
+              </div>
+              {/* Modal footer */}
+              <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex flex-wrap justify-end space-x-2">
+                  <button
+                    className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
+                    onClick={() => {
+                      setModalOpen(false);
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
+                    onClick={handleCreatePresale}
+                  >
+                    Crear Preventa
+                  </button>
                 </div>
               </div>
             </ModalBasic>

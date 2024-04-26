@@ -73,6 +73,7 @@ export interface PresaleDataTable {
   id: string;
   title: string;
   description: string;
+  wallet: string;
   imagename: string;
   imageurl: string;
   state: string;
@@ -90,6 +91,7 @@ export interface PresaleDataTable {
 export interface PresaleData {
   title: string;
   description: string;
+  wallet: string;
   imagename: string;
   imageurl: string;
   state: string;
