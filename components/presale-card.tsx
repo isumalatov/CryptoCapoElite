@@ -1,12 +1,14 @@
 import "../styles/custom.css";
 import Image from "next/image";
 import { PresaleDataTable } from "@/app/lib/definitions";
+import { useRouter } from 'next/navigation'
 
 export default function PresaleCard({
   presale,
 }: {
   presale: PresaleDataTable;
 }) {
+  const router = useRouter()
   return (
     <div
       className="w-full sm:w-1/3 lg:w-1/4 bg-gradient-to-r from-slate-700 to-slate-800 flex flex-col items-center justify-center rounded-xl m-2 relative"
@@ -43,7 +45,7 @@ export default function PresaleCard({
           </div>
         </div>
       </div>
-      <button className="gradient-button custom-button px-20 py-2 bg-green-500 text-white rounded-full m-4 relative bg-gradient-to-r from-green-400 to-green-500">
+      <button className="gradient-button custom-button px-20 py-2 bg-green-500 text-white rounded-full m-4 relative bg-gradient-to-r from-green-400 to-green-500" onClick={() => router.push(`/dashboard/${presale.id}`)}>
         {presale.state}
       </button>
     </div>
