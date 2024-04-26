@@ -138,3 +138,22 @@ export interface UserDataUpdate {
   allowemailcancel: boolean;
   allowemailnew: boolean;
 }
+
+export interface InvestmentDataTable {
+  id: string;
+  user: string;
+  presale: string;
+  amount: string;
+  txid: string;
+  wallet: string;
+  status: string;
+}
+
+export interface InvestmentData {
+  user: string;
+  presale: string;
+  amount: string;
+  txid: string;
+  wallet: string;
+  status: string;
+}
