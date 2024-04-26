@@ -13,7 +13,6 @@ import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
 import PresalesTable from "./presales-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
-import { error } from "console";
 
 function PresalesContent() {
   const [presaleCreated, setPresaleCreated] = useState(0);
@@ -106,13 +105,17 @@ function PresalesContent() {
   }
 
   async function handleDeletePresale(id: string) {
-    const { success, message } = await deletepresale(id);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setPresaleDeleted(presaleDeleted + 1);
+    try {
+      const { success, message } = await deletepresale(id);
+      if (!success) {
+        toast.error(message);
+      }
+      if (success) {
+        toast.success(message);
+        setPresaleDeleted(presaleDeleted + 1);
+      }
+    } catch (err) {
+      throw new Error((err as Error).message);
     }
   }
 

@@ -30,8 +30,19 @@ export default function NoticesTableItem({
   const [urldocs, setUrlDocs] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  function handleDeletePresale(id: string) {
-    onDelete(id);
+  async function handleDeletePresale(id: string) {
+    try {
+      const result = await deleteImage(imageurl);
+      if (!result.success && result.message == "Error al borrar imagen") {
+        throw new Error(result.message);
+      }
+      if (result.success) {
+        onDelete(id);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error((err as Error).message);
+    }
   }
 
   async function handleUpdatePresale() {
