@@ -1,6 +1,8 @@
 import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { deleteImage, uploadImage } from "@/app/actions/presale";
+import { toast } from "react-toastify";
 
 export default function NoticesTableItem({
   presale,
@@ -14,6 +16,8 @@ export default function NoticesTableItem({
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [imagename, setImageName] = useState("");
+  const [imageurl, setImageUrl] = useState("");
   const [state, setState] = useState("");
   const [round, setRound] = useState("");
   const [price, setPrice] = useState("");
@@ -24,27 +28,80 @@ export default function NoticesTableItem({
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
   const [urldocs, setUrlDocs] = useState("");
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
   function handleDeletePresale(id: string) {
     onDelete(id);
   }
 
-  function handleUpdatePresale() {
-    onUpdate(presale.id, {
-      title,
-      description,
-      state,
-      round,
-      price,
-      min,
-      max,
-      vesting,
-      url,
-      urltelegram,
-      urltwitter,
-      urldocs,
-    });
-    setModalOpen(false);
+  async function handleUpdatePresale() {
+    try {
+      if (
+        inputFileRef.current?.files &&
+        inputFileRef.current.files.length > 0
+      ) {
+        const image = inputFileRef.current.files[0];
+        const formData = new FormData();
+        formData.append("image", image);
+
+        const result = await uploadImage(formData);
+
+        if (!result.success && result.message == "Error al subir imagen") {
+          throw new Error(result.message);
+        }
+        if (result.success) {
+          const result2 = await deleteImage(imageurl);
+          if (!result2.success && result2.message == "Error al borrar imagen") {
+            throw new Error(result2.message);
+          }
+          if (result2.success) {
+            const newImageName = (
+              result.message as { imageName: string; imageUrl: string }
+            ).imageName;
+            const newImageUrl = (
+              result.message as { imageName: string; imageUrl: string }
+            ).imageUrl;
+            onUpdate(presale.id, {
+              title,
+              description,
+              imagename: newImageName,
+              imageurl: newImageUrl,
+              state,
+              round,
+              price,
+              min,
+              max,
+              vesting,
+              url,
+              urltelegram,
+              urltwitter,
+              urldocs,
+            });
+          }
+        }
+      } else {
+        onUpdate(presale.id, {
+          title,
+          description,
+          imagename,
+          imageurl,
+          state,
+          round,
+          price,
+          min,
+          max,
+          vesting,
+          url,
+          urltelegram,
+          urltwitter,
+          urldocs,
+        });
+      }
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+      toast.error((err as Error).message);
+    }
   }
 
   return (
@@ -60,6 +117,8 @@ export default function NoticesTableItem({
               setModalOpen(true);
               setTitle(presale.title);
               setDescription(presale.description);
+              setImageName(presale.imagename);
+              setImageUrl(presale.imageurl);
               setState(presale.state);
               setRound(presale.round);
               setPrice(presale.price);
@@ -100,6 +159,23 @@ export default function NoticesTableItem({
                 </div>
               </div>
               <div className="space-y-3">
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="image"
+                  >
+                    Imagen <span className="text-rose-500">*</span>
+                  </label>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {imagename}
+                  </p>
+                  <input
+                    id="image"
+                    name="image"
+                    ref={inputFileRef}
+                    type="file"
+                  />
+                </div>
                 <div>
                   <label
                     className="block text-sm font-medium mb-1"

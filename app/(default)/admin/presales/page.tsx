@@ -7,13 +7,13 @@ import {
   createpresale,
   updatepresale,
   deletepresale,
+  uploadImage,
 } from "@/app/actions/presale";
 import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
 import PresalesTable from "./presales-table";
-import { type PutBlobResult } from "@vercel/blob";
-import { upload } from "@vercel/blob/client";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
+import { error } from "console";
 
 function PresalesContent() {
   const [presaleCreated, setPresaleCreated] = useState(0);
@@ -34,7 +34,6 @@ function PresalesContent() {
   const [urltwitter, setUrlTwitter] = useState("");
   const [urldocs, setUrlDocs] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -51,40 +50,58 @@ function PresalesContent() {
   }, [presaleCreated, presaleDeleted, presaleUpdated]);
 
   async function handleCreatePresale() {
-    const presaleData: PresaleData = {
-      title: title,
-      description: description,
-      state: state,
-      round: round,
-      price: price,
-      min: min,
-      max: max,
-      vesting: vesting,
-      url: url,
-      urltelegram: urltelegram,
-      urltwitter: urltwitter,
-      urldocs: urldocs,
-    };
-    if (!inputFileRef.current?.files) {
-      throw new Error("No file selected");
-    }
+    try {
+      if (!inputFileRef.current?.files) {
+        throw new Error("Selecciona una imagen");
+      }
 
-    const file = inputFileRef.current.files[0];
+      const image = inputFileRef.current.files[0];
+      const formData = new FormData();
+      formData.append("image", image);
 
-    const newBlob = await upload(file.name, file, {
-      access: "public",
-      handleUploadUrl: "/api/upload",
-    });
+      const result = await uploadImage(formData);
 
-    setBlob(newBlob);
-    const { success, message } = await createpresale(presaleData);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setModalOpen(false);
-      setPresaleCreated(presaleCreated + 1);
+      if (!result.success && result.message == "Error al subir imagen") {
+        throw new Error(result.message);
+      }
+
+      if (result.success) {
+        const imageName = (
+          result.message as { imageName: string; imageUrl: string }
+        ).imageName;
+        const imageUrl = (
+          result.message as { imageName: string; imageUrl: string }
+        ).imageUrl;
+        const presaleData: PresaleData = {
+          title,
+          description,
+          imagename: imageName,
+          imageurl: imageUrl,
+          state,
+          round,
+          price,
+          min,
+          max,
+          vesting,
+          url,
+          urltelegram,
+          urltwitter,
+          urldocs,
+        };
+
+        const { success, message } = await createpresale(presaleData);
+        if (!success && message == "Error al crear preventa") {
+          throw new Error(message);
+        }
+        if (success) {
+          toast.success(message);
+          setModalOpen(false);
+          setPresaleCreated(presaleCreated + 1);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error((err as Error).message);
     }
   }
 
@@ -100,13 +117,17 @@ function PresalesContent() {
   }
 
   async function handleUpdatePresale(id: string, presaleData: PresaleData) {
-    const { success, message } = await updatepresale(id, presaleData);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setPresaleUpdated(presaleUpdated + 1);
+    try {
+      const { success, message } = await updatepresale(id, presaleData);
+      if (!success) {
+        throw new Error(message);
+      }
+      if (success) {
+        toast.success(message);
+        setPresaleUpdated(presaleUpdated + 1);
+      }
+    } catch (err) {
+      throw new Error((err as Error).message);
     }
   }
 
@@ -150,7 +171,7 @@ function PresalesContent() {
                     </label>
                     <input
                       id="image"
-                      name="file"
+                      name="image"
                       ref={inputFileRef}
                       type="file"
                     />

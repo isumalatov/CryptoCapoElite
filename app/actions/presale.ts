@@ -3,6 +3,8 @@
 import dbConnect from "@/app/lib/dbConnect";
 import Presale from "@/models/Presale";
 import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
+import { revalidatePath } from "next/cache";
+import { put, del } from "@vercel/blob";
 
 export async function fetchpresales() {
   try {
@@ -15,6 +17,8 @@ export async function fetchpresales() {
       id: n._id.toString(),
       title: n.title,
       description: n.description,
+      imagename: n.imagename,
+      imageurl: n.imageurl,
       state: n.state,
       round: n.round,
       price: n.price,
@@ -72,5 +76,36 @@ export async function updatepresale(id: string, presaleData: PresaleData) {
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al actualizar preventa" };
+  }
+}
+
+export async function uploadImage(formData: FormData) {
+  try {
+    const imageFile = formData.get("image") as File;
+    const blob = await put(imageFile.name, imageFile, {
+      access: "public",
+    });
+    revalidatePath("/");
+    return {
+      success: true,
+      message: {
+        imageName: imageFile.name,
+        imageUrl: blob.url,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al subir imagen" };
+  }
+}
+
+export async function deleteImage(imageName: string) {
+  try {
+    await del(imageName);
+    revalidatePath("/");
+    return { success: true, message: "Imagen eliminada" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al eliminar imagen" };
   }
 }

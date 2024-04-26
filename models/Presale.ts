@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 export interface Presales extends mongoose.Document {
   title: string;
   description: string;
+  imagename: string;
+  imageurl: string;
   state: string;
   round: string;
   price: string;
@@ -18,6 +20,8 @@ export interface Presales extends mongoose.Document {
 const PresaleSchema = new mongoose.Schema<Presales>({
   title: { type: String, required: true },
   description: { type: String, required: false },
+  imagename: { type: String, required: false },
+  imageurl: { type: String, required: false },
   state: { type: String, required: false },
   round: { type: String, required: false },
   price: { type: String, required: false },
