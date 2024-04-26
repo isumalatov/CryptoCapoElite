@@ -1,0 +1,45 @@
+.text-custom {
+  font-size: 24px;
+}
+
+@media (min-width: 640px) {
+  .text-custom {
+    font-size: 23px;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-custom {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-custom {
+    font-size: 23px;
+  }
+}
+
+.custom-button {
+  padding: 10px 90px;
+}
+
+@media screen and (max-width: 1024px) {
+  .custom-button {
+    padding: 10px 90px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .custom-button {
+    padding: 10px 80px;
+  }
+}
+
+.div-class {
+  background-image: linear-gradient(180deg, #20293a 0%, #434343 100%);
+}
+
+.gradient-button {
+  background-image: linear-gradient(90deg, #14ff00 0%, #14bd05 100%);
+}
