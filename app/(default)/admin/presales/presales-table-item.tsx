@@ -5,7 +5,7 @@ import { deleteImage, uploadImage } from "@/app/actions/presale";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export default function NoticesTableItem({
+export default function PresalesTableItem({
   presale,
   onDelete,
   onUpdate,

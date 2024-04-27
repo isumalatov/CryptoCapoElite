@@ -148,7 +148,7 @@ export interface InvestmentDataTable {
   amount: string;
   txid: string;
   wallet: string;
-  status: string;
+  state: string;
 }
 
 export interface InvestmentData {
@@ -157,5 +157,5 @@ export interface InvestmentData {
   amount: string;
   txid: string;
   wallet: string;
-  status: string;
+  state: string;
 }

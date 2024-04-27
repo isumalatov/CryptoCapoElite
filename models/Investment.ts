@@ -8,7 +8,7 @@ export interface Investments extends mongoose.Document {
   amount: number;
   txid: string;
   wallet: string;
-  status: string;
+  state: string;
 }
 
 const InvestmentSchema = new mongoose.Schema<Investments>({
@@ -23,7 +23,7 @@ const InvestmentSchema = new mongoose.Schema<Investments>({
   amount: { type: Number, required: true },
   txid: { type: String, required: true },
   wallet: { type: String, required: true },
-  status: { type: String, required: true },
+  state: { type: String, required: true },
 });
 
 export default mongoose.models.Investment ||

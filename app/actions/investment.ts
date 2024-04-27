@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Investment from "@/models/Investment";
-import { InvestmentDataTable } from "@/app/lib/definitions";
+import { InvestmentDataTable, InvestmentData } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
 
 export async function fetchpresaleinvestments(id: string) {
@@ -22,7 +22,7 @@ export async function fetchpresaleinvestments(id: string) {
       amount: i.amount,
       txid: i.txid,
       wallet: i.wallet,
-      status: i.status,
+      state: i.state,
     }));
     return { success: true, message: investmentsData };
   } catch (err) {
@@ -55,7 +55,7 @@ export async function fetchuserinvestments() {
       amount: i.amount,
       txid: i.txid,
       wallet: i.wallet,
-      status: i.status,
+      state: i.state,
     }));
     return { success: true, message: investmentsData };
   } catch (err) {
@@ -64,7 +64,7 @@ export async function fetchuserinvestments() {
   }
 }
 
-export async function createinvestment(investmentData: InvestmentDataTable) {
+export async function createinvestment(investmentData: InvestmentData) {
   try {
     await dbConnect();
     const investment = new Investment(investmentData);
@@ -93,7 +93,7 @@ export async function deleteinvestment(id: string) {
 
 export async function updateinvestment(
   id: string,
-  investmentData: InvestmentDataTable
+  investmentData: InvestmentData
 ) {
   try {
     await dbConnect();
