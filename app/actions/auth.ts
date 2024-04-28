@@ -68,6 +68,7 @@ export async function signup(prevState: any, formData: FormData) {
       allowemailnew: allowemail,
       discord: "",
       telegram: "",
+      resetpasswordtoken: "",
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);
@@ -107,7 +108,41 @@ export async function signin(prevState: any, formData: FormData) {
   }
 }
 
-export async function changepassword(changepasswordData: ChangePasswordFormData) {
+export async function resetpassword(
+  token: string,
+  password: string,
+  repeatpassword: string
+) {
+  try {
+    await dbConnect();
+    const user = await User.findOne({ resetpasswordtoken: token });
+    if (!user) {
+      return { success: false, message: "Token inválido" };
+    }
+    if (password !== repeatpassword) {
+      return { success: false, message: "Las contraseñas no coinciden" };
+    }
+    if (password.length < 8 || password.length > 20) {
+      return {
+        success: false,
+        message: "La contraseña debe tener entre 8 y 20 caracteres",
+      };
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.updateOne(
+      { _id: user._id },
+      { password: hashedPassword, resetpasswordtoken: "" }
+    );
+    return { success: true, message: "Contraseña actualizada correctamente" };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Error al actualizar la contraseña" };
+  }
+}
+
+export async function changepassword(
+  changepasswordData: ChangePasswordFormData
+) {
   try {
     const session = await getSession();
     if (!session) {
@@ -118,7 +153,9 @@ export async function changepassword(changepasswordData: ChangePasswordFormData)
       return { success: false, message: "Error al cargar datos del usuario" };
     }
 
-    if (!(await bcrypt.compare(changepasswordData.oldpassword, user.password))) {
+    if (
+      !(await bcrypt.compare(changepasswordData.oldpassword, user.password))
+    ) {
       return { success: false, message: "Contraseña actual incorrecta" };
     }
 
@@ -126,7 +163,10 @@ export async function changepassword(changepasswordData: ChangePasswordFormData)
       return { success: false, message: "Las contraseñas no coinciden" };
     }
 
-    if (changepasswordData.password.length < 8 || changepasswordData.password.length > 20) {
+    if (
+      changepasswordData.password.length < 8 ||
+      changepasswordData.password.length > 20
+    ) {
       return {
         success: false,
         message: "La contraseña debe tener entre 8 y 20 caracteres",

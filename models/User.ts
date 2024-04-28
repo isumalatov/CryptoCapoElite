@@ -10,6 +10,7 @@ export interface Users extends mongoose.Document {
     allowemailprev: boolean;
     allowemailcancel: boolean;
     allowemailnew: boolean;
+    resetpasswordtoken: string;
 }
 
 const UserSchema = new mongoose.Schema<Users>({
@@ -22,6 +23,7 @@ const UserSchema = new mongoose.Schema<Users>({
     allowemailprev: { type: Boolean, required: true },
     allowemailcancel: { type: Boolean, required: true },
     allowemailnew: { type: Boolean, required: true },
+    resetpasswordtoken: { type: String, required: false }
 });
 
 export default mongoose.models.User || mongoose.model<Users>("User", UserSchema);
