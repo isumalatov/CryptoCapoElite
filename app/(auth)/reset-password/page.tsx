@@ -3,9 +3,20 @@
 import AuthHeader from "../auth-header";
 import AuthImage from "../auth-image";
 import { useState } from "react";
+import { sendemail } from "@/app/actions/email";
+import { toast } from "react-toastify";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
+  async function handleSendEmail() {
+    const { success, message } = await sendemail(email);
+    if (!success) {
+      toast.error(message);
+    }
+    if (success) {
+      toast.success("¡Email enviado correctamente!");
+    }
+  }
 
   return (
     <main className="bg-white dark:bg-slate-900">
@@ -41,6 +52,7 @@ export default function ResetPassword() {
                 <div className="flex justify-end mt-6">
                   <button
                     className="btn bg-indigo-500 hover:bg-indigo-600 text-white whitespace-nowrap"
+                    onClick={handleSendEmail}
                   >
                     Enviar link de restablecimiento
                   </button>

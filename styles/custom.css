@@ -43,3 +43,7 @@
 .gradient-button {
   background-image: linear-gradient(90deg, #14ff00 0%, #14bd05 100%);
 }
+
+.gradient-button-complete {
+  background-image: linear-gradient(90deg, #E8DF0F 0%, #A69500 100%);
+}

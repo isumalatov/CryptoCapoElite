@@ -32,20 +32,21 @@ export default function PresaleCard({
         </h1>
         <div className="flex justify-between w-full m-2">
           <div className="flex flex-col items-center ml-4">
-            <h3>Precio</h3>
+            <p className="text-slate-300">Price</p>
             <p className="text-white">{presale.price}</p>
           </div>
           <div className="flex flex-col items-center">
-            <h3>Ronda</h3>
+            <p className="text-slate-300">Round</p>
             <p className="text-white">{presale.round}</p>
           </div>
           <div className="flex flex-col items-center mr-4">
-            <h3>Minimo</h3>
+            <p className="text-slate-300">Min</p>
             <p className="text-white">{presale.min}</p>
           </div>
         </div>
       </div>
-      <button className="gradient-button custom-button px-20 py-2 bg-green-500 text-white rounded-full m-4 relative bg-gradient-to-r from-green-400 to-green-500" onClick={() => router.push(`/dashboard/${presale.id}`)}>
+
+      <button className={presale.state === 'Deal Completado' ? "gradient-button-complete custom-button px-20 py-2 text-white rounded-full m-4 relative bg-gradient-to-r" : "gradient-button custom-button px-20 py-2 text-white rounded-full m-4 relative bg-gradient-to-r"} onClick={() => router.push(`/dashboard/${presale.id}`)}>
         {presale.state}
       </button>
     </div>

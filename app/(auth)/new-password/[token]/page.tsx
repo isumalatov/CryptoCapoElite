@@ -2,12 +2,32 @@
 
 import AuthHeader from "../../auth-header";
 import AuthImage from "../../auth-image";
-import { signin } from "@/app/actions/auth";
-import { useFormState } from "react-dom";
+import { resetpassword } from "@/app/actions/auth";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
+export default function ResetPassword({
+  params,
+  searchParams,
+}: {
+  params: { token: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const router = useRouter();
+  const token = params.token;
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
 
-export default function SignIn() {
-  const [message, formAction] = useFormState(signin, null);
+  async function handleResetPassword() {
+    const { success, message } = await resetpassword(token, password, repeatPassword);
+    if (!success) {
+      toast.error(message);
+    }
+    if (success) {
+      router.push("/dashboard");
+    }
+  }
 
   return (
     <main className="bg-white dark:bg-slate-900">
@@ -22,7 +42,7 @@ export default function SignIn() {
                 ¡Recupera tu cuenta! ✨
               </h1>
               {/* Form */}
-              <form action={formAction}>
+              <div>
                 <div className="space-y-4">
                   <div>
                     <label
@@ -33,9 +53,10 @@ export default function SignIn() {
                     </label>
                     <input
                       id="password"
-                      name="password"
                       className="form-input w-full"
                       type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div>
@@ -47,21 +68,22 @@ export default function SignIn() {
                     </label>
                     <input
                       id="repeatpassword"
-                      name="repeatpassword"
                       className="form-input w-full"
                       type="password"
+                      value={repeatPassword}
+                      onChange={(e) => setRepeatPassword(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-6">
                   <button
-                    type="submit"
                     className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3"
+                    onClick={handleResetPassword}
                   >
                     Iniciar Sesión
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

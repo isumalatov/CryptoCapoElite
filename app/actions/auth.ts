@@ -133,10 +133,11 @@ export async function resetpassword(
       { _id: user._id },
       { password: hashedPassword, resetpasswordtoken: "" }
     );
-    return { success: true, message: "Contraseña actualizada correctamente" };
+    await createSession(user._id, user.admin, user.name);
+    return { success: true, message: "Contraseña restablecida correctamente" };
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Error al actualizar la contraseña" };
+    return { success: false, message: "Error al restablecer la contraseña" };
   }
 }
 
