@@ -72,6 +72,7 @@ export interface HelpData {
 export interface PresaleDataTable {
   id: string;
   title: string;
+  name: string;
   description: string;
   wallet: string;
   imagename: string;
@@ -90,6 +91,7 @@ export interface PresaleDataTable {
 
 export interface PresaleData {
   title: string;
+  name: string;
   description: string;
   wallet: string;
   imagename: string;

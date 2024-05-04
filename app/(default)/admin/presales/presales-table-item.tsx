@@ -17,6 +17,7 @@ export default function PresalesTableItem({
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [wallet, setWallet] = useState("");
   const [imagename, setImageName] = useState("");
@@ -77,6 +78,7 @@ export default function PresalesTableItem({
             ).imageUrl;
             onUpdate(presale.id, {
               title,
+              name,
               description,
               wallet,
               imagename: newImageName,
@@ -97,6 +99,7 @@ export default function PresalesTableItem({
       } else {
         onUpdate(presale.id, {
           title,
+          name,
           description,
           wallet,
           imagename,
@@ -127,7 +130,10 @@ export default function PresalesTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
-          <button className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full" onClick={() => router.push(`/admin/presales/${presale.id}`)}>
+          <button
+            className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
+            onClick={() => router.push(`/admin/presales/${presale.id}`)}
+          >
             <svg
               className="w-4 h-4 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 mb-[7px] mr-2"
               viewBox="0 0 16 16"
@@ -142,6 +148,7 @@ export default function PresalesTableItem({
             onClick={() => {
               setModalOpen(true);
               setTitle(presale.title);
+              setName(presale.name);
               setDescription(presale.description);
               setWallet(presale.wallet);
               setImageName(presale.imagename);
@@ -218,6 +225,22 @@ export default function PresalesTableItem({
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="name"
+                    >
+                      Nombre
+                    </label>
+                    <input
+                      id="name"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div>

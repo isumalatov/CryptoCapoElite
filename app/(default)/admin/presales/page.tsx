@@ -21,6 +21,7 @@ function PresalesContent() {
   const [presales, setPresales] = useState<PresaleDataTable[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
@@ -74,6 +75,7 @@ function PresalesContent() {
         ).imageUrl;
         const presaleData: PresaleData = {
           title,
+          name,
           description,
           wallet,
           imagename: imageName,
@@ -195,6 +197,22 @@ function PresalesContent() {
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="name"
+                    >
+                      Nombre
+                    </label>
+                    <input
+                      id="name"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div>

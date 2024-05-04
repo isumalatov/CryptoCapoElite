@@ -16,6 +16,7 @@ export async function fetchpresales() {
     const presalesData: PresaleDataTable[] = presales.map((n) => ({
       id: n._id.toString(),
       title: n.title,
+      name: n.name,
       wallet: n.wallet,
       description: n.description,
       imagename: n.imagename,
@@ -35,6 +36,38 @@ export async function fetchpresales() {
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar preventas" };
+  }
+}
+
+export async function fetchpresale(id: string) {
+  try {
+    await dbConnect();
+    const presale = await Presale.findById(id);
+    if (!presale) {
+      return { success: false, message: "Preventa no encontrada" };
+    }
+    const presaleData: PresaleData = {
+      title: presale.title,
+      name: presale.name,
+      wallet: presale.wallet,
+      description: presale.description,
+      imagename: presale.imagename,
+      imageurl: presale.imageurl,
+      state: presale.state,
+      round: presale.round,
+      price: presale.price,
+      min: presale.min,
+      max: presale.max,
+      vesting: presale.vesting,
+      url: presale.url,
+      urltelegram: presale.urltelegram,
+      urltwitter: presale.urltwitter,
+      urldocs: presale.urldocs,
+    };
+    return { success: true, message: presaleData };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar preventa" };
   }
 }
 
