@@ -83,6 +83,8 @@ export interface PresaleDataTable {
   min: string;
   max: string;
   vesting: string;
+  tokenstandard: string;
+  fees: string;
   url: string;
   urltelegram: string;
   urltwitter: string;
@@ -102,6 +104,8 @@ export interface PresaleData {
   min: string;
   max: string;
   vesting: string;
+  tokenstandard: string;
+  fees: string;
   url: string;
   urltelegram: string;
   urltwitter: string;

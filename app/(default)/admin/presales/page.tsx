@@ -30,6 +30,8 @@ function PresalesContent() {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
   const [vesting, setVesting] = useState("");
+  const [tokenstandard, setTokenStandard] = useState("");
+  const [fees, setFees] = useState("");
   const [url, setUrl] = useState("");
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
@@ -86,6 +88,8 @@ function PresalesContent() {
           min,
           max,
           vesting,
+          tokenstandard,
+          fees,
           url,
           urltelegram,
           urltwitter,
@@ -343,6 +347,38 @@ function PresalesContent() {
                       required
                       value={vesting}
                       onChange={(e) => setVesting(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="tokenstandard"
+                    >
+                      Token Standard
+                    </label>
+                    <input
+                      id="tokenstandard"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={tokenstandard}
+                      onChange={(e) => setTokenStandard(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="fees"
+                    >
+                      Fees
+                    </label>
+                    <input
+                      id="fees"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={fees}
+                      onChange={(e) => setFees(e.target.value)}
                     />
                   </div>
                   <div>

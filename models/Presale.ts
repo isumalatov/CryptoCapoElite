@@ -13,6 +13,8 @@ export interface Presales extends mongoose.Document {
   min: string;
   max: string;
   vesting: string;
+  tokenstandard: string;
+  fees: string;
   url: string;
   urltelegram: string;
   urltwitter: string;
@@ -32,6 +34,8 @@ const PresaleSchema = new mongoose.Schema<Presales>({
   min: { type: String, required: false },
   max: { type: String, required: false },
   vesting: { type: String, required: false },
+  tokenstandard: { type: String, required: false },
+  fees: { type: String, required: false },
   url: { type: String, required: false },
   urltelegram: { type: String, required: false },
   urltwitter: { type: String, required: false },
