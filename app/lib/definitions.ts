@@ -149,9 +149,10 @@ export interface UserDataUpdate {
 
 export interface InvestmentDataTable {
   id: string;
-  user: string;
-  presale: string;
+  name: string;
+  title: string;
   amount: string;
+  tokens: string;
   txid: string;
   wallet: string;
   state: string;
@@ -159,8 +160,9 @@ export interface InvestmentDataTable {
 
 export interface InvestmentData {
   user: string;
-  presale: string;
-  amount: string;
+  name: string;
+  title: string;
+  tokens: string;
   txid: string;
   wallet: string;
   state: string;

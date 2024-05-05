@@ -17,9 +17,10 @@ export async function fetchpresaleinvestments(id: string) {
     }
     const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
       id: i._id.toString(),
-      user: i.user.name,
-      presale: i.presale.title,
+      name: i.user.name,
+      title: i.presale.title,
       amount: i.amount,
+      tokens: i.tokens,
       txid: i.txid,
       wallet: i.wallet,
       state: i.state,
@@ -50,9 +51,10 @@ export async function fetchuserinvestments() {
     }
     const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
       id: i._id.toString(),
-      user: i.user.name,
-      presale: i.presale.title,
+      name: i.user.name,
+      title: i.presale.title,
       amount: i.amount,
+      tokens: i.tokens,
       txid: i.txid,
       wallet: i.wallet,
       state: i.state,
@@ -106,5 +108,30 @@ export async function updateinvestment(
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al actualizar inversión" };
+  }
+}
+
+export async function getusertotalamount() {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return {
+        success: false,
+        message: "Error al cargar cantidad total",
+      };
+    }
+    const investments = await Investment.find({ "user.id": session.userId });
+    if (!investments) {
+      return {
+        success: false,
+        message: "Error al cargar cantidad total",
+      };
+    }
+    const totalAmount = investments.reduce((acc, i) => acc + i.amount, 0);
+    return { success: true, message: totalAmount };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar cantidad total" };
   }
 }
