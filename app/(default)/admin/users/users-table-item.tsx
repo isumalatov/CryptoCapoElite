@@ -15,7 +15,6 @@ export default function NoticesTableItem({
   const [admin, setAdmin] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [discord, setDiscord] = useState("");
   const [telegram, setTelegram] = useState("");
   const [allowemailprev, setAllowEmailPrev] = useState(false);
@@ -44,6 +43,9 @@ export default function NoticesTableItem({
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="font-medium text-sky-500">{user.name}</div>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <div className="font-medium text-sky-500">{user.id}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -89,30 +91,32 @@ export default function NoticesTableItem({
                 </div>
               </div>
               <div className="space-y-3">
-                <label
-                  className="block text-sm font-medium mb-1"
-                  htmlFor="admin"
-                >
-                  Administrador
-                </label>
-                <div className="form-switch">
-                  <input
-                    type="checkbox"
-                    id="admin"
-                    className="sr-only"
-                    checked={admin}
-                    onChange={() => setAdmin(!admin)}
-                  />
+                <div>
                   <label
-                    className="bg-slate-400 dark:bg-slate-700"
+                    className="block text-sm font-medium mb-1"
                     htmlFor="admin"
                   >
-                    <span
-                      className="bg-white shadow-sm"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="sr-only">Enable smart sync</span>
+                    Administrador
                   </label>
+                  <div className="form-switch">
+                    <input
+                      type="checkbox"
+                      id="admin"
+                      className="sr-only"
+                      checked={admin}
+                      onChange={() => setAdmin(!admin)}
+                    />
+                    <label
+                      className="bg-slate-400 dark:bg-slate-700"
+                      htmlFor="admin"
+                    >
+                      <span
+                        className="bg-white shadow-sm"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="sr-only">Enable smart sync</span>
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <label

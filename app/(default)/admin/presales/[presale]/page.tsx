@@ -19,15 +19,15 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
   const [investmentUpdated, setInvestmentUpdated] = useState(0);
   const [investments, setInvestments] = useState<InvestmentDataTable[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [user, setUser] = useState("");
-  const [presale, setPresale] = useState(id);
-  const [amount, setAmount] = useState("");
+  const [idUser, setIdUser] = useState("");
+  const [amount, setAmount] = useState<number>(0);
+  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchInvestmentsData() {
       const { success, message } = await fetchpresaleinvestments(id);
       if (!success && message == "Error al cargar inversiones") {
         toast.error(message);
@@ -38,15 +38,16 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
         setInvestments(investmentsData);
       }
     }
-    fetchData();
+    fetchInvestmentsData();
   }, [investmentCreated, investmentDeleted, investmentUpdated]);
 
   async function handleCreateInvestment() {
     try {
       const investmentData: InvestmentData = {
-        user: user,
-        presale: presale,
+        idUser: idUser,
+        idPresale: id,
         amount: amount,
+        tokens: tokens,
         txid: txid,
         wallet: wallet,
         state: state,
@@ -135,31 +136,15 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       className="block text-sm font-medium mb-1"
                       htmlFor="user"
                     >
-                      Usuario <span className="text-rose-500">*</span>
+                      ID Usuario <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="user"
                       className="form-input w-full px-2 py-1"
                       type="text"
                       required
-                      value={user}
-                      onChange={(e) => setUser(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="presale"
-                    >
-                      Preventa <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      id="presale"
-                      className="form-input w-full px-2 py-1"
-                      type="text"
-                      required
-                      value={presale}
-                      onChange={(e) => setPresale(e.target.value)}
+                      value={idUser}
+                      onChange={(e) => setIdUser(e.target.value)}
                     />
                   </div>
                   <div>
@@ -172,10 +157,26 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                     <input
                       id="amount"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
                       value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="tokens"
+                    >
+                      Tokens <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="tokens"
+                      className="form-input w-full px-2 py-1"
+                      type="number"
+                      required
+                      value={tokens}
+                      onChange={(e) => setTokens(Number(e.target.value))}
                     />
                   </div>
                   <div>

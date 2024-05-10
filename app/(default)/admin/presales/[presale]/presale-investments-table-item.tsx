@@ -1,6 +1,9 @@
 import { InvestmentDataTable, InvestmentData } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { fetchuser } from "@/app/actions/user";
+import { UserDataTable } from "@/app/lib/definitions";
 
 export default function PresaleInvestmentsTableItem({
   id,
@@ -14,26 +17,51 @@ export default function PresaleInvestmentsTableItem({
   onUpdate: (id: string, investmentData: InvestmentData) => void;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [user, setUser] = useState("");
-  const [presale, setPresale] = useState(id);
-  const [amount, setAmount] = useState("");
+  const [user, setUser] = useState<UserDataTable>();
+  const [idUser, setIdUser] = useState("");
+  const [idPresale, setIdPresale] = useState(id);
+  const [amount, setAmount] = useState<number>(0);
+  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      const { success, message } = await fetchuser(investment.idUser);
+      if (!success && message == "Error al cargar usuarios") {
+        toast.error(message);
+      }
+      if (success) {
+        const userData: UserDataTable = message as UserDataTable;
+        setUser(userData);
+        setIdUser(userData.id);
+      }
+    }
+    fetchData();
+  }, []);
 
   async function handleDeleteInvestment(id: string) {
     onDelete(id);
   }
 
   async function handleUpdateInvestment() {
-    onUpdate(investment.id, { user, presale, amount, txid, wallet, state });
+    onUpdate(investment.id, {
+      idUser,
+      idPresale,
+      amount,
+      tokens,
+      txid,
+      wallet,
+      state,
+    });
     setModalOpen(false);
   }
 
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{investment.user}</div>
+        <div className="font-medium text-sky-500">{user?.email}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -41,8 +69,6 @@ export default function PresaleInvestmentsTableItem({
             className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
             onClick={() => {
               setModalOpen(true);
-              setUser(investment.user);
-              setPresale(investment.presale);
               setAmount(investment.amount);
               setTxid(investment.txid);
               setWallet(investment.wallet);
@@ -80,38 +106,6 @@ export default function PresaleInvestmentsTableItem({
                 <div>
                   <label
                     className="block text-sm font-medium mb-1"
-                    htmlFor="user"
-                  >
-                    Usuario <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="user"
-                    className="form-input w-full px-2 py-1"
-                    type="text"
-                    required
-                    value={user}
-                    onChange={(e) => setUser(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="presale"
-                  >
-                    Preventa <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="presale"
-                    className="form-input w-full px-2 py-1"
-                    type="text"
-                    required
-                    value={presale}
-                    onChange={(e) => setPresale(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
                     htmlFor="amount"
                   >
                     Cantidad <span className="text-rose-500">*</span>
@@ -119,10 +113,25 @@ export default function PresaleInvestmentsTableItem({
                   <input
                     id="amount"
                     className="form-input w-full px-2 py-1"
-                    type="text"
+                    type="number"
                     required
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setAmount(Number(e.target.value))}
+                  />
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="tokens"
+                  >
+                    Tokens
+                  </label>
+                  <input
+                    id="tokens"
+                    className="form-input w-full px-2 py-1"
+                    type="number"
+                    value={tokens}
+                    onChange={(e) => setTokens(Number(e.target.value))}
                   />
                 </div>
                 <div>

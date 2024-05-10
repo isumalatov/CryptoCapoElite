@@ -31,6 +31,31 @@ export async function fetchusers() {
   }
 }
 
+export async function fetchuser(id: string) {
+  try {
+    await dbConnect();
+    const user = await User.findById(id);
+    if (!user) {
+      return { success: false, message: "Error al cargar usuario" };
+    }
+    const userData: UserDataTable = {
+      id: user._id.toString(),
+      admin: user.admin,
+      name: user.name,
+      email: user.email,
+      discord: user.discord,
+      telegram: user.telegram,
+      allowemailprev: user.allowemailprev,
+      allowemailcancel: user.allowemailcancel,
+      allowemailnew: user.allowemailnew,
+    };
+    return { success: true, message: userData };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar usuario" };
+  }
+}
+
 export async function createuser(userData: UserData) {
   try {
     await dbConnect();

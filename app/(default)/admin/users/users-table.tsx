@@ -31,6 +31,9 @@ export default function UsersTable({
                   <div className="font-semibold text-left">NOMBRE</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                  <div className="font-semibold text-left">ID</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
                   <div className="font-semibold text-left">ACCIONES</div>
                 </th>
               </tr>

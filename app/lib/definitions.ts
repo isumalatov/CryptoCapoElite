@@ -79,12 +79,12 @@ export interface PresaleDataTable {
   imageurl: string;
   state: string;
   round: string;
-  price: string;
-  min: string;
-  max: string;
+  price: number;
+  min: number;
+  max: number;
   vesting: string;
   tokenstandard: string;
-  fees: string;
+  fees: number;
   url: string;
   urltelegram: string;
   urltwitter: string;
@@ -100,12 +100,12 @@ export interface PresaleData {
   imageurl: string;
   state: string;
   round: string;
-  price: string;
-  min: string;
-  max: string;
+  price: number;
+  min: number;
+  max: number;
   vesting: string;
   tokenstandard: string;
-  fees: string;
+  fees: number;
   url: string;
   urltelegram: string;
   urltwitter: string;
@@ -149,20 +149,20 @@ export interface UserDataUpdate {
 
 export interface InvestmentDataTable {
   id: string;
-  name: string;
-  title: string;
-  amount: string;
-  tokens: string;
+  idUser: string;
+  idPresale: string;
+  amount: number;
+  tokens: number;
   txid: string;
   wallet: string;
   state: string;
 }
 
 export interface InvestmentData {
-  user: string;
-  name: string;
-  title: string;
-  tokens: string;
+  idUser: string;
+  idPresale: string;
+  amount: number;
+  tokens: number;
   txid: string;
   wallet: string;
   state: string;

@@ -9,12 +9,12 @@ export interface Presales extends mongoose.Document {
   imageurl: string;
   state: string;
   round: string;
-  price: string;
-  min: string;
-  max: string;
+  price: number;
+  min: number;
+  max: number;
   vesting: string;
   tokenstandard: string;
-  fees: string;
+  fees: number;
   url: string;
   urltelegram: string;
   urltwitter: string;
@@ -30,12 +30,12 @@ const PresaleSchema = new mongoose.Schema<Presales>({
   imageurl: { type: String, required: false },
   state: { type: String, required: false },
   round: { type: String, required: false },
-  price: { type: String, required: false },
-  min: { type: String, required: false },
-  max: { type: String, required: false },
+  price: { type: Number, required: false },
+  min: { type: Number, required: false },
+  max: { type: Number, required: false },
   vesting: { type: String, required: false },
   tokenstandard: { type: String, required: false },
-  fees: { type: String, required: false },
+  fees: { type: Number, required: false },
   url: { type: String, required: false },
   urltelegram: { type: String, required: false },
   urltwitter: { type: String, required: false },

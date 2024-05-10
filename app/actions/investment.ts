@@ -17,8 +17,8 @@ export async function fetchpresaleinvestments(id: string) {
     }
     const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
       id: i._id.toString(),
-      name: i.user.name,
-      title: i.presale.title,
+      idUser: i.idUser._id.toString(),
+      idPresale: i.idPresale._id.toString(),
       amount: i.amount,
       tokens: i.tokens,
       txid: i.txid,
@@ -51,8 +51,8 @@ export async function fetchuserinvestments() {
     }
     const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
       id: i._id.toString(),
-      name: i.user.name,
-      title: i.presale.title,
+      idUser: i.idUser._id.toString(),
+      idPresale: i.idPresale._id.toString(),
       amount: i.amount,
       tokens: i.tokens,
       txid: i.txid,

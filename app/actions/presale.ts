@@ -3,8 +3,12 @@
 import dbConnect from "@/app/lib/dbConnect";
 import Presale from "@/models/Presale";
 import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { revalidatePath } from "next/cache";
-import { put, del } from "@vercel/blob";
 
 export async function fetchpresales() {
   try {
@@ -119,16 +123,28 @@ export async function updatepresale(id: string, presaleData: PresaleData) {
 
 export async function uploadImage(formData: FormData) {
   try {
-    const imageFile = formData.get("image") as File;
-    const blob = await put(imageFile.name, imageFile, {
-      access: "public",
+    const s3Client = new S3Client({
+      region: process.env.AWS_BUCKET_REGION,
     });
+    const s3Bucket = process.env.AWS_BUCKET_NAME as string;
+    const imageFile = formData.get("image") as File;
+    const buffer = Buffer.from(await imageFile.arrayBuffer());
+    const imageName = `${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 15)}.png`;
+    const params = {
+      Bucket: s3Bucket,
+      Key: imageName,
+      Body: buffer,
+    };
+    const command = new PutObjectCommand(params);
+    await s3Client.send(command);
     revalidatePath("/");
     return {
       success: true,
       message: {
-        imageName: imageFile.name,
-        imageUrl: blob.url,
+        imageName: imageName,
+        imageUrl: `https://${s3Bucket}.s3.amazonaws.com/${imageName}`,
       },
     };
   } catch (err) {
@@ -139,7 +155,16 @@ export async function uploadImage(formData: FormData) {
 
 export async function deleteImage(imageName: string) {
   try {
-    await del(imageName);
+    const s3Client = new S3Client({
+      region: process.env.AWS_BUCKET_REGION,
+    });
+    const s3Bucket = process.env.AWS_BUCKET_NAME as string;
+    const params = {
+      Bucket: s3Bucket,
+      Key: imageName,
+    };
+    const command = new DeleteObjectCommand(params);
+    await s3Client.send(command);
     revalidatePath("/");
     return { success: true, message: "Imagen eliminada" };
   } catch (err) {

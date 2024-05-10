@@ -9,7 +9,7 @@ export default function InvestmentsTableItem({
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{investment.name}</div>
+        <div className="font-medium text-sky-500">{investment.presale.title}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
         <div className="font-medium text-sky-500">{investment.txid}</div>

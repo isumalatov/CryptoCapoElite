@@ -116,30 +116,32 @@ function UsersContent() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="admin"
-                  >
-                    Administrador
-                  </label>
-                  <div className="form-switch">
-                    <input
-                      type="checkbox"
-                      id="admin"
-                      className="sr-only"
-                      checked={admin}
-                      onChange={() => setAdmin(!admin)}
-                    />
+                  <div>
                     <label
-                      className="bg-slate-400 dark:bg-slate-700"
+                      className="block text-sm font-medium mb-1"
                       htmlFor="admin"
                     >
-                      <span
-                        className="bg-white shadow-sm"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="sr-only">Enable smart sync</span>
+                      Administrador
                     </label>
+                    <div className="form-switch">
+                      <input
+                        type="checkbox"
+                        id="admin"
+                        className="sr-only"
+                        checked={admin}
+                        onChange={() => setAdmin(!admin)}
+                      />
+                      <label
+                        className="bg-slate-400 dark:bg-slate-700"
+                        htmlFor="admin"
+                      >
+                        <span
+                          className="bg-white shadow-sm"
+                          aria-hidden="true"
+                        ></span>
+                        <span className="sr-only">Enable smart sync</span>
+                      </label>
+                    </div>
                   </div>
                   <div>
                     <label

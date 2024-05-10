@@ -24,12 +24,12 @@ export default function PresalesTableItem({
   const [imageurl, setImageUrl] = useState("");
   const [state, setState] = useState("");
   const [round, setRound] = useState("");
-  const [price, setPrice] = useState("");
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [min, setMin] = useState<number>(0);
+  const [max, setMax] = useState<number>(0);
   const [vesting, setVesting] = useState("");
   const [tokenstandard, setTokenStandard] = useState("");
-  const [fees, setFees] = useState("");
+  const [fees, setFees] = useState<number>(0);
   const [url, setUrl] = useState("");
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
@@ -38,7 +38,7 @@ export default function PresalesTableItem({
 
   async function handleDeletePresale(id: string) {
     try {
-      const result = await deleteImage(imageurl);
+      const result = await deleteImage(presale.imagename);
       if (!result.success && result.message == "Error al borrar imagen") {
         throw new Error(result.message);
       }
@@ -67,7 +67,7 @@ export default function PresalesTableItem({
           throw new Error(result.message);
         }
         if (result.success) {
-          const result2 = await deleteImage(imageurl);
+          const result2 = await deleteImage(imagename);
           if (!result2.success && result2.message == "Error al borrar imagen") {
             throw new Error(result2.message);
           }
@@ -327,10 +327,14 @@ export default function PresalesTableItem({
                     <input
                       id="price"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      value={price === 0 ? "" : price}
+                      onChange={(e) =>
+                        setPrice(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -343,10 +347,14 @@ export default function PresalesTableItem({
                     <input
                       id="min"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={min}
-                      onChange={(e) => setMin(e.target.value)}
+                      value={min === 0 ? "" : min}
+                      onChange={(e) =>
+                        setMin(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -359,10 +367,14 @@ export default function PresalesTableItem({
                     <input
                       id="max"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={max}
-                      onChange={(e) => setMax(e.target.value)}
+                      value={max === 0 ? "" : max}
+                      onChange={(e) =>
+                        setMax(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -407,10 +419,14 @@ export default function PresalesTableItem({
                     <input
                       id="fees"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={fees}
-                      onChange={(e) => setFees(e.target.value)}
+                      value={fees === 0 ? "" : fees}
+                      onChange={(e) =>
+                        setFees(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>

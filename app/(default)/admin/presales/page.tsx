@@ -26,12 +26,12 @@ function PresalesContent() {
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
   const [round, setRound] = useState("");
-  const [price, setPrice] = useState("");
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [min, setMin] = useState<number>(0);
+  const [max, setMax] = useState<number>(0);
   const [vesting, setVesting] = useState("");
   const [tokenstandard, setTokenStandard] = useState("");
-  const [fees, setFees] = useState("");
+  const [fees, setFees] = useState<number>(0);
   const [url, setUrl] = useState("");
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
@@ -208,7 +208,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="name"
                     >
-                      Nombre
+                      Nombre <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="name"
@@ -295,10 +295,14 @@ function PresalesContent() {
                     <input
                       id="price"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      value={price === 0 ? "" : price}
+                      onChange={(e) =>
+                        setPrice(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -311,10 +315,14 @@ function PresalesContent() {
                     <input
                       id="min"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={min}
-                      onChange={(e) => setMin(e.target.value)}
+                      value={min === 0 ? "" : min}
+                      onChange={(e) =>
+                        setMin(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -327,10 +335,14 @@ function PresalesContent() {
                     <input
                       id="max"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={max}
-                      onChange={(e) => setMax(e.target.value)}
+                      value={max === 0 ? "" : max}
+                      onChange={(e) =>
+                        setMax(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -375,10 +387,14 @@ function PresalesContent() {
                     <input
                       id="fees"
                       className="form-input w-full px-2 py-1"
-                      type="text"
+                      type="number"
                       required
-                      value={fees}
-                      onChange={(e) => setFees(e.target.value)}
+                      value={fees === 0 ? "" : fees}
+                      onChange={(e) =>
+                        setFees(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>

@@ -16,7 +16,7 @@ export default function PresaleInvestmentsTable({
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
       <header className="px-5 py-4">
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">
-          Preventas{" "}
+          Inversiones{" "}
           <span className="text-slate-400 dark:text-slate-500 font-medium">
             ({investments.length})
           </span>
@@ -30,7 +30,7 @@ export default function PresaleInvestmentsTable({
             <thead className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/20 border-t border-b border-slate-200 dark:border-slate-700">
               <tr>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">TITULO</div>
+                  <div className="font-semibold text-left">EMAIL</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">ACCIONES</div>
