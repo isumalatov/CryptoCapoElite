@@ -29,17 +29,22 @@ export default function NotificationsPanel() {
   }, []);
 
   async function handleSaveChanges() {
-    const notificationData = {
-      allowemailprev,
-      allowemailcancel,
-      allowemailnew,
-    };
-    const { success, message } = await changenotifications(notificationData);
-    if (!success && message === "Error al modificar notificaciones") {
-      toast.error("Error al modificar notificaciones");
-    }
-    if (success) {
-      toast.success("Notificaciones actualizadas");
+    try {
+      const notificationData = {
+        allowemailprev,
+        allowemailcancel,
+        allowemailnew,
+      };
+      const { success, message } = await changenotifications(notificationData);
+      if (!success && message === "Error al modificar notificaciones") {
+        toast.error("Error al modificar notificaciones");
+      }
+      if (success) {
+        toast.success("Notificaciones actualizadas");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error((err as Error).message);
     }
   }
 

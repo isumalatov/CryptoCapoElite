@@ -4,20 +4,26 @@ import { useState } from "react";
 import Link from "next/link";
 import { createhelp } from "@/app/actions/account";
 import { toast } from "react-toastify";
+import e from "express";
 
 export default function HelpPanel() {
   const [help, setHelp] = useState<string>("");
 
   async function handleSaveChanges() {
-    const helpData = {
-      help,
-    };
-    const { success, message } = await createhelp(helpData);
-    if (!success && message === "Error al enviar pregunta") {
-      toast.error("Error al enviar pregunta");
-    }
-    if (success) {
-      toast.success("Pregunta enviada");
+    try {
+      const helpData = {
+        help,
+      };
+      const { success, message } = await createhelp(helpData);
+      if (!success && message === "Error al enviar pregunta") {
+        toast.error("Error al enviar pregunta");
+      }
+      if (success) {
+        toast.success("Pregunta enviada");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error((err as Error).message);
     }
   }
 
@@ -31,7 +37,8 @@ export default function HelpPanel() {
           </h2>
           <div className="text-sm">
             ¡Si tienes alguna pregunta o necesitas ayuda, no dudes en
-            preguntarnos! Te contestaremos lo antes posible mediante correo, telegram o discord.
+            preguntarnos! Te contestaremos lo antes posible mediante correo,
+            telegram o discord.
           </div>
         </div>
 

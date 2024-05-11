@@ -36,6 +36,8 @@ function InvestmentsContent() {
         setTotalAmount(amount);
       }
     }
+    fetchDataInvestments();
+    fetchDataTotalAmount();
   }, []);
 
   return <InvestmentsTable investments={investments} totalAmount={totalAmount} />;

@@ -2,16 +2,46 @@
 
 import Image from "next/image";
 import "../styles/custom.css";
-import { PresaleData } from "@/app/lib/definitions";
+import { PresaleDataTable } from "@/app/lib/definitions";
 import { useCallback, useState } from "react";
 import Slider from "@mui/material/Slider";
+import { createinvestmentuser } from "@/app/actions/investment";
+import { toast } from "react-toastify";
+import { InvestmentDataCreateUser } from "@/app/lib/definitions";
 
-export default function PresaleInfo({ presale }: { presale: PresaleData }) {
+export default function PresaleInfo({
+  presale,
+}: {
+  presale: PresaleDataTable;
+}) {
   const [step = 1, setStep] = useState<number>(1);
-  const [value, setValue] = useState<number>(50);
+  const [amount, setAmount] = useState<number>(50);
+  const [txid, setTxid] = useState("");
+  const [wallet, setWallet] = useState("");
+
+  async function handleCreateInvestment() {
+    try {
+      const investment: InvestmentDataCreateUser = {
+        idPresale: presale.id,
+        amount: amount,
+        txid: txid,
+        wallet: wallet,
+      };
+      const { success, message } = await createinvestmentuser(investment);
+      if (!success && message == "Error al crear inversión") {
+        toast.error(message);
+      }
+      if (success) {
+        toast.success(message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error((err as Error).message);
+    }
+  }
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number);
+    setAmount(newValue as number);
   };
 
   const handleCopy = useCallback(async () => {
@@ -57,7 +87,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
               </div>
             </div>
             {/*CONTENT*/}
-            <div className="basis-3/5 flex justify-center">
+            <div className="basis-3/5 flex justify-center items-center">
               {step === 1 && (
                 <div className="border-2 border-gray-400 mt-3 mb-3 rounded-xl w-4/5 overflow-y-auto overflow-x-hidden max-h-[160px]">
                   <h2 className="mt-1 ml-2 font-bold text-xs sm:text-base">
@@ -182,11 +212,11 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
               </button>
             </div>
             <div className="basis-3/5 flex flex-col justify-center">
-              <p className="basis-1/5 text-center text-sm">
+              <p className="basis-1/5 font-bold text-center text-sm">
                 Realiza la inversión a esta wallet
               </p>
               <button
-                className="basis-1/5 font-bold text-center text-xl"
+                className="basis-1/5 font-bold text-center text-2xl"
                 onClick={handleCopy}
                 title="Copiar al portapapeles"
               >
@@ -199,8 +229,8 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
                 <span className="font-bold">Fees:</span> {presale.fees}%{" "}
               </p>
               <p className="basis-1/5 text-center text-sm">
-                <span className="font-bold">Mínimo:</span>
-                {presale.min}$ <span className="font-bold">Máximo:</span>
+                <span className="font-bold">Mínimo: </span>
+                {presale.min}$ <span className="font-bold">Máximo: </span>
                 {presale.max}${" "}
               </p>
             </div>
@@ -232,25 +262,33 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
               </button>
             </div>
             <div className="basis-3/5 flex flex-col items-center justify-center w-2/3 mx-auto">
+              <p className="text-center text-2xl font-bold">{amount}</p>
               <Slider
                 aria-label="slider"
-                value={value}
+                value={amount}
                 onChange={handleChange}
-                min={1}
-                max={100000}
-                valueLabelDisplay="on"
+                step={50}
+                min={50}
+                max={25000}
               />
               <input
                 className="text-center text-base mb-4 rounded-full w-full h-9"
                 placeholder="Txid/Hash"
+                value={txid}
+                onChange={(e) => setTxid(e.target.value)}
               />
               <input
                 className="text-center text-base mb-4 rounded-full w-full h-9"
                 placeholder="Wallet para recibir"
+                value={wallet}
+                onChange={(e) => setWallet(e.target.value)}
               />
             </div>
             <div className="basis-1/5 flex justify-center">
-              <button className="gradient-button w-4/5 text-xs text-white rounded-full mb-6 ">
+              <button
+                className="gradient-button w-4/5 text-xs text-white rounded-full mb-6 "
+                onClick={handleCreateInvestment}
+              >
                 Enviar
               </button>
             </div>

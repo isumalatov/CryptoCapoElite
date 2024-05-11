@@ -191,8 +191,14 @@ export interface InvestmentDataCreate {
   idUser: string;
   idPresale: string;
   amount: number;
-  tokens: number;
   txid: string;
   wallet: string;
   state: string;
+}
+
+export interface InvestmentDataCreateUser {
+  idPresale: string;
+  amount: number;
+  txid: string;
+  wallet: string;
 }

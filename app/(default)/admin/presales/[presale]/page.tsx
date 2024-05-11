@@ -8,7 +8,7 @@ import {
   deleteinvestment,
   updateinvestment,
 } from "@/app/actions/investment";
-import { InvestmentDataTable, InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
+import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
 import PresaleInvestmentsTable from "./presale-investments-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
@@ -21,7 +21,6 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState<number>(0);
-  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
@@ -47,7 +46,6 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
         idUser: idUser,
         idPresale: id,
         amount: amount,
-        tokens: tokens,
         txid: txid,
         wallet: wallet,
         state: state,
@@ -84,7 +82,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
 
   async function handleUpdateInvestment(
     id: string,
-    investmentData: InvestmentData
+    investmentData: InvestmentDataCreate
   ) {
     try {
       const { success, message } = await updateinvestment(id, investmentData);
@@ -161,22 +159,6 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       required
                       value={amount}
                       onChange={(e) => setAmount(Number(e.target.value))}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="tokens"
-                    >
-                      Tokens <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      id="tokens"
-                      className="form-input w-full px-2 py-1"
-                      type="number"
-                      required
-                      value={tokens}
-                      onChange={(e) => setTokens(Number(e.target.value))}
                     />
                   </div>
                   <div>

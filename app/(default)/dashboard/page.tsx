@@ -31,7 +31,7 @@ export default function Dashboard() {
       />
       <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto flex flex-wrap justify-center gap-24">
         {presales.map((presale) => (
-          <PresaleCard presale={presale} />
+          <PresaleCard key={presale.id} presale={presale} />
         ))}
       </div>
     </div>

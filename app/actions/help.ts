@@ -29,7 +29,7 @@ export async function fetchhelps() {
 export async function deletehelp(id: string) {
   try {
     await dbConnect();
-    const help = await Help.findById(id);
+    const help = await Help.findById({ _id: id });
     if (!help) {
       return { success: false, message: "Pregunta no encontrada" };
     }

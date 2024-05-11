@@ -42,6 +42,7 @@ export default function UsersTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {users.map((user) => (
                 <UsersTableItem
+                  key={user.id}
                   user={user}
                   onDelete={onDeleteUser}
                   onUpdate={onUpdateUser}

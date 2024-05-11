@@ -18,7 +18,7 @@ export default function HelpsTableItem({
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{help.user}</div>
+        <div className="font-medium text-sky-500">{help.user.name}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -29,8 +29,13 @@ export default function HelpsTableItem({
             }}
           >
             <span className="sr-only">Ver</span>
-            <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
-              <path d="M16 20c.3 0 .5-.1.7-.3l5.7-5.7-1.4-1.4-4 4V8h-2v8.6l-4-4L9.6 14l5.7 5.7c.2.2.4.3.7.3zM9 22h14v2H9z" />
+            <svg
+              className="w-4 h-4 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 mb-[7px] mr-2"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
+              <path d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z" />
             </svg>
           </button>
           <button
@@ -58,7 +63,7 @@ export default function HelpsTableItem({
               <div className="space-y-3">
                 <div>
                   <p className="block text-sm font-medium mb-1">Usuario</p>
-                  <p className="font-medium text-sky-500">{help.user}</p>
+                  <p className="font-medium text-sky-500">{help.user.name}</p>
                 </div>
                 <div>
                   <p className="block text-sm font-medium mb-1">Pregunta</p>

@@ -39,6 +39,7 @@ export default function NoticesTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {notices.map((notice) => (
                 <NoticesTableItem
+                  key={notice.id}
                   notice={notice}
                   onDelete={onDeleteNotice}
                   onUpdate={onUpdateNotice}

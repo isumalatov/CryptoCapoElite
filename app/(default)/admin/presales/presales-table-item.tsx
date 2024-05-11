@@ -140,6 +140,7 @@ export default function PresalesTableItem({
             className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
             onClick={() => router.push(`/admin/presales/${presale.id}`)}
           >
+            <span className="sr-only">Ver</span>
             <svg
               className="w-4 h-4 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 mb-[7px] mr-2"
               viewBox="0 0 16 16"

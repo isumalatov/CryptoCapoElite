@@ -37,6 +37,7 @@ export default function HelpsTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {helps.map((help) => (
                 <HelpsTableItem
+                  key={help.id}
                   help={help}
                   onDelete={onDeleteHelp}
                 />

@@ -1,5 +1,5 @@
 import PresaleInvestmentsTableItem from "./presale-investments-table-item";
-import { InvestmentDataTable, InvestmentData } from "@/app/lib/definitions";
+import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
 
 export default function PresaleInvestmentsTable({
   id,
@@ -10,7 +10,7 @@ export default function PresaleInvestmentsTable({
   id : string;
   investments: InvestmentDataTable[];
   onDeleteInvestment: (id: string) => void;
-  onUpdateInvestment: (id: string, investmentData: InvestmentData) => void;
+  onUpdateInvestment: (id: string, investmentData: InvestmentDataCreate) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">

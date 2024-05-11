@@ -11,9 +11,20 @@ export default function InvestmentsTable({
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
       <header className="px-5 py-4">
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">
-          Inversiones{" "}
-        </h2>
+        <div className="flex justify-between items-center">
+          <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+            Inversiones{" "}
+            <span className="text-slate-400 dark:text-slate-500 font-medium">
+              ({investments.length})
+            </span>
+          </h2>
+          <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+            Total Invertido:{" "}
+            <span className="text-sky-500 dark:text-sky-500 font-medium">
+              ${totalAmount}
+            </span>
+          </h2>
+        </div>
       </header>
       <div>
         {/* Table */}
@@ -26,20 +37,29 @@ export default function InvestmentsTable({
                   <div className="font-semibold text-left">Deal</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
+                  <div className="font-semibold text-left">Cantidad</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
+                  <div className="font-semibold text-left">Tokens</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">TxId / Hash</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">Wallet</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
-                  <div className="font-semibold text-left">Tokens</div>
+                  <div className="font-semibold text-left">Estado</div>
                 </th>
               </tr>
             </thead>
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {investments.map((investment) => (
-                <InvestmentsTableItem investment={investment} />
+                <InvestmentsTableItem
+                  key={investment.id}
+                  investment={investment}
+                />
               ))}
             </tbody>
           </table>

@@ -36,34 +36,44 @@ export default function AccountPanel() {
   }, []);
 
   async function handleSaveChanges() {
-    const profileData = {
-      name,
-      email,
-      telegram,
-      discord,
-    };
-    const { success, message } = await changeprofile(profileData);
-    if (!success && message === "Error al modificar datos del usuario") {
-      toast.error("Error al modificar datos del usuario");
-    }
-    if (success) {
-      toast.success("Perfil actualizado");
+    try {
+      const profileData = {
+        name,
+        email,
+        telegram,
+        discord,
+      };
+      const { success, message } = await changeprofile(profileData);
+      if (!success && message === "Error al modificar datos del usuario") {
+        toast.error("Error al modificar datos del usuario");
+      }
+      if (success) {
+        toast.success("Perfil actualizado");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error((err as Error).message);
     }
   }
 
   async function handleChangePassword() {
-    const passwordData: ChangePasswordFormData = {
-      oldpassword,
-      password,
-      repeatpassword,
-    };
-    const { success, message } = await changepassword(passwordData);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setModalOpen(false);
+    try {
+      const passwordData: ChangePasswordFormData = {
+        oldpassword,
+        password,
+        repeatpassword,
+      };
+      const { success, message } = await changepassword(passwordData);
+      if (!success) {
+        toast.error(message);
+      }
+      if (success) {
+        toast.success(message);
+        setModalOpen(false);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error((err as Error).message);
     }
   }
 
@@ -83,7 +93,10 @@ export default function AccountPanel() {
           </div>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1" htmlFor="oldpassword">
+              <label
+                className="block text-sm font-medium mb-1"
+                htmlFor="oldpassword"
+              >
                 Antigua Contraseña <span className="text-rose-500">*</span>
               </label>
               <input

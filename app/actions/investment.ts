@@ -2,7 +2,14 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Investment from "@/models/Investment";
-import { InvestmentDataTable, InvestmentData, InvestmentDataCreate, PresaleData, ProfileFormData } from "@/app/lib/definitions";
+import {
+  InvestmentDataTable,
+  InvestmentData,
+  InvestmentDataCreate,
+  InvestmentDataCreateUser,
+  PresaleData,
+  ProfileFormData,
+} from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
 import { fetchprofileid } from "./account";
 import { fetchpresaleid } from "./presale";
@@ -72,17 +79,71 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
   try {
     await dbConnect();
     const user = await fetchprofileid(investmentData.idUser);
-    if(!(user as { success: boolean; message: ProfileFormData; }).success) return { success: false, message: "Error al crear inversión" };
+    if (!(user as { success: boolean; message: ProfileFormData }).success)
+      return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
-    if(!(presale as { success: boolean; message: PresaleData; }).success) return { success: false, message: "Error al crear inversión" };
+    if (!(presale as { success: boolean; message: PresaleData }).success)
+      return { success: false, message: "Error al crear inversión" };
     const investment = new Investment({
-      user: { id: investmentData.idUser, name: (user as { success: boolean; message: ProfileFormData; }).message.name },
-      presale: { id: investmentData.idPresale, name: (presale as { success: boolean; message: PresaleData; }).message.name },
+      user: {
+        id: investmentData.idUser,
+        name: (user as { success: boolean; message: ProfileFormData }).message
+          .name,
+      },
+      presale: {
+        id: investmentData.idPresale,
+        name: (presale as { success: boolean; message: PresaleData }).message
+          .name,
+      },
       amount: investmentData.amount,
-      tokens: investmentData.tokens,
+      tokens:
+        investmentData.amount /
+        (presale as { success: boolean; message: PresaleData }).message.price,
       txid: investmentData.txid,
       wallet: investmentData.wallet,
       state: investmentData.state,
+    });
+    await investment.save();
+    return { success: true, message: "Inversión creada" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al crear inversión" };
+  }
+}
+
+export async function createinvestmentuser(
+  investmentData: InvestmentDataCreateUser
+) {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al crear inversión" };
+    }
+    const user = await fetchprofileid(session.userId as string);
+    if (!(user as { success: boolean; message: ProfileFormData }).success)
+      return { success: false, message: "Error al crear inversión" };
+    const presale = await fetchpresaleid(investmentData.idPresale);
+    if (!(presale as { success: boolean; message: PresaleData }).success)
+      return { success: false, message: "Error al crear inversión" };
+    const investment = new Investment({
+      user: {
+        id: session.userId as string,
+        name: (user as { success: boolean; message: ProfileFormData }).message
+          .name,
+      },
+      presale: {
+        id: investmentData.idPresale,
+        name: (presale as { success: boolean; message: PresaleData }).message
+          .name,
+      },
+      amount: investmentData.amount,
+      tokens:
+        investmentData.amount /
+        (presale as { success: boolean; message: PresaleData }).message.price,
+      txid: investmentData.txid,
+      wallet: investmentData.wallet,
+      state: "Pendiente",
     });
     await investment.save();
     return { success: true, message: "Inversión creada" };
@@ -109,7 +170,7 @@ export async function deleteinvestment(id: string) {
 
 export async function updateinvestment(
   id: string,
-  investmentData: InvestmentData
+  investmentData: InvestmentDataCreate
 ) {
   try {
     await dbConnect();
@@ -117,7 +178,29 @@ export async function updateinvestment(
     if (!investment) {
       return { success: false, message: "Inversión no encontrada" };
     }
-    await Investment.updateOne({ _id: id }, investmentData);
+    const presale = await fetchpresaleid(investmentData.idPresale);
+    if (!(presale as { success: boolean; message: PresaleData }).success)
+      return { success: false, message: "Error al crear inversión" };
+    await Investment.updateOne(
+      { _id: id },
+      {
+        user: {
+          id: investmentData.idUser,
+          name: investment.user.name,
+        },
+        presale: {
+          id: investmentData.idPresale,
+          name: (presale as { success: boolean; message: PresaleData }).message.name,
+        },
+        amount: investmentData.amount,
+        tokens:
+          investmentData.amount /
+          (presale as { success: boolean; message: PresaleData }).message.price,
+        txid: investmentData.txid,
+        wallet: investmentData.wallet,
+        state: investmentData.state,
+      }
+    );
     return { success: true, message: "Inversión actualizada" };
   } catch (err) {
     console.log(err);

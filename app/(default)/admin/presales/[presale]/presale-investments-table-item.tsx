@@ -1,4 +1,4 @@
-import { InvestmentDataTable, InvestmentData } from "@/app/lib/definitions";
+import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -14,21 +14,20 @@ export default function PresaleInvestmentsTableItem({
   id: string;
   investment: InvestmentDataTable;
   onDelete: (id: string) => void;
-  onUpdate: (id: string, investmentData: InvestmentData) => void;
+  onUpdate: (id: string, investmentData: InvestmentDataCreate) => void;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState<UserDataTable>();
   const [idUser, setIdUser] = useState("");
   const [idPresale, setIdPresale] = useState(id);
   const [amount, setAmount] = useState<number>(0);
-  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchuser(investment.idUser);
+      const { success, message } = await fetchuser(investment.user.id);
       if (!success && message == "Error al cargar usuarios") {
         toast.error(message);
       }
@@ -50,7 +49,6 @@ export default function PresaleInvestmentsTableItem({
       idUser,
       idPresale,
       amount,
-      tokens,
       txid,
       wallet,
       state,
@@ -117,21 +115,6 @@ export default function PresaleInvestmentsTableItem({
                     required
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="tokens"
-                  >
-                    Tokens
-                  </label>
-                  <input
-                    id="tokens"
-                    className="form-input w-full px-2 py-1"
-                    type="number"
-                    value={tokens}
-                    onChange={(e) => setTokens(Number(e.target.value))}
                   />
                 </div>
                 <div>

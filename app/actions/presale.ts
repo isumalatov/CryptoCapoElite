@@ -52,7 +52,8 @@ export async function fetchpresaleid(id: string) {
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }
-    const presaleData: PresaleData = {
+    const presaleData: PresaleDataTable = {
+      id: presale._id.toString(),
       title: presale.title,
       name: presale.name,
       wallet: presale.wallet,
