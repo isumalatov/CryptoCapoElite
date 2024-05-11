@@ -11,14 +11,14 @@ export default function Presale({
   params,
   searchParams,
 }: {
-  params: { token: string };
+  params: { presaleid: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const token = params.token;
+  const presaleid = params.presaleid;
   const [presale, setPresale] = useState<PresaleDataTable>();
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchpresaleid(token);
+      const { success, message } = await fetchpresaleid(presaleid);
       if (!success && message == "Preventa no encontrada") {
         toast.error(message);
       }

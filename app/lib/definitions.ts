@@ -49,6 +49,15 @@ export interface SignUpFormData {
   allowemail: boolean;
 }
 
+export interface SignUpReferralFormData {
+  email: string;
+  name: string;
+  password: string;
+  repeatpassword: string;
+  allowemail: boolean;
+  referral: string;
+}
+
 export interface ChangePasswordFormData {
   oldpassword: string;
   password: string;
@@ -70,6 +79,10 @@ export interface NotificationFormData {
 
 export interface isAdministrator {
   admin: boolean;
+}
+
+export interface userId {
+  id: string;
 }
 
 export interface userName {

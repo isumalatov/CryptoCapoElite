@@ -3,7 +3,10 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import { createSession, deleteSession, getSession } from "../lib/session";
-import { ChangePasswordFormData } from "../lib/definitions";
+import {
+  ChangePasswordFormData,
+  SignUpReferralFormData,
+} from "../lib/definitions";
 import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
@@ -69,6 +72,85 @@ export async function signup(prevState: any, formData: FormData) {
       discord: "",
       telegram: "",
       resetpasswordtoken: "",
+      referral: { id: "" },
+    });
+    await user.save();
+    await createSession(user._id, user.admin, user.name);
+    return { success: true, message: "Cuenta creada correctamente" };
+  } catch (error) {
+    // Handle the error here
+    console.error(error);
+    return { success: false, message: "Error al crear la cuenta" };
+  }
+}
+
+export async function signupreferral(
+  signupreferralData: SignUpReferralFormData
+) {
+  try {
+    await dbConnect();
+
+    const email = signupreferralData.email;
+    const name = signupreferralData.name;
+    const password = signupreferralData.password;
+    const repeatpassword = signupreferralData.repeatpassword;
+    const allowemail = signupreferralData.allowemail;
+    const referral = signupreferralData.referral;
+
+    if (
+      !email ||
+      email.trim() === "" ||
+      !name ||
+      name.trim() === "" ||
+      !password ||
+      password.trim() === "" ||
+      !repeatpassword ||
+      repeatpassword.trim() === ""
+    ) {
+      return { success: false, message: "Rellena todos los campos" };
+    }
+
+    // Comprobar si la contraseña tiene entre 8 y 20 caracteres
+    if (password.length < 8 || password.length > 20) {
+      return {
+        success: false,
+        message: "La contraseña debe tener entre 8 y 20 caracteres",
+      };
+    }
+
+    // Comprobar si el nombre no supera los 20 caracteres
+    if (name.length > 20) {
+      return {
+        success: false,
+        message: "El nombre no puede superar los 20 caracteres",
+      };
+    }
+
+    if (password !== repeatpassword) {
+      return { success: false, message: "Las contraseñas no coinciden" };
+    }
+
+    // comprobar si el email ya está registrado
+    const existingUser = await User.findOne({ email: email });
+
+    if (existingUser) {
+      return { success: false, message: "El email ya está registrado" };
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      admin: false,
+      email: email,
+      name: name,
+      password: hashedPassword,
+      allowemailprev: allowemail,
+      allowemailcancel: allowemail,
+      allowemailnew: allowemail,
+      discord: "",
+      telegram: "",
+      resetpasswordtoken: "",
+      referral: { id: referral },
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);
@@ -193,6 +275,22 @@ export async function userisadmin() {
       admin: session.admin,
     };
     return { success: true, message: isAdmin };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Error al cargar datos del usuario" };
+  }
+}
+
+export async function getid() {
+  try {
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    const id = {
+      id: session.userId,
+    };
+    return { success: true, message: id };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Error al cargar datos del usuario" };

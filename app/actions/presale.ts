@@ -132,7 +132,7 @@ export async function uploadImage(formData: FormData) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
     const imageName = `${Date.now()}-${Math.random()
       .toString(36)
-      .substring(2, 15)}.png`;
+      .slice(-8)}.png`;
     const params = {
       Bucket: s3Bucket,
       Key: imageName,

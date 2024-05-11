@@ -8,7 +8,10 @@ import {
   deleteinvestment,
   updateinvestment,
 } from "@/app/actions/investment";
-import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
+import {
+  InvestmentDataTable,
+  InvestmentDataCreate,
+} from "@/app/lib/definitions";
 import PresaleInvestmentsTable from "./presale-investments-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
@@ -253,10 +256,10 @@ export default function PresaleInvestmentsAdmin({
   params,
   searchParams,
 }: {
-  params: { id: string };
+  params: { presaleid: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const id = params.id;
+  const presaleid = params.presaleid;
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       {/* Page header */}
@@ -264,7 +267,7 @@ export default function PresaleInvestmentsAdmin({
         title="Administración de Inversiones"
         subtitle="Gestiona las inversiones de esta preventa:"
       />
-      <PresaleInvestmentsContent id={id} />
+      <PresaleInvestmentsContent id={presaleid} />
     </div>
   );
 }
