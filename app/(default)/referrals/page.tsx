@@ -22,7 +22,7 @@ export default function Referrals() {
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       <WelcomeBanner
         title="Tus Referidos 🚀"
-        subtitle={`Estos es tu link de referido: https://cryptocapoelite.com/signup/${id}`}
+        subtitle={`Estos es tu link de referido: https://crypto-capo-elite.vercel.app/signup/${id}`}
       />
     </div>
   );
