@@ -1,3 +1,41 @@
+//----------------------------------------------
+//user
+//----------------------------------------------
+
+export interface UserDataTable {
+  id: string;
+  admin: boolean;
+  name: string;
+  email: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
+
+export interface UserData {
+  admin: boolean;
+  name: string;
+  email: string;
+  password: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
+
+export interface UserDataUpdate {
+  admin: boolean;
+  name: string;
+  email: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+}
 export interface SignInFormData {
   email: string;
   password: string;
@@ -11,17 +49,17 @@ export interface SignUpFormData {
   allowemail: boolean;
 }
 
+export interface ChangePasswordFormData {
+  oldpassword: string;
+  password: string;
+  repeatpassword: string;
+}
+
 export interface ProfileFormData {
   name: string;
   email: string;
   telegram: string;
   discord: string;
-}
-
-export interface ChangePasswordFormData {
-  oldpassword: string;
-  password: string;
-  repeatpassword: string;
 }
 
 export interface NotificationFormData {
@@ -43,6 +81,10 @@ export interface WelcomeBannerProps {
   subtitle: string;
 }
 
+//----------------------------------------------
+//notice
+//----------------------------------------------
+
 export interface NoticeDataTable {
   id: string;
   title: string;
@@ -54,9 +96,9 @@ export interface NoticeData {
   content: string;
 }
 
-export interface HelpFormData {
-  help: string;
-}
+//----------------------------------------------
+//help
+//----------------------------------------------
 
 export interface HelpDataTable {
   id: string;
@@ -68,6 +110,14 @@ export interface HelpData {
   user: { id: string; name: string };
   help: string;
 }
+
+export interface HelpFormData {
+  help: string;
+}
+
+//----------------------------------------------
+//presale
+//----------------------------------------------
 
 export interface PresaleDataTable {
   id: string;
@@ -112,40 +162,9 @@ export interface PresaleData {
   urldocs: string;
 }
 
-export interface UserDataTable {
-  id: string;
-  admin: boolean;
-  name: string;
-  email: string;
-  discord: string;
-  telegram: string;
-  allowemailprev: boolean;
-  allowemailcancel: boolean;
-  allowemailnew: boolean;
-}
-
-export interface UserData {
-  admin: boolean;
-  name: string;
-  email: string;
-  password: string;
-  discord: string;
-  telegram: string;
-  allowemailprev: boolean;
-  allowemailcancel: boolean;
-  allowemailnew: boolean;
-}
-
-export interface UserDataUpdate {
-  admin: boolean;
-  name: string;
-  email: string;
-  discord: string;
-  telegram: string;
-  allowemailprev: boolean;
-  allowemailcancel: boolean;
-  allowemailnew: boolean;
-}
+//----------------------------------------------
+//investment
+//----------------------------------------------
 
 export interface InvestmentDataTable {
   id: string;
