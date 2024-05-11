@@ -8,7 +8,7 @@ import {
   deleteinvestment,
   updateinvestment,
 } from "@/app/actions/investment";
-import { InvestmentDataTable, InvestmentData } from "@/app/lib/definitions";
+import { InvestmentDataTable, InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
 import PresaleInvestmentsTable from "./presale-investments-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
@@ -43,7 +43,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
 
   async function handleCreateInvestment() {
     try {
-      const investmentData: InvestmentData = {
+      const investmentData: InvestmentDataCreate = {
         idUser: idUser,
         idPresale: id,
         amount: amount,

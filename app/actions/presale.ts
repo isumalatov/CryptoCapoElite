@@ -45,10 +45,10 @@ export async function fetchpresales() {
   }
 }
 
-export async function fetchpresale(id: string) {
+export async function fetchpresaleid(id: string) {
   try {
     await dbConnect();
-    const presale = await Presale.findById(id);
+    const presale = await Presale.findById({ _id: id });
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }
@@ -94,7 +94,7 @@ export async function createpresale(presaleData: PresaleData) {
 export async function deletepresale(id: string) {
   try {
     await dbConnect();
-    const presale = await Presale.findById(id);
+    const presale = await Presale.findById({ _id: id });
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }

@@ -30,10 +30,6 @@ export interface NotificationFormData {
   allowemailnew: boolean;
 }
 
-export interface HelpFormData {
-  help: string;
-}
-
 export interface isAdministrator {
   admin: boolean;
 }
@@ -58,14 +54,18 @@ export interface NoticeData {
   content: string;
 }
 
+export interface HelpFormData {
+  help: string;
+}
+
 export interface HelpDataTable {
   id: string;
-  user: string;
+  user: { id: string; name: string };
   help: string;
 }
 
 export interface HelpData {
-  user: string;
+  user: { id: string; name: string };
   help: string;
 }
 
@@ -149,8 +149,8 @@ export interface UserDataUpdate {
 
 export interface InvestmentDataTable {
   id: string;
-  idUser: string;
-  idPresale: string;
+  user: { id: string; name: string };
+  presale: { id: string; name: string };
   amount: number;
   tokens: number;
   txid: string;
@@ -159,6 +159,16 @@ export interface InvestmentDataTable {
 }
 
 export interface InvestmentData {
+  user: { id: string; name: string };
+  presale: { id: string; name: string };
+  amount: number;
+  tokens: number;
+  txid: string;
+  wallet: string;
+  state: string;
+}
+
+export interface InvestmentDataCreate {
   idUser: string;
   idPresale: string;
   amount: number;

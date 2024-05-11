@@ -16,7 +16,7 @@ export async function fetchhelps() {
     }
     const helpsData: HelpDataTable[] = helps.map((h) => ({
       id: h._id.toString(),
-      user: h.user.name,
+      user: { id: h.user.id, name: h.user.name },
       help: h.help,
     }));
     return { success: true, message: helpsData };

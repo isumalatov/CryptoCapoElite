@@ -3,11 +3,16 @@
 import Image from "next/image";
 import "../styles/custom.css";
 import { PresaleData } from "@/app/lib/definitions";
-import { useState } from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import Slider from "@mui/material/Slider";
 
 export default function PresaleInfo({ presale }: { presale: PresaleData }) {
   const [step = 1, setStep] = useState<number>(1);
+  const [value, setValue] = useState<number>(50);
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setValue(newValue as number);
+  };
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(presale.wallet);
@@ -227,9 +232,13 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
               </button>
             </div>
             <div className="basis-3/5 flex flex-col items-center justify-center w-2/3 mx-auto">
-              <input
-                className="text-center text-base mb-4 rounded-full w-2/3 h-9"
-                placeholder="Cantidad a invertir"
+              <Slider
+                aria-label="slider"
+                value={value}
+                onChange={handleChange}
+                min={1}
+                max={100000}
+                valueLabelDisplay="on"
               />
               <input
                 className="text-center text-base mb-4 rounded-full w-full h-9"

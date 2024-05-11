@@ -35,6 +35,27 @@ export async function fetchprofile() {
   }
 }
 
+export async function fetchprofileid(id: string) {
+  try {
+    await dbConnect();
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
+    const userProfile : ProfileFormData = {
+      name: user.name,
+      email: user.email,
+      telegram: user.telegram,
+      discord: user.discord,
+    };
+
+    return { success: true, message: userProfile };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar datos del usuario" };
+  }
+}
+
 export async function changeprofile(profileData: ProfileFormData) {
   try {
     await dbConnect();
@@ -128,15 +149,8 @@ export async function createhelp(helpData: HelpFormData) {
         message: "Error al enviar pregunta",
       };
     }
-    const user = await User.findOne({ _id: session.userId });
-    if (!user) {
-      return {
-        success: false,
-        message: "Error al enviar pregunta",
-      };
-    }
     const help = new Help({
-      user: { id: user._id, name: user.name },
+      user: { id: session.userId, name: session.name },
       help: helpData.help,
     });
     await help.save();

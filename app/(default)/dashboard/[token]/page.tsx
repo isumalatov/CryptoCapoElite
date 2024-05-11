@@ -2,7 +2,7 @@
 
 import WelcomeBanner from "../../welcome-banner";
 import PresaleInfo from "@/components/presale-info";
-import { fetchpresale } from "@/app/actions/presale";
+import { fetchpresaleid } from "@/app/actions/presale";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { PresaleData } from "@/app/lib/definitions";
@@ -18,7 +18,7 @@ export default function Presale({
   const [presale, setPresale] = useState<PresaleData>();
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchpresale(token);
+      const { success, message } = await fetchpresaleid(token);
       if (!success && message == "Preventa no encontrada") {
         toast.error(message);
       }

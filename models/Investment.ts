@@ -3,8 +3,8 @@ import { Users } from "./User";
 import { Presales } from "./Presale";
 
 export interface Investments extends mongoose.Document {
-  idUser: Users;
-  idPresale: Presales;
+  user: Users;
+  presale: Presales;
   amount: number;
   tokens: number;
   txid: string;
@@ -13,8 +13,14 @@ export interface Investments extends mongoose.Document {
 }
 
 const InvestmentSchema = new mongoose.Schema<Investments>({
-  idUser: { type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true },
-  idPresale: { type: mongoose.Schema.Types.ObjectId, ref: 'Presales', required: true },
+  user: {
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+  },
+  presale: {
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+  },
   amount: { type: Number, required: true },
   tokens: { type: Number, required: true },
   txid: { type: String, required: true },
