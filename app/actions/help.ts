@@ -2,7 +2,30 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Help from "@/models/Help";
-import { HelpDataTable } from "@/app/lib/definitions";
+import { HelpDataTable, HelpFormData } from "@/app/lib/definitions";
+import { getSession } from "@/app/lib/session";
+
+export async function createhelp(helpData: HelpFormData) {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return {
+        success: false,
+        message: "Error al enviar pregunta",
+      };
+    }
+    const help = new Help({
+      user: { id: session.userId, name: session.name },
+      help: helpData.help,
+    });
+    await help.save();
+    return { success: true, message: "Pregunta enviada" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al enviar pregunta" };
+  }
+}
 
 export async function fetchhelps() {
   try {

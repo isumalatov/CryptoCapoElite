@@ -138,25 +138,3 @@ export async function changenotifications(
     return { success: false, message: "Error al modificar notificaciones" };
   }
 }
-
-export async function createhelp(helpData: HelpFormData) {
-  try {
-    await dbConnect();
-    const session = await getSession();
-    if (!session) {
-      return {
-        success: false,
-        message: "Error al enviar pregunta",
-      };
-    }
-    const help = new Help({
-      user: { id: session.userId, name: session.name },
-      help: helpData.help,
-    });
-    await help.save();
-    return { success: true, message: "Pregunta enviada" };
-  } catch (err) {
-    console.log(err);
-    return { success: false, message: "Error al enviar pregunta" };
-  }
-}

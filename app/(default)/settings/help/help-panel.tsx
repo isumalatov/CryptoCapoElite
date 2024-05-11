@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { createhelp } from "@/app/actions/account";
+import { createhelp } from "@/app/actions/help";
 import { toast } from "react-toastify";
 import e from "express";
 
