@@ -8,7 +8,7 @@ import {
   updateuser,
   deleteuser,
 } from "@/app/actions/user";
-import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
+import { UserDataTable, UserDataCreate, UserDataUpdate } from "@/app/lib/definitions";
 import UsersTable from "./users-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
@@ -29,7 +29,6 @@ function UsersContent() {
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
   const [userId, setUserId] = useState("");
-  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -46,7 +45,7 @@ function UsersContent() {
   }, [userCreated, userDeleted, userUpdated]);
 
   async function handleCreateUser() {
-    const userData: UserData = {
+    const userData: UserDataCreate = {
       admin: admin,
       name: name,
       email: email,
@@ -56,7 +55,7 @@ function UsersContent() {
       allowemailprev: allowemailprev,
       allowemailcancel: allowemailcancel,
       allowemailnew: allowemailnew,
-      referral: { id: userId, name: userName },
+      idUser: userId,
     };
     const { success, message } = await createuser(userData);
     if (!success) {
@@ -315,21 +314,6 @@ function UsersContent() {
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="userName"
-                      >
-                        Nombre Usuario Referido
-                      </label>
-                      <input
-                        id="userName"
-                        className="form-input w-full px-2 py-1"
-                        type="text"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
                       />
                     </div>
                   </div>

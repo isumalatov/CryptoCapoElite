@@ -77,8 +77,8 @@ export async function fetchuserinvestments() {
 export async function createinvestment(investmentData: InvestmentDataCreate) {
   try {
     await dbConnect();
-    const user = await fetchprofileid(investmentData.idUser);
-    if (!(user as { success: boolean; message: ProfileFormData }).success)
+    const profile = await fetchprofileid(investmentData.idUser);
+    if (!(profile as { success: boolean; message: ProfileFormData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
@@ -86,8 +86,8 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
     const investment = new Investment({
       user: {
         id: investmentData.idUser,
-        name: (user as { success: boolean; message: ProfileFormData }).message
-          .name,
+        name: (profile as { success: boolean; message: ProfileFormData })
+          .message.name,
       },
       presale: {
         id: investmentData.idPresale,
@@ -127,8 +127,8 @@ export async function createinvestmentuser(
     if (!session) {
       return { success: false, message: "Error al crear inversión" };
     }
-    const user = await fetchprofileid(session.userId as string);
-    if (!(user as { success: boolean; message: ProfileFormData }).success)
+    const profile = await fetchprofileid(session.userId as string);
+    if (!(profile as { success: boolean; message: ProfileFormData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
@@ -136,8 +136,8 @@ export async function createinvestmentuser(
     const investment = new Investment({
       user: {
         id: session.userId as string,
-        name: (user as { success: boolean; message: ProfileFormData }).message
-          .name,
+        name: (profile as { success: boolean; message: ProfileFormData })
+          .message.name,
       },
       presale: {
         id: investmentData.idPresale,
@@ -193,6 +193,9 @@ export async function updateinvestment(
     if (!investment) {
       return { success: false, message: "Inversión no encontrada" };
     }
+    const profile = await fetchprofileid(investmentData.idUser);
+    if (!(profile as { success: boolean; message: ProfileFormData }).success)
+      return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
@@ -201,16 +204,26 @@ export async function updateinvestment(
       {
         user: {
           id: investmentData.idUser,
-          name: investment.user.name,
+          name: (profile as { success: boolean; message: ProfileFormData })
+            .message.name,
         },
         presale: {
           id: investmentData.idPresale,
           name: (presale as { success: boolean; message: PresaleData }).message
             .name,
         },
-        amount: investmentData.amount,
+        amount:
+          investmentData.amount *
+          (1 -
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees /
+              100),
         tokens:
-          investmentData.amount /
+          (investmentData.amount *
+            (1 -
+              (presale as { success: boolean; message: PresaleData }).message
+                .fees /
+                100)) /
           (presale as { success: boolean; message: PresaleData }).message.price,
         txid: investmentData.txid,
         wallet: investmentData.wallet,

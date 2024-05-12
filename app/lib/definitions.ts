@@ -28,6 +28,19 @@ export interface UserData {
   referral: { id: string; name: string };
 }
 
+export interface UserDataCreate {
+  admin: boolean;
+  name: string;
+  email: string;
+  password: string;
+  discord: string;
+  telegram: string;
+  allowemailprev: boolean;
+  allowemailcancel: boolean;
+  allowemailnew: boolean;
+  idUser: string;
+}
+
 export interface UserDataUpdate {
   admin: boolean;
   name: string;
@@ -37,7 +50,7 @@ export interface UserDataUpdate {
   allowemailprev: boolean;
   allowemailcancel: boolean;
   allowemailnew: boolean;
-  referral: { id: string; name: string };
+  idUser: string;
 }
 
 export interface SignInFormData {
