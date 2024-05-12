@@ -7,8 +7,8 @@ import {
   InvestmentDataCreate,
   InvestmentDataCreateUser,
   PresaleData,
-  ProfileFormData,
   UserData,
+  ReferralDataCreate,
 } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
 import { fetchprofileid } from "./account";
@@ -89,13 +89,8 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
       (profile as { success: boolean; message: UserData }).message.referral
         .id != ""
     ) {
-      const referralData = {
-        user: {
-          id: (profile as { success: boolean; message: UserData }).message
-            .referral.id,
-          name: (profile as { success: boolean; message: UserData }).message
-            .referral.name,
-        },
+      const referralData: ReferralDataCreate = {
+        idUser: investmentData.idUser,
         amount:
           (investmentData.amount *
             (presale as { success: boolean; message: PresaleData }).message
@@ -158,13 +153,8 @@ export async function createinvestmentuser(
       (profile as { success: boolean; message: UserData }).message.referral
         .id != ""
     ) {
-      const referralData = {
-        user: {
-          id: (profile as { success: boolean; message: UserData }).message
-            .referral.id,
-          name: (profile as { success: boolean; message: UserData }).message
-            .referral.name,
-        },
+      const referralData: ReferralDataCreate = {
+        idUser: session.userId as string,
         amount:
           (investmentData.amount *
             (presale as { success: boolean; message: PresaleData }).message

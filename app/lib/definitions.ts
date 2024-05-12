@@ -247,3 +247,8 @@ export interface ReferralData {
   user: { id: string; name: string };
   amount: number;
 }
+
+export interface ReferralDataCreate {
+  idUser: string;
+  amount: number;
+}
