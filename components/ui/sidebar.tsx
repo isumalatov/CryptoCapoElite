@@ -8,9 +8,9 @@ import { getBreakpoint } from "../utils/utils";
 import SidebarLinkGroup from "./sidebar-link-group";
 import SidebarLink from "./sidebar-link";
 import Logo from "./logo";
-import { userisadmin } from "@/app/actions/auth";
+import { getadmin } from "@/app/actions/auth";
 import { toast } from "react-toastify";
-import { isAdministrator } from "@/app/lib/definitions";
+import { userAdmin } from "@/app/lib/definitions";
 
 export default function Sidebar() {
   const sidebar = useRef<HTMLDivElement>(null);
@@ -59,12 +59,12 @@ export default function Sidebar() {
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await userisadmin();
+      const { success, message } = await getadmin();
       if (!success && message === "Error al cargar datos del usuario") {
         toast.error("Error al cargar datos del usuario");
       }
       if (success) {
-        const { admin } = message as isAdministrator;
+        const { admin } = message as userAdmin;
         setIsAdmin(admin);
       }
     }

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { logout } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
-import { getname, userisadmin } from "@/app/actions/auth";
-import { userName, isAdministrator } from "@/app/lib/definitions";
+import { getname, getadmin } from "@/app/actions/auth";
+import { userName, userAdmin } from "@/app/lib/definitions";
 import { useEffect, useState } from "react";
 
 export default function DropdownProfile({
@@ -37,9 +37,9 @@ export default function DropdownProfile({
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await userisadmin();
+      const { success, message } = await getadmin();
       if (success) {
-        const { admin } = message as isAdministrator;
+        const { admin } = message as userAdmin;
         setIsAdmin(admin);
       }
     }

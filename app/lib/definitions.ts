@@ -2,20 +2,8 @@
 //user
 //----------------------------------------------
 
-export interface UserDataTable {
-  id: string;
-  admin: boolean;
-  name: string;
-  email: string;
-  discord: string;
-  telegram: string;
-  allowemailprev: boolean;
-  allowemailcancel: boolean;
-  allowemailnew: boolean;
-  referral: { id: string; name: string };
-}
-
 export interface UserData {
+  id: string;
   admin: boolean;
   name: string;
   email: string;
@@ -72,7 +60,7 @@ export interface SignUpReferralFormData {
   password: string;
   repeatpassword: string;
   allowemail: boolean;
-  referral: string;
+  idUser: string;
 }
 
 export interface ChangePasswordFormData {
@@ -94,7 +82,7 @@ export interface NotificationFormData {
   allowemailnew: boolean;
 }
 
-export interface isAdministrator {
+export interface userAdmin {
   admin: boolean;
 }
 
@@ -115,13 +103,13 @@ export interface WelcomeBannerProps {
 //notice
 //----------------------------------------------
 
-export interface NoticeDataTable {
+export interface NoticeData {
   id: string;
   title: string;
   content: string;
 }
 
-export interface NoticeData {
+export interface NoticeDataCreate {
   title: string;
   content: string;
 }
@@ -130,18 +118,13 @@ export interface NoticeData {
 //help
 //----------------------------------------------
 
-export interface HelpDataTable {
+export interface HelpData {
   id: string;
   user: { id: string; name: string };
   help: string;
 }
 
-export interface HelpData {
-  user: { id: string; name: string };
-  help: string;
-}
-
-export interface HelpFormData {
+export interface HelpDataCreate {
   help: string;
 }
 
@@ -149,7 +132,7 @@ export interface HelpFormData {
 //presale
 //----------------------------------------------
 
-export interface PresaleDataTable {
+export interface PresaleData {
   id: string;
   title: string;
   name: string;
@@ -171,7 +154,7 @@ export interface PresaleDataTable {
   urldocs: string;
 }
 
-export interface PresaleData {
+export interface PresaleDataCreate {
   title: string;
   name: string;
   description: string;
@@ -196,18 +179,8 @@ export interface PresaleData {
 //investment
 //----------------------------------------------
 
-export interface InvestmentDataTable {
-  id: string;
-  user: { id: string; name: string };
-  presale: { id: string; name: string };
-  amount: number;
-  tokens: number;
-  txid: string;
-  wallet: string;
-  state: string;
-}
-
 export interface InvestmentData {
+  id: string;
   user: { id: string; name: string };
   presale: { id: string; name: string };
   amount: number;
@@ -237,13 +210,8 @@ export interface InvestmentDataCreateUser {
 //referral
 //----------------------------------------------
 
-export interface ReferralDataTable {
-  id: string;
-  user: { id: string; name: string };
-  amount: number;
-}
-
 export interface ReferralData {
+  id: string;
   user: { id: string; name: string };
   amount: number;
 }

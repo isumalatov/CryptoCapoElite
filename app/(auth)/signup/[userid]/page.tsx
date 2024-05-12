@@ -31,7 +31,7 @@ export default function SignUp({
         password,
         repeatpassword,
         allowemail,
-        referral: params.userid,
+        idUser: params.userid,
       };
       const { success, message } = await signupreferral(signupreferralData);
       if (!success) {

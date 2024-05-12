@@ -1,10 +1,10 @@
 "use server";
 
-import { EmailTemplate } from "../../components/email-template";
-import { Resend } from "resend";
-import * as React from "react";
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
+import * as React from "react";
+import { EmailTemplate } from "../../components/email-template";
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

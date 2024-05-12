@@ -3,10 +3,13 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import Referral from "@/models/Referral";
-import { getSession } from "../lib/session";
-import { UserDataTable, UserData } from "@/app/lib/definitions";
-import { ReferralDataTable, ReferralDataCreate } from "@/app/lib/definitions";
-import { fetchprofileid } from "./account";
+import { getSession } from "@/app/lib/session";
+import {
+  ReferralData,
+  ReferralDataCreate,
+  UserData,
+} from "@/app/lib/definitions";
+import { fetchuserid } from "./user";
 
 export async function fetchreferrals() {
   try {
@@ -18,11 +21,11 @@ export async function fetchreferrals() {
         message: "Error al cargar datos de los referidos",
       };
     }
-    const referralData: ReferralDataTable[] = referrals.map((referral) => {
+    const referralData: ReferralData[] = referrals.map((r) => {
       return {
-        id: referral._id.toString(),
-        user: referral.user,
-        amount: referral.amount,
+        id: r._id.toString(),
+        user: r.user,
+        amount: r.amount,
       };
     });
     return { success: true, message: referralData };
@@ -52,21 +55,22 @@ export async function fetchreferredusers() {
         message: "Error al cargar datos de los usuarios",
       };
     }
-    const referredUsersData: UserDataTable[] = users.map((user) => {
+    const UserData: UserData[] = users.map((u) => {
       return {
-        id: user._id.toString(),
-        admin: user.admin,
-        name: user.name,
-        email: user.email,
-        discord: user.discord,
-        telegram: user.telegram,
-        allowemailprev: user.allowemailprev,
-        allowemailcancel: user.allowemailcancel,
-        allowemailnew: user.allowemailnew,
-        referral: { id: user.referral.id, name: user.referral.name },
+        id: u._id.toString(),
+        admin: u.admin,
+        name: u.name,
+        email: u.email,
+        password: u.password,
+        discord: u.discord,
+        telegram: u.telegram,
+        allowemailprev: u.allowemailprev,
+        allowemailcancel: u.allowemailcancel,
+        allowemailnew: u.allowemailnew,
+        referral: { id: u.referral.id, name: u.referral.name },
       };
     });
-    return { success: true, message: referredUsersData };
+    return { success: true, message: UserData };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar datos de los usuarios" };
@@ -76,7 +80,7 @@ export async function fetchreferredusers() {
 export async function createreferral(referralData: ReferralDataCreate) {
   try {
     await dbConnect();
-    const profile = await fetchprofileid(referralData.idUser);
+    const profile = await fetchuserid(referralData.idUser);
     if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const referral = new Referral({
@@ -115,9 +119,9 @@ export async function updatereferral(
 ) {
   try {
     await dbConnect();
-    const profile = await fetchprofileid(referralData.idUser);
+    const profile = await fetchuserid(referralData.idUser);
     if (!(profile as { success: boolean; message: UserData }).success)
-      return { success: false, message: "Error al crear inversión" };
+      return { success: false, message: "Error al actualizar inversión" };
     const referral = await Referral.findById({ _id: id });
     if (!referral) {
       return { success: false, message: "Referido no encontrado" };

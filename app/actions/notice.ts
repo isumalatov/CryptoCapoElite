@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Notice from "@/models/Notice";
-import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
+import { NoticeData, NoticeDataCreate } from "@/app/lib/definitions";
 
 export async function fetchnotices() {
   try {
@@ -11,7 +11,7 @@ export async function fetchnotices() {
     if (!notices) {
       return { success: false, message: "Error al cargar noticias" };
     }
-    const noticesData: NoticeDataTable[] = notices.map((n) => ({
+    const noticesData: NoticeData[] = notices.map((n) => ({
       id: n._id.toString(),
       title: n.title,
       content: n.content,
@@ -23,7 +23,7 @@ export async function fetchnotices() {
   }
 }
 
-export async function createnotice(noticeData: NoticeData) {
+export async function createnotice(noticeData: NoticeDataCreate) {
   try {
     await dbConnect();
     const notice = new Notice(noticeData);
@@ -38,9 +38,9 @@ export async function createnotice(noticeData: NoticeData) {
 export async function deletenotice(id: string) {
   try {
     await dbConnect();
-    const notice = await Notice.findById(id);
+    const notice = await Notice.findById({ _id: id });
     if (!notice) {
-      return { success: false, message: "Noticia no encontrada" };
+      return { success: false, message: "Error al eliminar noticia" };
     }
     await Notice.deleteOne({ _id: id });
     return { success: true, message: "Noticia eliminada" };
@@ -50,12 +50,12 @@ export async function deletenotice(id: string) {
   }
 }
 
-export async function updatenotice(id: string, noticeData: NoticeData) {
+export async function updatenotice(id: string, noticeData: NoticeDataCreate) {
   try {
     await dbConnect();
-    const notice = await Notice.findById(id);
+    const notice = await Notice.findById({ _id: id });
     if (!notice) {
-      return { success: false, message: "Noticia no encontrada" };
+      return { success: false, message: "Error al actualizar noticia" };
     }
     await Notice.updateOne({ _id: id }, noticeData);
     return { success: true, message: "Noticia actualizada" };

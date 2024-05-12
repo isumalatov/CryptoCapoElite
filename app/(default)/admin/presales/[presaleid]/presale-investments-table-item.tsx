@@ -2,7 +2,6 @@ import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions
 import ModalBasic from "@/components/modal-basic";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { fetchuser } from "@/app/actions/user";
 import { UserDataTable } from "@/app/lib/definitions";
 
 export default function PresaleInvestmentsTableItem({
@@ -17,28 +16,11 @@ export default function PresaleInvestmentsTableItem({
   onUpdate: (id: string, investmentData: InvestmentDataCreate) => void;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [user, setUser] = useState<UserDataTable>();
-  const [idUser, setIdUser] = useState("");
   const [idPresale, setIdPresale] = useState(id);
   const [amount, setAmount] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
-
-  useEffect(() => {
-    async function fetchData() {
-      const { success, message } = await fetchuser(investment.user.id);
-      if (!success && message == "Error al cargar usuarios") {
-        toast.error(message);
-      }
-      if (success) {
-        const userData: UserDataTable = message as UserDataTable;
-        setUser(userData);
-        setIdUser(userData.id);
-      }
-    }
-    fetchData();
-  }, []);
 
   async function handleDeleteInvestment(id: string) {
     onDelete(id);
@@ -46,7 +28,7 @@ export default function PresaleInvestmentsTableItem({
 
   async function handleUpdateInvestment() {
     onUpdate(investment.id, {
-      idUser,
+      idUser: investment.user.id,
       idPresale,
       amount,
       txid,
@@ -58,9 +40,6 @@ export default function PresaleInvestmentsTableItem({
 
   return (
     <tr>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{user?.email}</div>
-      </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
           <button

@@ -2,11 +2,11 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import { createSession, deleteSession, getSession } from "../lib/session";
+import { createSession, deleteSession, getSession } from "@/app/lib/session";
 import {
   ChangePasswordFormData,
   SignUpReferralFormData,
-} from "../lib/definitions";
+} from "@/app/lib/definitions";
 import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
@@ -72,7 +72,7 @@ export async function signup(prevState: any, formData: FormData) {
       discord: "",
       telegram: "",
       resetpasswordtoken: "",
-      referral: { id: "" },
+      referral: { id: "", name: "" },
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);
@@ -95,7 +95,12 @@ export async function signupreferral(
     const password = signupreferralData.password;
     const repeatpassword = signupreferralData.repeatpassword;
     const allowemail = signupreferralData.allowemail;
-    const referral = signupreferralData.referral;
+    const idUser = signupreferralData.idUser;
+
+    const profile = await User.findOne({ _id: idUser });
+    if (!profile) {
+      return { success: false, message: "Error al cargar datos del usuario" };
+    }
 
     if (
       !email ||
@@ -150,7 +155,7 @@ export async function signupreferral(
       discord: "",
       telegram: "",
       resetpasswordtoken: "",
-      referral: { id: referral },
+      referral: { id: idUser, name: profile.name },
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);
@@ -265,7 +270,7 @@ export async function changepassword(
   }
 }
 
-export async function userisadmin() {
+export async function getadmin() {
   try {
     const session = await getSession();
     if (!session) {

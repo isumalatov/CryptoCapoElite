@@ -3,17 +3,17 @@
 import dbConnect from "@/app/lib/dbConnect";
 import Investment from "@/models/Investment";
 import {
-  InvestmentDataTable,
+  InvestmentData,
   InvestmentDataCreate,
   InvestmentDataCreateUser,
-  PresaleData,
   UserData,
+  PresaleData,
   ReferralDataCreate,
 } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
-import { fetchprofileid } from "./account";
+import { fetchuserid } from "./user";
 import { fetchpresaleid } from "./presale";
-import { createreferral } from "./referral";
+import { createreferral, deletereferral } from "./referral";
 
 export async function fetchpresaleinvestments(id: string) {
   try {
@@ -25,7 +25,7 @@ export async function fetchpresaleinvestments(id: string) {
         message: "Error al cargar inversiones",
       };
     }
-    const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
+    const investmentsData: InvestmentData[] = investments.map((i) => ({
       id: i._id.toString(),
       user: { id: i.user.id, name: i.user.name },
       presale: { id: i.presale.id, name: i.presale.name },
@@ -59,7 +59,7 @@ export async function fetchuserinvestments() {
         message: "Error al cargar inversiones",
       };
     }
-    const investmentsData: InvestmentDataTable[] = investments.map((i) => ({
+    const investmentsData: InvestmentData[] = investments.map((i) => ({
       id: i._id.toString(),
       user: { id: i.user.id, name: i.user.name },
       presale: { id: i.presale.id, name: i.presale.name },
@@ -79,27 +79,12 @@ export async function fetchuserinvestments() {
 export async function createinvestment(investmentData: InvestmentDataCreate) {
   try {
     await dbConnect();
-    const profile = await fetchprofileid(investmentData.idUser);
+    const profile = await fetchuserid(investmentData.idUser);
     if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
-    if (
-      (profile as { success: boolean; message: UserData }).message.referral
-        .id != ""
-    ) {
-      const referralData: ReferralDataCreate = {
-        idUser: investmentData.idUser,
-        amount:
-          (investmentData.amount *
-            (presale as { success: boolean; message: PresaleData }).message
-              .fees) /
-          200,
-      };
-      await createreferral(referralData);
-    }
-
     const investment = new Investment({
       user: {
         id: investmentData.idUser,
@@ -143,26 +128,12 @@ export async function createinvestmentuser(
     if (!session) {
       return { success: false, message: "Error al crear inversión" };
     }
-    const profile = await fetchprofileid(session.userId as string);
+    const profile = await fetchuserid(session.userId as string);
     if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
-    if (
-      (profile as { success: boolean; message: UserData }).message.referral
-        .id != ""
-    ) {
-      const referralData: ReferralDataCreate = {
-        idUser: session.userId as string,
-        amount:
-          (investmentData.amount *
-            (presale as { success: boolean; message: PresaleData }).message
-              .fees) /
-          200,
-      };
-      await createreferral(referralData);
-    }
     const investment = new Investment({
       user: {
         id: session.userId as string,
@@ -200,11 +171,22 @@ export async function createinvestmentuser(
 export async function deleteinvestment(id: string) {
   try {
     await dbConnect();
-    const investment = await Investment.findById(id);
+    const investment = await Investment.findById({ _id: id });
     if (!investment) {
-      return { success: false, message: "Inversión no encontrada" };
+      return { success: false, message: "Error al eliminar inversión" };
     }
+    const profile = await fetchuserid(investment.user.id);
+    if (!(profile as { success: boolean; message: UserData }).success)
+      return { success: false, message: "Error al eliminar inversión" };
     await Investment.deleteOne({ _id: id });
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != ""
+    ) {
+      await deletereferral(
+        (profile as { success: boolean; message: UserData }).message.referral.id
+      );
+    }
     return { success: true, message: "Inversión eliminada" };
   } catch (err) {
     console.log(err);
@@ -218,16 +200,16 @@ export async function updateinvestment(
 ) {
   try {
     await dbConnect();
-    const investment = await Investment.findById(id);
+    const investment = await Investment.findById({ _id: id });
     if (!investment) {
-      return { success: false, message: "Inversión no encontrada" };
+      return { success: false, message: "Error al actualizar inversión" };
     }
-    const profile = await fetchprofileid(investmentData.idUser);
+    const profile = await fetchuserid(investmentData.idUser);
     if (!(profile as { success: boolean; message: UserData }).success)
-      return { success: false, message: "Error al crear inversión" };
+      return { success: false, message: "Error al actualizar inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
-      return { success: false, message: "Error al crear inversión" };
+      return { success: false, message: "Error al actualizar inversión" };
     await Investment.updateOne(
       { _id: id },
       {
@@ -259,6 +241,30 @@ export async function updateinvestment(
         state: investmentData.state,
       }
     );
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != "" &&
+      investmentData.state == "Aceptado"
+    ) {
+      const referralData: ReferralDataCreate = {
+        idUser: (profile as { success: boolean; message: UserData }).message.id,
+        amount:
+          (investmentData.amount *
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees) /
+          200,
+      };
+      await createreferral(referralData);
+    }
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != "" &&
+      investmentData.state == "Denegado"
+    ) {
+      await deletereferral(
+        (profile as { success: boolean; message: UserData }).message.referral.id
+      );
+    }
     return { success: true, message: "Inversión actualizada" };
   } catch (err) {
     console.log(err);

@@ -2,7 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Presale from "@/models/Presale";
-import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
+import { PresaleData, PresaleDataCreate } from "@/app/lib/definitions";
 import {
   DeleteObjectCommand,
   PutObjectCommand,
@@ -17,7 +17,7 @@ export async function fetchpresales() {
     if (!presales) {
       return { success: false, message: "Error al cargar preventas" };
     }
-    const presalesData: PresaleDataTable[] = presales.map((n) => ({
+    const presalesData: PresaleData[] = presales.map((n) => ({
       id: n._id.toString(),
       title: n.title,
       name: n.name,
@@ -52,7 +52,7 @@ export async function fetchpresaleid(id: string) {
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }
-    const presaleData: PresaleDataTable = {
+    const presaleData: PresaleData = {
       id: presale._id.toString(),
       title: presale.title,
       name: presale.name,
@@ -80,7 +80,7 @@ export async function fetchpresaleid(id: string) {
   }
 }
 
-export async function createpresale(presaleData: PresaleData) {
+export async function createpresale(presaleData: PresaleDataCreate) {
   try {
     await dbConnect();
     const presale = new Presale(presaleData);
@@ -110,7 +110,7 @@ export async function deletepresale(id: string) {
 export async function updatepresale(id: string, presaleData: PresaleData) {
   try {
     await dbConnect();
-    const presale = await Presale.findById(id);
+    const presale = await Presale.findById({ _id: id });
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }
