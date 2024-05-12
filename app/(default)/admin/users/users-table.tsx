@@ -1,12 +1,12 @@
+import { UserData, UserDataUpdate } from "@/app/lib/definitions";
 import UsersTableItem from "./users-table-item";
-import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 
 export default function UsersTable({
   users,
   onDeleteUser,
   onUpdateUser,
 }: {
-  users: UserDataTable[];
+  users: UserData[];
   onDeleteUser: (id: string) => void;
   onUpdateUser: (id: string, userDataUpdate: UserDataUpdate) => void;
 }) {

@@ -1,14 +1,14 @@
+import { NoticeData, NoticeDataCreate } from "@/app/lib/definitions";
 import NoticesTableItem from "./notices-table-item";
-import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
 
 export default function NoticesTable({
   notices,
   onDeleteNotice,
   onUpdateNotice,
 }: {
-  notices: NoticeDataTable[];
+  notices: NoticeData[];
   onDeleteNotice: (id: string) => void;
-  onUpdateNotice: (id: string, noticeData: NoticeData) => void;
+  onUpdateNotice: (id: string, noticeData: NoticeDataCreate) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">

@@ -24,10 +24,14 @@ export default function DropdownProfile({
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await getname();
-      if (success) {
-        const { name } = message as userName;
-        setName(name);
+      try {
+        const { success, message } = await getname();
+        if (success) {
+          const { name } = message as userName;
+          setName(name);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -37,10 +41,14 @@ export default function DropdownProfile({
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await getadmin();
-      if (success) {
-        const { admin } = message as userAdmin;
-        setIsAdmin(admin);
+      try {
+        const { success, message } = await getadmin();
+        if (success) {
+          const { admin } = message as userAdmin;
+          setIsAdmin(admin);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();

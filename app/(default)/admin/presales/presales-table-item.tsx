@@ -1,7 +1,7 @@
-import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
-import ModalBasic from "@/components/modal-basic";
 import { useState, useRef } from "react";
+import { PresaleData, PresaleDataCreate } from "@/app/lib/definitions";
 import { deleteImage, uploadImage } from "@/app/actions/presale";
+import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -10,12 +10,11 @@ export default function PresalesTableItem({
   onDelete,
   onUpdate,
 }: {
-  presale: PresaleDataTable;
+  presale: PresaleData;
   onDelete: (id: string) => void;
-  onUpdate: (id: string, presaleData: PresaleData) => void;
+  onUpdate: (id: string, presaleData: PresaleDataCreate) => void;
 }) {
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -35,15 +34,16 @@ export default function PresalesTableItem({
   const [urltwitter, setUrlTwitter] = useState("");
   const [urldocs, setUrlDocs] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   async function handleDeletePresale(id: string) {
     try {
       const result = await deleteImage(presale.imagename);
-      if (!result.success && result.message == "Error al borrar imagen") {
-        throw new Error(result.message);
-      }
       if (result.success) {
         onDelete(id);
+      }
+      if (!result.success) {
+        throw new Error(result.message);
       }
     } catch (err) {
       console.log(err);

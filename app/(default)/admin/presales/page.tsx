@@ -1,7 +1,7 @@
 "use client";
 
-import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState, useRef } from "react";
+import WelcomeBanner from "../../welcome-banner";
 import {
   fetchpresales,
   createpresale,
@@ -9,17 +9,12 @@ import {
   deletepresale,
   uploadImage,
 } from "@/app/actions/presale";
-import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
+import { PresaleData, PresaleDataCreate } from "@/app/lib/definitions";
 import PresalesTable from "./presales-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
 function PresalesContent() {
-  const [presaleCreated, setPresaleCreated] = useState(0);
-  const [presaleDeleted, setPresaleDeleted] = useState(0);
-  const [presaleUpdated, setPresaleUpdated] = useState(0);
-  const [presales, setPresales] = useState<PresaleDataTable[]>([]);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -37,16 +32,25 @@ function PresalesContent() {
   const [urltwitter, setUrlTwitter] = useState("");
   const [urldocs, setUrlDocs] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const [presaleCreated, setPresaleCreated] = useState(0);
+  const [presaleDeleted, setPresaleDeleted] = useState(0);
+  const [presaleUpdated, setPresaleUpdated] = useState(0);
+  const [presales, setPresales] = useState<PresaleData[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchpresales();
-      if (!success && message == "Error al cargar preventas") {
-        toast.error(message);
-      }
-      if (success) {
-        const presalesData: PresaleDataTable[] = message as PresaleDataTable[];
-        setPresales(presalesData);
+      try {
+        const { success, message } = await fetchpresales();
+        if (success) {
+          const presalesData: PresaleData[] = message as PresaleData[];
+          setPresales(presalesData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -75,7 +79,7 @@ function PresalesContent() {
         const imageUrl = (
           result.message as { imageName: string; imageUrl: string }
         ).imageUrl;
-        const presaleData: PresaleData = {
+        const presaleData: PresaleDataCreate = {
           title,
           name,
           description,
@@ -102,8 +106,8 @@ function PresalesContent() {
         }
         if (success) {
           toast.success(message);
-          setModalOpen(false);
           setPresaleCreated(presaleCreated + 1);
+          setModalOpen(false);
         }
       }
     } catch (err) {
@@ -115,30 +119,30 @@ function PresalesContent() {
   async function handleDeletePresale(id: string) {
     try {
       const { success, message } = await deletepresale(id);
-      if (!success) {
-        toast.error(message);
-      }
       if (success) {
         toast.success(message);
         setPresaleDeleted(presaleDeleted + 1);
       }
+      if (!success) {
+        toast.error(message);
+      }
     } catch (err) {
-      throw new Error((err as Error).message);
+      console.error(err);
     }
   }
 
-  async function handleUpdatePresale(id: string, presaleData: PresaleData) {
+  async function handleUpdatePresale(id: string, presaleData: PresaleDataCreate) {
     try {
       const { success, message } = await updatepresale(id, presaleData);
-      if (!success) {
-        throw new Error(message);
-      }
       if (success) {
         toast.success(message);
         setPresaleUpdated(presaleUpdated + 1);
       }
+      if (!success) {
+        throw new Error(message);
+      }
     } catch (err) {
-      throw new Error((err as Error).message);
+      console.error(err);
     }
   }
 

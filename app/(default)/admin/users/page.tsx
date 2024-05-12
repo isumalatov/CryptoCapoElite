@@ -1,24 +1,23 @@
 "use client";
 
-import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState } from "react";
+import WelcomeBanner from "../../welcome-banner";
 import {
   fetchusers,
   createuser,
   updateuser,
   deleteuser,
 } from "@/app/actions/user";
-import { UserDataTable, UserDataCreate, UserDataUpdate } from "@/app/lib/definitions";
+import {
+  UserData,
+  UserDataCreate,
+  UserDataUpdate,
+} from "@/app/lib/definitions";
 import UsersTable from "./users-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
 function UsersContent() {
-  const [userCreated, setUserCreated] = useState(0);
-  const [userDeleted, setUserDeleted] = useState(0);
-  const [userUpdated, setUserUpdated] = useState(0);
-  const [users, setUsers] = useState<UserDataTable[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
   const [admin, setAdmin] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,61 +28,85 @@ function UsersContent() {
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
   const [userId, setUserId] = useState("");
+  const [userCreated, setUserCreated] = useState(0);
+  const [userDeleted, setUserDeleted] = useState(0);
+  const [userUpdated, setUserUpdated] = useState(0);
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchusers();
-      if (!success && message == "Error al cargar usuarios") {
-        toast.error(message);
-      }
-      if (success) {
-        const usersData: UserDataTable[] = message as UserDataTable[];
-        setUsers(usersData);
+      try {
+        const { success, message } = await fetchusers();
+        if (success) {
+          const usersData: UserData[] = message as UserData[];
+          setUsers(usersData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
   }, [userCreated, userDeleted, userUpdated]);
 
   async function handleCreateUser() {
-    const userData: UserDataCreate = {
-      admin: admin,
-      name: name,
-      email: email,
-      password: password,
-      discord: discord,
-      telegram: telegram,
-      allowemailprev: allowemailprev,
-      allowemailcancel: allowemailcancel,
-      allowemailnew: allowemailnew,
-      idUser: userId,
-    };
-    const { success, message } = await createuser(userData);
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-      setModalOpen(false);
-      setUserCreated(userCreated + 1);
+    try {
+      const userData: UserDataCreate = {
+        admin: admin,
+        name: name,
+        email: email,
+        password: password,
+        discord: discord,
+        telegram: telegram,
+        allowemailprev: allowemailprev,
+        allowemailcancel: allowemailcancel,
+        allowemailnew: allowemailnew,
+        idUser: userId,
+      };
+      const { success, message } = await createuser(userData);
+      if (success) {
+        toast.success(message);
+        setUserCreated(userCreated + 1);
+        setModalOpen(false);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
   async function handleUpdateUser(id: string, userDataUpdate: UserDataUpdate) {
-    const { success, message } = await updateuser(id, userDataUpdate);
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-      setUserUpdated(userUpdated + 1);
+    try {
+      const { success, message } = await updateuser(id, userDataUpdate);
+      if (success) {
+        toast.success(message);
+        setUserUpdated(userUpdated + 1);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
   async function handleDeleteUser(id: string) {
-    const { success, message } = await deleteuser(id);
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-      setUserDeleted(userDeleted + 1);
+    try {
+      const { success, message } = await deleteuser(id);
+      if (success) {
+        toast.success(message);
+        setUserDeleted(userDeleted + 1);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 

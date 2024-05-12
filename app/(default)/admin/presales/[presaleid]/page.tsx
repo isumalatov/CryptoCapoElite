@@ -1,43 +1,43 @@
 "use client";
 
-import WelcomeBanner from "../../../welcome-banner";
 import { useEffect, useState } from "react";
+import WelcomeBanner from "../../../welcome-banner";
 import {
   fetchpresaleinvestments,
   createinvestment,
   deleteinvestment,
   updateinvestment,
 } from "@/app/actions/investment";
-import {
-  InvestmentDataTable,
-  InvestmentDataCreate,
-} from "@/app/lib/definitions";
+import { InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
 import PresaleInvestmentsTable from "./presale-investments-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
 function PresaleInvestmentsContent({ id }: { id: string }) {
-  const [investmentCreated, setInvestmentCreated] = useState(0);
-  const [investmentDeleted, setInvestmentDeleted] = useState(0);
-  const [investmentUpdated, setInvestmentUpdated] = useState(0);
-  const [investments, setInvestments] = useState<InvestmentDataTable[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
+  const [investmentCreated, setInvestmentCreated] = useState(0);
+  const [investmentDeleted, setInvestmentDeleted] = useState(0);
+  const [investmentUpdated, setInvestmentUpdated] = useState(0);
+  const [investments, setInvestments] = useState<InvestmentData[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchInvestmentsData() {
-      const { success, message } = await fetchpresaleinvestments(id);
-      if (!success && message == "Error al cargar inversiones") {
-        toast.error(message);
-      }
-      if (success) {
-        const investmentsData: InvestmentDataTable[] =
-          message as InvestmentDataTable[];
-        setInvestments(investmentsData);
+      try {
+        const { success, message } = await fetchpresaleinvestments(id);
+        if (success) {
+          const investmentsData: InvestmentData[] = message as InvestmentData[];
+          setInvestments(investmentsData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchInvestmentsData();
@@ -54,32 +54,31 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
         state: state,
       };
       const { success, message } = await createinvestment(investmentData);
-      if (!success && message == "Error al crear inversión") {
-        throw new Error(message);
-      }
       if (success) {
         toast.success(message);
         setModalOpen(false);
         setInvestmentCreated(investmentCreated + 1);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
     } catch (err) {
       console.log(err);
-      toast.error((err as Error).message);
     }
   }
 
   async function handleDeleteInvestment(id: string) {
     try {
       const { success, message } = await deleteinvestment(id);
-      if (!success) {
-        toast.error(message);
-      }
       if (success) {
         toast.success(message);
         setInvestmentDeleted(investmentDeleted + 1);
       }
+      if (!success) {
+        toast.error(message);
+      }
     } catch (err) {
-      throw new Error((err as Error).message);
+      console.error(err);
     }
   }
 
@@ -89,15 +88,15 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
   ) {
     try {
       const { success, message } = await updateinvestment(id, investmentData);
-      if (!success) {
-        toast.error(message);
-      }
       if (success) {
         toast.success(message);
         setInvestmentUpdated(investmentUpdated + 1);
       }
+      if (!success) {
+        toast.error(message);
+      }
     } catch (err) {
-      throw new Error((err as Error).message);
+      console.error(err);
     }
   }
 

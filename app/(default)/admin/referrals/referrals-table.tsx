@@ -1,4 +1,4 @@
-import { ReferralDataTable, ReferralDataCreate } from "@/app/lib/definitions";
+import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
 import ReferralTableItem from "./referrals-table-item";
 
 export default function ReferralsTable({
@@ -6,7 +6,7 @@ export default function ReferralsTable({
   onDeleteReferral,
   onUpdateReferral,
 }: {
-  referrals: ReferralDataTable[];
+  referrals: ReferralData[];
   onDeleteReferral: (id: string) => void;
   onUpdateReferral: (id: string, referralData: ReferralDataCreate) => void;
 }) {

@@ -1,18 +1,16 @@
-import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
-import ModalBasic from "@/components/modal-basic";
-import { set } from "mongoose";
 import { useState } from "react";
+import { UserData, UserDataUpdate } from "@/app/lib/definitions";
+import ModalBasic from "@/components/modal-basic";
 
 export default function NoticesTableItem({
   user,
   onDelete,
   onUpdate,
 }: {
-  user: UserDataTable;
+  user: UserData;
   onDelete: (id: string) => void;
   onUpdate: (id: string, userDataUpdate: UserDataUpdate) => void;
 }) {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [admin, setAdmin] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,6 +20,7 @@ export default function NoticesTableItem({
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
   const [userId, setUserId] = useState("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function handleDeleteUser(id: string) {
     onDelete(id);

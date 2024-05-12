@@ -1,14 +1,14 @@
+import { PresaleData, PresaleDataCreate } from "@/app/lib/definitions";
 import PresalesTableItem from "./presales-table-item";
-import { PresaleDataTable, PresaleData } from "@/app/lib/definitions";
 
 export default function PresalesTable({
   presales,
   onDeletePresale,
   onUpdatePresale,
 }: {
-  presales: PresaleDataTable[];
+  presales: PresaleData[];
   onDeletePresale: (id: string) => void;
-  onUpdatePresale: (id: string, presaleData: PresaleData) => void;
+  onUpdatePresale: (id: string, presaleData: PresaleDataCreate) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">

@@ -1,76 +1,92 @@
 "use client";
 
-import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState } from "react";
+import WelcomeBanner from "../../welcome-banner";
 import {
   fetchnotices,
   createnotice,
   deletenotice,
   updatenotice,
 } from "@/app/actions/notice";
-import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
+import { NoticeData, NoticeDataCreate } from "@/app/lib/definitions";
 import NoticesTable from "./notices-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
 function NoticesContent() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [noticeCreated, setNoticeCreated] = useState(0);
   const [noticeDeleted, setNoticeDeleted] = useState(0);
   const [noticeUpdated, setNoticeUpdated] = useState(0);
-  const [notices, setNotices] = useState<NoticeDataTable[]>([]);
+  const [notices, setNotices] = useState<NoticeData[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchnotices();
-      if (!success && message == "Error al cargar noticias") {
-        toast.error(message);
-      }
-      if (success) {
-        const noticesData: NoticeDataTable[] = message as NoticeDataTable[];
-        setNotices(noticesData);
+      try {
+        const { success, message } = await fetchnotices();
+        if (success) {
+          const noticesData: NoticeData[] = message as NoticeData[];
+          setNotices(noticesData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
   }, [noticeCreated, noticeDeleted, noticeUpdated]);
 
   async function handleCreateNotice() {
-    const noticeData: NoticeData = {
-      title: title,
-      content: content,
-    };
-    const { success, message } = await createnotice(noticeData);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setModalOpen(false);
-      setNoticeCreated(noticeCreated + 1);
+    try {
+      const noticeData: NoticeDataCreate = {
+        title: title,
+        content: content,
+      };
+      const { success, message } = await createnotice(noticeData);
+      if (success) {
+        toast.success(message);
+        setNoticeCreated(noticeCreated + 1);
+        setModalOpen(false);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
   async function handleDeleteNotice(id: string) {
-    const { success, message } = await deletenotice(id);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setNoticeDeleted(noticeDeleted + 1);
+    try {
+      const { success, message } = await deletenotice(id);
+      if (success) {
+        toast.success(message);
+        setNoticeDeleted(noticeDeleted + 1);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
-  async function handleUpdateNotice(id: string, noticeData: NoticeData) {
-    const { success, message } = await updatenotice(id, noticeData);
-    if (!success) {
-      toast.error(message);
-    }
-    if (success) {
-      toast.success(message);
-      setNoticeUpdated(noticeUpdated + 1);
+  async function handleUpdateNotice(id: string, noticeData: NoticeDataCreate) {
+    try {
+      const { success, message } = await updatenotice(id, noticeData);
+      if (success) {
+        toast.success(message);
+        setNoticeUpdated(noticeUpdated + 1);
+      }
+      if (!success) {
+        toast.error(message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -163,7 +179,11 @@ function NoticesContent() {
         </div>
       </div>
       {/* Table */}
-      <NoticesTable notices={notices} onDeleteNotice={handleDeleteNotice} onUpdateNotice={handleUpdateNotice} />
+      <NoticesTable
+        notices={notices}
+        onDeleteNotice={handleDeleteNotice}
+        onUpdateNotice={handleUpdateNotice}
+      />
     </div>
   );
 }

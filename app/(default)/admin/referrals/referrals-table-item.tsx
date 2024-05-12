@@ -1,19 +1,19 @@
-import { ReferralDataTable, ReferralDataCreate } from "@/app/lib/definitions";
-import ModalBasic from "@/components/modal-basic";
 import { useState } from "react";
+import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
+import ModalBasic from "@/components/modal-basic";
 
 export default function ReferralTableItem({
   referral,
   onDelete,
   onUpdate,
 }: {
-  referral: ReferralDataTable;
+  referral: ReferralData;
   onDelete: (id: string) => void;
   onUpdate: (id: string, referralData: ReferralDataCreate) => void;
 }) {
-  const [modalOpen, setModalOpen] = useState(false);
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   async function handleDeleteReferral(id: string) {
     onDelete(id);

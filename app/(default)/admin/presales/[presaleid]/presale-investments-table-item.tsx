@@ -1,8 +1,6 @@
-import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
+import { useState } from "react";
+import { InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { UserDataTable } from "@/app/lib/definitions";
 
 export default function PresaleInvestmentsTableItem({
   id,
@@ -11,16 +9,15 @@ export default function PresaleInvestmentsTableItem({
   onUpdate,
 }: {
   id: string;
-  investment: InvestmentDataTable;
+  investment: InvestmentData;
   onDelete: (id: string) => void;
   onUpdate: (id: string, investmentData: InvestmentDataCreate) => void;
 }) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [idPresale, setIdPresale] = useState(id);
   const [amount, setAmount] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   async function handleDeleteInvestment(id: string) {
     onDelete(id);
@@ -29,7 +26,7 @@ export default function PresaleInvestmentsTableItem({
   async function handleUpdateInvestment() {
     onUpdate(investment.id, {
       idUser: investment.user.id,
-      idPresale,
+      idPresale: id,
       amount,
       txid,
       wallet,

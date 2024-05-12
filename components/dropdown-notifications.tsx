@@ -21,7 +21,7 @@ export default function DropdownNotifications({
           setNotices(noticesData);
         }
       } catch (err) {
-        console.error((err as Error).message);
+        console.error(err);
       }
     }
     fetchData();

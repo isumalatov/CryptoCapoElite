@@ -1,38 +1,40 @@
 "use client";
 
-import WelcomeBanner from "../../welcome-banner";
 import { useEffect, useState } from "react";
-import { ReferralDataTable, ReferralDataCreate } from "@/app/lib/definitions";
+import WelcomeBanner from "../../welcome-banner";
 import {
   fetchreferrals,
   createreferral,
   updatereferral,
   deletereferral,
 } from "@/app/actions/referral";
+import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
+import ReferralsTable from "./referrals-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
-import ReferralsTable from "./referrals-table";
 
 function ReferralsContent() {
-  const [referrals, setReferrals] = useState<ReferralDataTable[]>([]);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [idUser, setIdUser] = useState("");
+  const [amount, setAmount] = useState(0);
   const [referralCreated, setReferralCreated] = useState(0);
   const [referralUpdated, setReferralUpdated] = useState(0);
   const [referralDeleted, setReferralDeleted] = useState(0);
-  const [idUser, setIdUser] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [referrals, setReferrals] = useState<ReferralData[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchreferrals();
-      if (!success && message == "Error al cargar datos de los referidos") {
-        toast.error(message);
-        return;
-      }
-      if (success) {
-        const referralsData: ReferralDataTable[] =
-          message as ReferralDataTable[];
-        setReferrals(referralsData);
+      try {
+        const { success, message } = await fetchreferrals();
+        if (success) {
+          const referralsData: ReferralData[] = message as ReferralData[];
+          setReferrals(referralsData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -45,17 +47,16 @@ function ReferralsContent() {
         amount: amount,
       };
       const { success, message } = await createreferral(referralData);
-      if (!success && message == "Error al crear referido") {
-        throw new Error(message);
-      }
       if (success) {
-        toast.success("Referido creado");
-        setModalOpen(false);
+        toast.success(message);
         setReferralCreated(referralCreated + 1);
+        setModalOpen(false);
+      }
+      if (!success) {
+        toast.error(message as string);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error al crear referido");
     }
   }
 
@@ -65,12 +66,12 @@ function ReferralsContent() {
   ) {
     try {
       const { success, message } = await updatereferral(id, referralData);
-      if (!success && message == "Error al actualizar referido") {
-        throw new Error(message);
-      }
       if (success) {
-        toast.success("Referido actualizado");
+        toast.success(message);
         setReferralUpdated(referralUpdated + 1);
+      }
+      if (!success) {
+        toast.error(message as string);
       }
     } catch (err) {
       console.log(err);
@@ -81,18 +82,18 @@ function ReferralsContent() {
   async function handleDeleteReferral(id: string) {
     try {
       const { success, message } = await deletereferral(id);
-      if (!success && message == "Error al eliminar referido") {
-        throw new Error(message);
-      }
       if (success) {
-        toast.success("Referido eliminado");
+        toast.success(message);
         setReferralDeleted(referralDeleted + 1);
+      }
+      if (!success) {
+        toast.error(message as string);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error al eliminar referido");
     }
   }
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       {/* Page header */}

@@ -1,11 +1,11 @@
+import { HelpData } from "@/app/lib/definitions";
 import HelpsTableItem from "./helps-table-item";
-import { HelpDataTable } from "@/app/lib/definitions";
 
 export default function HelpsTable({
   helps,
   onDeleteHelp,
 }: {
-  helps: HelpDataTable[];
+  helps: HelpData[];
   onDeleteHelp: (id: string) => void;
 }) {
   return (

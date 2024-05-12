@@ -107,7 +107,7 @@ export async function deletepresale(id: string) {
   }
 }
 
-export async function updatepresale(id: string, presaleData: PresaleData) {
+export async function updatepresale(id: string, presaleData: PresaleDataCreate) {
   try {
     await dbConnect();
     const presale = await Presale.findById({ _id: id });

@@ -1,5 +1,5 @@
+import { InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
 import PresaleInvestmentsTableItem from "./presale-investments-table-item";
-import { InvestmentDataTable, InvestmentDataCreate } from "@/app/lib/definitions";
 
 export default function PresaleInvestmentsTable({
   id,
@@ -7,10 +7,13 @@ export default function PresaleInvestmentsTable({
   onDeleteInvestment,
   onUpdateInvestment,
 }: {
-  id : string;
-  investments: InvestmentDataTable[];
+  id: string;
+  investments: InvestmentData[];
   onDeleteInvestment: (id: string) => void;
-  onUpdateInvestment: (id: string, investmentData: InvestmentDataCreate) => void;
+  onUpdateInvestment: (
+    id: string,
+    investmentData: InvestmentDataCreate
+  ) => void;
 }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
@@ -41,7 +44,7 @@ export default function PresaleInvestmentsTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {investments.map((investment) => (
                 <PresaleInvestmentsTableItem
-                  id= {id}
+                  id={id}
                   investment={investment}
                   onDelete={onDeleteInvestment}
                   onUpdate={onUpdateInvestment}

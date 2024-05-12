@@ -1,12 +1,12 @@
-import { HelpDataTable } from "@/app/lib/definitions";
-import ModalBasic from "@/components/modal-basic";
 import { useState } from "react";
+import { HelpData } from "@/app/lib/definitions";
+import ModalBasic from "@/components/modal-basic";
 
 export default function HelpsTableItem({
   help,
   onDelete,
 }: {
-  help: HelpDataTable;
+  help: HelpData;
   onDelete: (id: string) => void;
 }) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);

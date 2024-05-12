@@ -1,19 +1,19 @@
-import { NoticeDataTable, NoticeData } from "@/app/lib/definitions";
-import ModalBasic from "@/components/modal-basic";
 import { useState } from "react";
+import { NoticeData, NoticeDataCreate } from "@/app/lib/definitions";
+import ModalBasic from "@/components/modal-basic";
 
 export default function NoticesTableItem({
   notice,
   onDelete,
   onUpdate,
 }: {
-  notice: NoticeDataTable;
+  notice: NoticeData;
   onDelete: (id: string) => void;
-  onUpdate: (id: string, noticeData: NoticeData) => void;
+  onUpdate: (id: string, noticeData: NoticeDataCreate) => void;
 }) {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function handleDeleteNotice(id: string) {
     onDelete(id);
