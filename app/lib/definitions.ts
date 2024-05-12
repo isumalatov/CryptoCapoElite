@@ -12,6 +12,7 @@ export interface UserDataTable {
   allowemailprev: boolean;
   allowemailcancel: boolean;
   allowemailnew: boolean;
+  referral: { id: string; name: string };
 }
 
 export interface UserData {
@@ -24,6 +25,7 @@ export interface UserData {
   allowemailprev: boolean;
   allowemailcancel: boolean;
   allowemailnew: boolean;
+  referral: { id: string; name: string };
 }
 
 export interface UserDataUpdate {
@@ -35,7 +37,9 @@ export interface UserDataUpdate {
   allowemailprev: boolean;
   allowemailcancel: boolean;
   allowemailnew: boolean;
+  referral: { id: string; name: string };
 }
+
 export interface SignInFormData {
   email: string;
   password: string;
@@ -214,4 +218,19 @@ export interface InvestmentDataCreateUser {
   amount: number;
   txid: string;
   wallet: string;
+}
+
+//----------------------------------------------
+//referral
+//----------------------------------------------
+
+export interface ReferralDataTable {
+  id: string;
+  user: { id: string; name: string };
+  amount: number;
+}
+
+export interface ReferralData {
+  user: { id: string; name: string };
+  amount: number;
 }

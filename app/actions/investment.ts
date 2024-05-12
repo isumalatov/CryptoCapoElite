@@ -4,7 +4,6 @@ import dbConnect from "@/app/lib/dbConnect";
 import Investment from "@/models/Investment";
 import {
   InvestmentDataTable,
-  InvestmentData,
   InvestmentDataCreate,
   InvestmentDataCreateUser,
   PresaleData,
@@ -95,9 +94,17 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount: investmentData.amount,
+      amount:
+        investmentData.amount *
+        (1 -
+          (presale as { success: boolean; message: PresaleData }).message.fees /
+            100),
       tokens:
-        investmentData.amount /
+        (investmentData.amount *
+          (1 -
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees /
+              100)) /
         (presale as { success: boolean; message: PresaleData }).message.price,
       txid: investmentData.txid,
       wallet: investmentData.wallet,
@@ -137,9 +144,17 @@ export async function createinvestmentuser(
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount: investmentData.amount,
+      amount:
+        investmentData.amount *
+        (1 -
+          (presale as { success: boolean; message: PresaleData }).message.fees /
+            100),
       tokens:
-        investmentData.amount /
+        (investmentData.amount *
+          (1 -
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees /
+              100)) /
         (presale as { success: boolean; message: PresaleData }).message.price,
       txid: investmentData.txid,
       wallet: investmentData.wallet,
@@ -190,7 +205,8 @@ export async function updateinvestment(
         },
         presale: {
           id: investmentData.idPresale,
-          name: (presale as { success: boolean; message: PresaleData }).message.name,
+          name: (presale as { success: boolean; message: PresaleData }).message
+            .name,
         },
         amount: investmentData.amount,
         tokens:

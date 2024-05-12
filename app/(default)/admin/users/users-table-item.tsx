@@ -1,5 +1,6 @@
 import { UserDataTable, UserData, UserDataUpdate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
+import { set } from "mongoose";
 import { useState } from "react";
 
 export default function NoticesTableItem({
@@ -20,6 +21,8 @@ export default function NoticesTableItem({
   const [allowemailprev, setAllowEmailPrev] = useState(false);
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
 
   function handleDeleteUser(id: string) {
     onDelete(id);
@@ -35,6 +38,7 @@ export default function NoticesTableItem({
       allowemailprev,
       allowemailcancel,
       allowemailnew,
+      referral: { id: user.referral.id, name: user.referral.name },
     });
     setModalOpen(false);
   }
@@ -61,6 +65,8 @@ export default function NoticesTableItem({
               setAllowEmailPrev(user.allowemailprev);
               setAllowEmailCancel(user.allowemailcancel);
               setAllowEmailNew(user.allowemailnew);
+              setUserId(user.referral.id);
+              setUserName(user.referral.name);
             }}
           >
             <span className="sr-only">Editar</span>
@@ -257,6 +263,36 @@ export default function NoticesTableItem({
                         <span className="sr-only">Enable smart sync</span>
                       </label>
                     </div>
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="userId"
+                    >
+                      ID Usuario Referido
+                    </label>
+                    <input
+                      id="userId"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      value={userId}
+                      onChange={(e) => setUserId(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="userName"
+                    >
+                      Nombre Usuario Referido
+                    </label>
+                    <input
+                      id="userName"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>

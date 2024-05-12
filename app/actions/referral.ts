@@ -2,8 +2,10 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
+import Referral from "@/models/Referral";
 import { getSession } from "../lib/session";
 import { UserDataTable } from "@/app/lib/definitions";
+import { ReferralData } from "@/app/lib/definitions";
 
 export async function fetchreferredusers() {
   try {
@@ -39,5 +41,19 @@ export async function fetchreferredusers() {
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar datos de los usuarios" };
+  }
+}
+
+export async function createReferral(referralData: ReferralData) {
+  try {
+    const referral = new Referral({
+      user: referralData.user,
+      amount: referralData.amount,
+    });
+    await referral.save();
+    return { success: true, message: "Referido creado" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al crear el referido" };
   }
 }

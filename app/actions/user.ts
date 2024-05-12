@@ -23,6 +23,7 @@ export async function fetchusers() {
       allowemailprev: n.allowemailprev,
       allowemailcancel: n.allowemailcancel,
       allowemailnew: n.allowemailnew,
+      referral: { id: n.referral.id, name: n.referral.name },
     }));
     return { success: true, message: usersData };
   } catch (err) {
@@ -48,6 +49,7 @@ export async function fetchuser(id: string) {
       allowemailprev: user.allowemailprev,
       allowemailcancel: user.allowemailcancel,
       allowemailnew: user.allowemailnew,
+      referral: { id: user.referral.id, name: user.referral.name },
     };
     return { success: true, message: userData };
   } catch (err) {

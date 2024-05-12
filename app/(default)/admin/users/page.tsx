@@ -28,6 +28,8 @@ function UsersContent() {
   const [allowemailprev, setAllowEmailPrev] = useState(false);
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -54,6 +56,7 @@ function UsersContent() {
       allowemailprev: allowemailprev,
       allowemailcancel: allowemailcancel,
       allowemailnew: allowemailnew,
+      referral: { id: userId, name: userName },
     };
     const { success, message } = await createuser(userData);
     if (!success) {
@@ -298,6 +301,36 @@ function UsersContent() {
                           <span className="sr-only">Enable smart sync</span>
                         </label>
                       </div>
+                    </div>
+                    <div>
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="userId"
+                      >
+                        ID Usuario Referido
+                      </label>
+                      <input
+                        id="userId"
+                        className="form-input w-full px-2 py-1"
+                        type="text"
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="userName"
+                      >
+                        Nombre Usuario Referido
+                      </label>
+                      <input
+                        id="userName"
+                        className="form-input w-full px-2 py-1"
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
