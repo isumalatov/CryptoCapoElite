@@ -8,10 +8,12 @@ import {
   InvestmentDataCreateUser,
   PresaleData,
   ProfileFormData,
+  UserData,
 } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
 import { fetchprofileid } from "./account";
 import { fetchpresaleid } from "./presale";
+import { createreferral } from "./referral";
 
 export async function fetchpresaleinvestments(id: string) {
   try {
@@ -78,16 +80,35 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
   try {
     await dbConnect();
     const profile = await fetchprofileid(investmentData.idUser);
-    if (!(profile as { success: boolean; message: ProfileFormData }).success)
+    if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != ""
+    ) {
+      const referralData = {
+        user: {
+          id: (profile as { success: boolean; message: UserData }).message
+            .referral.id,
+          name: (profile as { success: boolean; message: UserData }).message
+            .referral.name,
+        },
+        amount:
+          (investmentData.amount *
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees) /
+          200,
+      };
+      await createreferral(referralData);
+    }
+
     const investment = new Investment({
       user: {
         id: investmentData.idUser,
-        name: (profile as { success: boolean; message: ProfileFormData })
-          .message.name,
+        name: (profile as { success: boolean; message: UserData }).message.name,
       },
       presale: {
         id: investmentData.idPresale,
@@ -128,16 +149,34 @@ export async function createinvestmentuser(
       return { success: false, message: "Error al crear inversión" };
     }
     const profile = await fetchprofileid(session.userId as string);
-    if (!(profile as { success: boolean; message: ProfileFormData }).success)
+    if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != ""
+    ) {
+      const referralData = {
+        user: {
+          id: (profile as { success: boolean; message: UserData }).message
+            .referral.id,
+          name: (profile as { success: boolean; message: UserData }).message
+            .referral.name,
+        },
+        amount:
+          (investmentData.amount *
+            (presale as { success: boolean; message: PresaleData }).message
+              .fees) /
+          200,
+      };
+      await createreferral(referralData);
+    }
     const investment = new Investment({
       user: {
         id: session.userId as string,
-        name: (profile as { success: boolean; message: ProfileFormData })
-          .message.name,
+        name: (profile as { success: boolean; message: UserData }).message.name,
       },
       presale: {
         id: investmentData.idPresale,
@@ -194,7 +233,7 @@ export async function updateinvestment(
       return { success: false, message: "Inversión no encontrada" };
     }
     const profile = await fetchprofileid(investmentData.idUser);
-    if (!(profile as { success: boolean; message: ProfileFormData }).success)
+    if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al crear inversión" };
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
@@ -204,8 +243,8 @@ export async function updateinvestment(
       {
         user: {
           id: investmentData.idUser,
-          name: (profile as { success: boolean; message: ProfileFormData })
-            .message.name,
+          name: (profile as { success: boolean; message: UserData }).message
+            .name,
         },
         presale: {
           id: investmentData.idPresale,

@@ -2,12 +2,11 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
-import Help from "@/models/Help";
 import { getSession } from "../lib/session";
 import {
+  UserData,
   ProfileFormData,
   NotificationFormData,
-  HelpFormData,
 } from "@/app/lib/definitions";
 
 export async function fetchprofile() {
@@ -21,11 +20,17 @@ export async function fetchprofile() {
     if (!user) {
       return { success: false, message: "Error al cargar datos del usuario" };
     }
-    const userProfile = {
+    const userProfile: UserData = {
+      admin: user.admin,
       name: user.name,
       email: user.email,
+      password: user.password,
       telegram: user.telegram,
       discord: user.discord,
+      allowemailprev: user.allowemailprev,
+      allowemailcancel: user.allowemailcancel,
+      allowemailnew: user.allowemailnew,
+      referral: { id: user.referral.id, name: user.referral.name },
     };
 
     return { success: true, message: userProfile };
@@ -42,11 +47,17 @@ export async function fetchprofileid(id: string) {
     if (!user) {
       return { success: false, message: "Error al cargar datos del usuario" };
     }
-    const userProfile : ProfileFormData = {
+    const userProfile: UserData = {
+      admin: user.admin,
       name: user.name,
       email: user.email,
+      password: user.password,
       telegram: user.telegram,
       discord: user.discord,
+      allowemailprev: user.allowemailprev,
+      allowemailcancel: user.allowemailcancel,
+      allowemailnew: user.allowemailnew,
+      referral: { id: user.referral.id, name: user.referral.name },
     };
 
     return { success: true, message: userProfile };

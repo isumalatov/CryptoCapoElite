@@ -35,6 +35,7 @@ export async function fetchreferredusers() {
         allowemailprev: user.allowemailprev,
         allowemailcancel: user.allowemailcancel,
         allowemailnew: user.allowemailnew,
+        referral: { id: user.referral.id, name: user.referral.name },
       };
     });
     return { success: true, message: referredUsersData };
@@ -44,7 +45,7 @@ export async function fetchreferredusers() {
   }
 }
 
-export async function createReferral(referralData: ReferralData) {
+export async function createreferral(referralData: ReferralData) {
   try {
     const referral = new Referral({
       user: referralData.user,
