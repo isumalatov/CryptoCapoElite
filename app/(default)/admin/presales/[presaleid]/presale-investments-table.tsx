@@ -33,7 +33,10 @@ export default function PresaleInvestmentsTable({
             <thead className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/20 border-t border-b border-slate-200 dark:border-slate-700">
               <tr>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">EMAIL</div>
+                  <div className="font-semibold text-left">NOMBRE</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                  <div className="font-semibold text-left">CANTIDAD</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">ACCIONES</div>
@@ -44,6 +47,7 @@ export default function PresaleInvestmentsTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {investments.map((investment) => (
                 <PresaleInvestmentsTableItem
+                  key={investment.id}
                   id={id}
                   investment={investment}
                   onDelete={onDeleteInvestment}

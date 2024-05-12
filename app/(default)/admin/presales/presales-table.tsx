@@ -39,6 +39,7 @@ export default function PresalesTable({
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {presales.map((presale) => (
                 <PresalesTableItem
+                  key={presale.id}
                   presale={presale}
                   onDelete={onDeletePresale}
                   onUpdate={onUpdatePresale}

@@ -48,7 +48,7 @@ export async function fetchreferredusers() {
         message: "Error al cargar datos de los usuarios",
       };
     }
-    const users = await User.find({ _id: session.userId });
+    const users = await User.find({ "referral.id" : session.id });
     if (!users) {
       return {
         success: false,

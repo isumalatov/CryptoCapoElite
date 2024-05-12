@@ -180,10 +180,10 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
             {/*BUTTON*/}
             <div className="basis-1/5 flex justify-center">
               <button
-                className="gradient-button w-4/5 text-xs text-white rounded-full mb-6"
-                onClick={() => setStep(4)}
+                className={presale.state === "Deal Completado" ? "gradient-button-complete w-4/5 text-xl text-white rounded-full mb-6" : "gradient-button w-4/5 text-xl text-white rounded-full mb-6"}
+                onClick={(presale.state === "Participar" ? () => setStep(4) : () => setStep(1))}
               >
-                Participar
+                {presale.state}
               </button>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
             </div>
             <div className="basis-1/5 flex justify-center">
               <button
-                className="gradient-button w-4/5 text-xs text-white rounded-full mb-6 "
+                className="gradient-button w-4/5 text-xl text-white rounded-full mb-6 "
                 onClick={() => setStep(5)}
               >
                 Siguiente Paso
@@ -256,14 +256,14 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
               </button>
             </div>
             <div className="basis-3/5 flex flex-col items-center justify-center w-2/3 mx-auto">
-              <p className="text-center text-2xl font-bold">{amount}</p>
+              <p className="text-center text-2xl font-bold">{amount}$</p>
               <Slider
                 aria-label="slider"
                 value={amount}
                 onChange={handleChange}
                 step={50}
-                min={50}
-                max={25000}
+                min={presale.min}
+                max={presale.max}
               />
               <input
                 className="text-center text-base mb-4 rounded-full w-full h-9"
@@ -280,7 +280,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
             </div>
             <div className="basis-1/5 flex justify-center">
               <button
-                className="gradient-button w-4/5 text-xs text-white rounded-full mb-6 "
+                className="gradient-button w-4/5 text-xl text-white rounded-full mb-6 "
                 onClick={handleCreateInvestment}
               >
                 Enviar
