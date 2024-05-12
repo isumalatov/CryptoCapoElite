@@ -2,34 +2,38 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { fetchprofile, changeprofile } from "@/app/actions/account";
+import { fetchuser } from "@/app/actions/user";
+import { changeprofile } from "@/app/actions/account";
 import { changepassword } from "@/app/actions/auth";
 import { ProfileFormData, ChangePasswordFormData } from "@/app/lib/definitions";
-import { toast } from "react-toastify";
 import ModalBasic from "@/components/modal-basic";
+import { toast } from "react-toastify";
 
 export default function AccountPanel() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [telegram, setTelegram] = useState("");
   const [discord, setDiscord] = useState("");
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [oldpassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [repeatpassword, setRepeatPassword] = useState("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchprofile();
-      if (!success && message === "Error al cargar datos del usuario") {
-        toast.error("Error al cargar datos del usuario");
-      }
-      if (success) {
-        const { name, email, telegram, discord } = message as ProfileFormData;
-        setName(name);
-        setEmail(email);
-        setTelegram(telegram);
-        setDiscord(discord);
+      try {
+        const { success, message } = await fetchuser();
+        if (success) {
+          const { name, email, telegram, discord } = message as ProfileFormData;
+          setName(name);
+          setEmail(email);
+          setTelegram(telegram);
+          setDiscord(discord);
+        } else {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -44,15 +48,13 @@ export default function AccountPanel() {
         discord,
       };
       const { success, message } = await changeprofile(profileData);
-      if (!success && message === "Error al modificar datos del usuario") {
-        toast.error("Error al modificar datos del usuario");
-      }
       if (success) {
-        toast.success("Perfil actualizado");
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
     } catch (err) {
       console.error(err);
-      toast.error((err as Error).message);
     }
   }
 
@@ -64,16 +66,14 @@ export default function AccountPanel() {
         repeatpassword,
       };
       const { success, message } = await changepassword(passwordData);
-      if (!success) {
-        toast.error(message);
-      }
       if (success) {
         toast.success(message);
         setModalOpen(false);
+      } else {
+        toast.error(message);
       }
     } catch (err) {
       console.error(err);
-      toast.error((err as Error).message);
     }
   }
 

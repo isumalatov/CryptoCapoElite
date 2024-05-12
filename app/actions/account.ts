@@ -29,7 +29,7 @@ export async function changeprofile(profileData: ProfileFormData) {
     return { success: true, message: "Perfil actualizado" };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Error al cargar datos del usuario" };
+    return { success: false, message: "Error al modificar datos del usuario" };
   }
 }
 

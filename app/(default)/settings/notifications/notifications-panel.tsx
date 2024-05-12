@@ -13,16 +13,19 @@ export default function NotificationsPanel() {
 
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchnotifications();
-      if (!success && message === "Error al cargar notificaciones") {
-        toast.error("Error al cargar notificaciones");
-      }
-      if (success) {
-        const { allowemailprev, allowemailcancel, allowemailnew } =
-          message as NotificationFormData;
-        setAllowEmailPrev(allowemailprev);
-        setAllowEmailCancel(allowemailcancel);
-        setAllowEmailNew(allowemailnew);
+      try {
+        const { success, message } = await fetchnotifications();
+        if (success) {
+          const { allowemailprev, allowemailcancel, allowemailnew } =
+            message as NotificationFormData;
+          setAllowEmailPrev(allowemailprev);
+          setAllowEmailCancel(allowemailcancel);
+          setAllowEmailNew(allowemailnew);
+        } else {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -36,15 +39,13 @@ export default function NotificationsPanel() {
         allowemailnew,
       };
       const { success, message } = await changenotifications(notificationData);
-      if (!success && message === "Error al modificar notificaciones") {
-        toast.error("Error al modificar notificaciones");
-      }
       if (success) {
-        toast.success("Notificaciones actualizadas");
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
     } catch (err) {
       console.error(err);
-      toast.error((err as Error).message);
     }
   }
 

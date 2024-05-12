@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import { NoticeDataTable } from "@/app/lib/definitions";
+import { NoticeData } from "@/app/lib/definitions";
 import { fetchnotices } from "@/app/actions/notice";
 
 export default function DropdownNotifications({
@@ -11,13 +11,17 @@ export default function DropdownNotifications({
 }: {
   align?: "left" | "right";
 }) {
-  const [notices, setNotices] = useState<NoticeDataTable[]>([]);
+  const [notices, setNotices] = useState<NoticeData[]>([]);
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchnotices();
-      if (success) {
-        const noticesData: NoticeDataTable[] = message as NoticeDataTable[];
-        setNotices(noticesData);
+      try {
+        const { success, message } = await fetchnotices();
+        if (success) {
+          const noticesData: NoticeData[] = message as NoticeData[];
+          setNotices(noticesData);
+        }
+      } catch (err) {
+        console.error((err as Error).message);
       }
     }
     fetchData();

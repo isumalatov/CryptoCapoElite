@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { createhelp } from "@/app/actions/help";
 import { toast } from "react-toastify";
-import e from "express";
 
 export default function HelpPanel() {
   const [help, setHelp] = useState<string>("");
@@ -15,15 +14,13 @@ export default function HelpPanel() {
         help,
       };
       const { success, message } = await createhelp(helpData);
-      if (!success && message === "Error al enviar pregunta") {
-        toast.error("Error al enviar pregunta");
-      }
       if (success) {
-        toast.success("Pregunta enviada");
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
     } catch (err) {
       console.error(err);
-      toast.error((err as Error).message);
     }
   }
 
