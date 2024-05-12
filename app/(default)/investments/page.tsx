@@ -1,46 +1,55 @@
 "use client";
 
-import WelcomeBanner from "../welcome-banner";
 import { useEffect, useState } from "react";
+import WelcomeBanner from "../welcome-banner";
 import {
   fetchuserinvestments,
   getusertotalamount,
 } from "@/app/actions/investment";
-import { InvestmentDataTable } from "@/app/lib/definitions";
+import { InvestmentData } from "@/app/lib/definitions";
 import InvestmentsTable from "./investments-table";
 import { toast } from "react-toastify";
 
 function InvestmentsContent() {
-  const [investments, setInvestments] = useState<InvestmentDataTable[]>([]);
+  const [investments, setInvestments] = useState<InvestmentData[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
 
   useEffect(() => {
     async function fetchDataInvestments() {
-      const { success, message } = await fetchuserinvestments();
-      if (!success && message == "Error al cargar inversiones") {
-        toast.error(message);
-      }
-      if (success) {
-        const investmentsData: InvestmentDataTable[] =
-          message as InvestmentDataTable[];
-        setInvestments(investmentsData);
+      try {
+        const { success, message } = await fetchuserinvestments();
+        if (success) {
+          const investmentsData: InvestmentData[] = message as InvestmentData[];
+          setInvestments(investmentsData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     async function fetchDataTotalAmount() {
-      const { success, message } = await getusertotalamount();
-      if (!success && message == "Error al cargar cantidad total") {
-        toast.error(message);
-      }
-      if (success) {
-        const amount = message as number;
-        setTotalAmount(amount);
+      try {
+        const { success, message } = await getusertotalamount();
+        if (success) {
+          const amount = message as number;
+          setTotalAmount(amount);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchDataInvestments();
     fetchDataTotalAmount();
   }, []);
 
-  return <InvestmentsTable investments={investments} totalAmount={totalAmount} />;
+  return (
+    <InvestmentsTable investments={investments} totalAmount={totalAmount} />
+  );
 }
 
 export default function Investments() {

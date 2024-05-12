@@ -1,19 +1,14 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import "../styles/custom.css";
-import { PresaleDataTable } from "@/app/lib/definitions";
-import { useCallback, useState } from "react";
-import Slider from "@mui/material/Slider";
 import { createinvestmentuser } from "@/app/actions/investment";
+import { PresaleData, InvestmentDataCreateUser } from "@/app/lib/definitions";
+import Slider from "@mui/material/Slider";
 import { toast } from "react-toastify";
-import { InvestmentDataCreateUser } from "@/app/lib/definitions";
 
-export default function PresaleInfo({
-  presale,
-}: {
-  presale: PresaleDataTable;
-}) {
+export default function PresaleInfo({ presale }: { presale: PresaleData }) {
   const [step = 1, setStep] = useState<number>(1);
   const [amount, setAmount] = useState<number>(50);
   const [txid, setTxid] = useState("");
@@ -28,15 +23,14 @@ export default function PresaleInfo({
         wallet: wallet,
       };
       const { success, message } = await createinvestmentuser(investment);
-      if (!success && message == "Error al crear inversión") {
-        toast.error(message);
-      }
       if (success) {
         toast.success(message);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
     } catch (err) {
       console.log(err);
-      toast.error((err as Error).message);
     }
   }
 

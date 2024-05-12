@@ -1,13 +1,9 @@
 import "../styles/custom.css";
 import Image from "next/image";
-import { PresaleDataTable } from "@/app/lib/definitions";
+import { PresaleData } from "@/app/lib/definitions";
 import { useRouter } from "next/navigation";
 
-export default function PresaleCard({
-  presale,
-}: {
-  presale: PresaleDataTable;
-}) {
+export default function PresaleCard({ presale }: { presale: PresaleData }) {
   const router = useRouter();
   return (
     <div

@@ -1,11 +1,11 @@
-import { InvestmentDataTable } from "@/app/lib/definitions";
+import { InvestmentData } from "@/app/lib/definitions";
 import InvestmentsTableItem from "./investments-table-item";
 
 export default function InvestmentsTable({
   investments,
   totalAmount,
 }: {
-  investments: InvestmentDataTable[];
+  investments: InvestmentData[];
   totalAmount: number;
 }) {
   return (
@@ -43,7 +43,7 @@ export default function InvestmentsTable({
                   <div className="font-semibold text-left">Tokens</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
-                  <div className="font-semibold text-left">TxId / Hash</div>
+                  <div className="font-semibold text-left">Txid / Hash</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">Wallet</div>

@@ -1,23 +1,27 @@
 "use client";
 
-import WelcomeBanner from "../welcome-banner";
-import PresaleCard from "@/components/presale-card";
-import { fetchpresales } from "@/app/actions/presale";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { PresaleDataTable } from "@/app/lib/definitions";
+import WelcomeBanner from "../welcome-banner";
+import { fetchpresales } from "@/app/actions/presale";
+import { PresaleData } from "@/app/lib/definitions";
+import PresaleCard from "@/components/presale-card";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
-  const [presales, setPresales] = useState<PresaleDataTable[]>([]);
+  const [presales, setPresales] = useState<PresaleData[]>([]);
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchpresales();
-      if (!success && message == "Error al cargar preventas") {
-        toast.error(message);
-      }
-      if (success) {
-        const presalesData: PresaleDataTable[] = message as PresaleDataTable[];
-        setPresales(presalesData);
+      try {
+        const { success, message } = await fetchpresales();
+        if (success) {
+          const presalesData: PresaleData[] = message as PresaleData[];
+          setPresales(presalesData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();

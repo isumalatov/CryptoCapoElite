@@ -1,7 +1,7 @@
-import { UserDataTable } from "@/app/lib/definitions";
+import { UserData } from "@/app/lib/definitions";
 import ReferralsTableItem from "./referrals-table-item";
 
-export default function ReferralsTable({ users }: { users: UserDataTable[] }) {
+export default function ReferralsTable({ users }: { users: UserData[] }) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
       <header className="px-5 py-4">

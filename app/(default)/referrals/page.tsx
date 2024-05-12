@@ -1,25 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import WelcomeBanner from "../welcome-banner";
 import { getid } from "@/app/actions/auth";
-import { useEffect, useState } from "react";
-import { userId } from "@/app/lib/definitions";
 import { fetchreferredusers } from "@/app/actions/referral";
-import { toast } from "react-toastify";
-import { UserDataTable } from "@/app/lib/definitions";
+import { userId, UserData } from "@/app/lib/definitions";
 import ReferralsTable from "./referrals-table";
+import { toast } from "react-toastify";
 
 function ReferralsContent() {
-  const [users, setUsers] = useState<UserDataTable[]>([]);
+  const [users, setUsers] = useState<UserData[]>([]);
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchreferredusers();
-      if (!success && message == "Error al cargar datos de los usuarios") {
-        toast.error(message);
-      }
-      if (success) {
-        const usersData: UserDataTable[] = message as UserDataTable[];
-        setUsers(usersData);
+      try {
+        const { success, message } = await fetchreferredusers();
+        if (success) {
+          const usersData: UserData[] = message as UserData[];
+          setUsers(usersData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
@@ -31,10 +34,17 @@ export default function Referrals() {
   const [id, setId] = useState("");
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await getid();
-      if (success) {
-        const { id } = message as userId;
-        setId(id);
+      try {
+        const { success, message } = await getid();
+        if (success) {
+          const { id } = message as userId;
+          setId(id);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();

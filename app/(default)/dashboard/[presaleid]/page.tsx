@@ -5,7 +5,7 @@ import PresaleInfo from "@/components/presale-info";
 import { fetchpresaleid } from "@/app/actions/presale";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { PresaleDataTable } from "@/app/lib/definitions";
+import { PresaleData } from "@/app/lib/definitions";
 
 export default function Presale({
   params,
@@ -15,16 +15,20 @@ export default function Presale({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const presaleid = params.presaleid;
-  const [presale, setPresale] = useState<PresaleDataTable>();
+  const [presale, setPresale] = useState<PresaleData>();
   useEffect(() => {
     async function fetchData() {
-      const { success, message } = await fetchpresaleid(presaleid);
-      if (!success && message == "Preventa no encontrada") {
-        toast.error(message);
-      }
-      if (success) {
-        const presaleData: PresaleDataTable = message as PresaleDataTable;
-        setPresale(presaleData);
+      try {
+        const { success, message } = await fetchpresaleid(presaleid);
+        if (success) {
+          const presaleData: PresaleData = message as PresaleData;
+          setPresale(presaleData);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchData();
