@@ -41,6 +41,7 @@ export default function PayReferralsTableItem({
             className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
             onClick={() => {
               setModalOpen(true);
+              setIdUser(referral.user.id);
               setAmount(referral.amount);
             }}
           >

@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema<Users>({
   resetpasswordtoken: { type: String, required: false },
   referral: {
     id: { type: String, required: false },
+    name: { type: String, required: false },
   },
 });
 

@@ -287,10 +287,10 @@ export async function updateinvestment(
       const referralData: ReferralDataCreate = {
         idUser: (profile as { success: boolean; message: UserData }).message.id,
         amount:
-          (investmentData.amount *
-            (presale as { success: boolean; message: PresaleData }).message
-              .fees) /
-          200,
+          investmentData.amount *
+          ((presale as { success: boolean; message: PresaleData }).message
+            .fees /
+            200),
       };
       await createreferral(referralData);
     }

@@ -98,9 +98,12 @@ export async function fetchuserid(id: string) {
 export async function createuser(userData: UserDataCreate) {
   try {
     await dbConnect();
-    const profile = await fetchuserid(userData.idUser);
-    if (!(profile as { success: boolean; message: UserData }).success)
-      return { success: false, message: "Error al crear usuario" };
+    let profile;
+    if (userData.idUser) {
+      profile = await fetchuserid(userData.idUser);
+      if (!(profile as { success: boolean; message: UserData }).success)
+        return { success: false, message: "Error al crear usuario" };
+    }
     userData.password = await bcrypt.hash(userData.password, 10);
     const user = new User({
       admin: userData.admin,
@@ -114,7 +117,7 @@ export async function createuser(userData: UserDataCreate) {
       allowemailnew: userData.allowemailnew,
       referral: {
         id: userData.idUser,
-        name: (profile as { success: boolean; message: UserData }).message.name,
+        name: profile ? (profile as { success: boolean; message: UserData }).message.name : "",
       },
     });
     await user.save();
@@ -179,8 +182,8 @@ export async function updateuser(id: string, userData: UserDataUpdate) {
         allowemailnew: userData.allowemailnew,
         referral: {
           id: userData.idUser,
-          name: (profile as { success: boolean; message: UserData })
-            .message.name,
+          name: (profile as { success: boolean; message: UserData }).message
+            .name,
         },
       }
     );

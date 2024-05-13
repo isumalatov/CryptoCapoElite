@@ -24,7 +24,7 @@ export async function fetchreferrals() {
     const referralData: ReferralData[] = referrals.map((r) => {
       return {
         id: r._id.toString(),
-        user: r.user,
+        user: { id: r.user.id, name: r.user.name },
         amount: r.amount,
       };
     });
