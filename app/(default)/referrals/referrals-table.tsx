@@ -1,7 +1,13 @@
 import { UserData } from "@/app/lib/definitions";
 import ReferralsTableItem from "./referrals-table-item";
 
-export default function ReferralsTable({ users }: { users: UserData[] }) {
+export default function ReferralsTable({
+  users,
+  totalAmount,
+}: {
+  users: UserData[];
+  totalAmount: number;
+}) {
   return (
     <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
       <header className="px-5 py-4">
@@ -10,6 +16,12 @@ export default function ReferralsTable({ users }: { users: UserData[] }) {
             Usuarios{" "}
             <span className="text-slate-400 dark:text-slate-500 font-medium">
               ({users.length})
+            </span>
+          </h2>
+          <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+            Total Obtenido:{" "}
+            <span className="text-sky-500 dark:text-sky-500 font-medium">
+              ${totalAmount}
             </span>
           </h2>
         </div>

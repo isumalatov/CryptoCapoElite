@@ -30,6 +30,12 @@ export async function fetchhelps() {
 export async function createhelp(helpData: HelpDataCreate) {
   try {
     await dbConnect();
+    if (!helpData.help || helpData.help.trim() === "") {
+      return {
+        success: false,
+        message: "Error al enviar pregunta",
+      };
+    }
     const session = await getSession();
     if (!session) {
       return {

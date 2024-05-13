@@ -143,3 +143,22 @@ export async function updatereferral(
     return { success: false, message: "Error al actualizar referido" };
   }
 }
+
+export async function getusertotalamount() {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al cargar datos de usuario" };
+    }
+    const referrals = await Referral.find({ "user.id": session.userId });
+    if (!referrals) {
+      return { success: false, message: "Error al cargar datos de usuario" };
+    }
+    const totalAmount = referrals.reduce((acc, r) => acc + r.amount, 0);
+    return { success: true, message: totalAmount };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar datos de usuario" };
+  }
+}

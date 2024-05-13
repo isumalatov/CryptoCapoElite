@@ -53,10 +53,20 @@ export async function signup(prevState: any, formData: FormData) {
     }
 
     // comprobar si el email ya está registrado
-    const existingUser = await User.findOne({ email: email });
+    const existingUserByEmail = await User.findOne({ email: email });
 
-    if (existingUser) {
+    if (existingUserByEmail) {
       return { success: false, message: "El email ya está registrado" };
+    }
+
+    // comprobar si el nombre de usuario ya está registrado
+    const existingUserByName = await User.findOne({ name: name });
+
+    if (existingUserByName) {
+      return {
+        success: false,
+        message: "El nombre de usuario ya está registrado",
+      };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

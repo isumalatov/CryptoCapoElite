@@ -11,6 +11,8 @@ import {
 import { InvestmentData, InvestmentDataCreate } from "@/app/lib/definitions";
 import PresaleInvestmentsTable from "./presale-investments-table";
 import ModalBasic from "@/components/modal-basic";
+import * as XLSX from "xlsx";
+import DownloadIcon from "@mui/icons-material/Download";
 import { toast } from "react-toastify";
 
 function PresaleInvestmentsContent({ id }: { id: string }) {
@@ -99,6 +101,72 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
       console.error(err);
     }
   }
+
+  const onGetExporInvestments = async (
+    title?: string,
+    worksheetname?: string
+  ) => {
+    try {
+      if (investments && Array.isArray(investments)) {
+        const dataToExport = investments.map((investment: InvestmentData) => ({
+          id: investment.id,
+          idUser: investment.user.id,
+          userName: investment.user.name,
+          amount: investment.amount,
+          tokens: investment.tokens,
+          txid: investment.txid,
+          wallet: investment.wallet,
+          state: investment.state,
+        }));
+        // Create Excel workbook and worksheet
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils?.json_to_sheet(dataToExport);
+        XLSX.utils.book_append_sheet(workbook, worksheet, worksheetname);
+        // Save the workbook as an Excel file
+        XLSX.writeFile(workbook, `${title}.xlsx`);
+        console.log(`Exported data to ${title}.xlsx`);
+      } else {
+        toast.error("No hay datos para exportar");
+      }
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
+
+  const onGetExporInvestmentsStateAccepted = async (
+    title?: string,
+    worksheetname?: string
+  ) => {
+    try {
+      if (investments && Array.isArray(investments)) {
+        const dataToExport = investments
+          .filter(
+            (investment: InvestmentData) => investment.state === "Aceptado"
+          )
+          .map((investment: InvestmentData) => ({
+            id: investment.id,
+            idUser: investment.user.id,
+            userName: investment.user.name,
+            amount: investment.amount,
+            tokens: investment.tokens,
+            txid: investment.txid,
+            wallet: investment.wallet,
+            state: investment.state,
+          }));
+        // Create Excel workbook and worksheet
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils?.json_to_sheet(dataToExport);
+        XLSX.utils.book_append_sheet(workbook, worksheet, worksheetname);
+        // Save the workbook as an Excel file
+        XLSX.writeFile(workbook, `${title}.xlsx`);
+        console.log(`Exported data to ${title}.xlsx`);
+      } else {
+        toast.error("No hay datos para exportar");
+      }
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
@@ -237,6 +305,20 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                 </div>
               </div>
             </ModalBasic>
+          </button>
+          <button
+            onClick={() => onGetExporInvestments("Inversiones", "Inversiones")}
+            className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+          >
+            <DownloadIcon />
+            Descargar Inversiones
+          </button>
+          <button
+            onClick={() => onGetExporInvestmentsStateAccepted("Inversiones Aceptadas", "Inversiones Aceptadas")}
+            className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+          >
+            <DownloadIcon />
+            Descargar Inversiones Aceptadas
           </button>
         </div>
       </div>

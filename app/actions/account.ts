@@ -11,6 +11,9 @@ import {
 export async function changeprofile(profileData: ProfileFormData) {
   try {
     await dbConnect();
+    if(!profileData.name || !profileData.email || profileData.name.trim() === "" || profileData.email.trim() === "") {
+      return { success: false, message: "Error al modificar datos del usuario" };
+    }
     const session = await getSession();
     if (!session) {
       return {
