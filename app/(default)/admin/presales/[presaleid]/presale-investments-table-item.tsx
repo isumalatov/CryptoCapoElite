@@ -41,10 +41,10 @@ export default function PresaleInvestmentsTableItem({
         <div className="font-medium text-sky-500">{investment.user.name}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{investment.tokens}</div>
+        <div className="font-medium text-sky-500">{investment.amount}$</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{investment.amount}$</div>
+        <div className="font-medium text-sky-500">{investment.tokens}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -98,8 +98,12 @@ export default function PresaleInvestmentsTableItem({
                     className="form-input w-full px-2 py-1"
                     type="number"
                     required
-                    value={amount}
-                    onChange={(e) => setAmount(Number(e.target.value))}
+                    value={amount === 0 ? "" : amount}
+                    onChange={(e) =>
+                      setAmount(
+                        e.target.value === "" ? 0 : Number(e.target.value)
+                      )
+                    }
                   />
                 </div>
                 <div>

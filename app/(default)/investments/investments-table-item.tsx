@@ -13,7 +13,7 @@ export default function InvestmentsTableItem({
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
-        <div className="font-medium text-sky-500">{investment.amount}</div>
+        <div className="font-medium text-sky-500">{investment.amount}$</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
         <div className="font-medium text-sky-500">{investment.tokens}</div>

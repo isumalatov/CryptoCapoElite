@@ -1,7 +1,7 @@
 import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
-import ReferralTableItem from "./referrals-table-item";
+import PayReferralsTableItem from "./pay-referrals-table-item";
 
-export default function ReferralsTable({
+export default function PayReferralsTable({
   referrals,
   onDeleteReferral,
   onUpdateReferral,
@@ -41,7 +41,7 @@ export default function ReferralsTable({
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
               {referrals.map((referral) => (
-                <ReferralTableItem
+                <PayReferralsTableItem
                   key={referral.id}
                   referral={referral}
                   onDelete={onDeleteReferral}

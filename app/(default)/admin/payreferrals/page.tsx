@@ -9,11 +9,11 @@ import {
   deletereferral,
 } from "@/app/actions/referral";
 import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
-import ReferralsTable from "./referrals-table";
+import PayReferralsTable from "./pay-referrals-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 
-function ReferralsContent() {
+function PayReferralsContent() {
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState(0);
   const [referralCreated, setReferralCreated] = useState(0);
@@ -183,7 +183,7 @@ function ReferralsContent() {
         </div>
       </div>
       {/* Table */}
-      <ReferralsTable
+      <PayReferralsTable
         referrals={referrals}
         onDeleteReferral={handleDeleteReferral}
         onUpdateReferral={handleUpdateReferral}
@@ -192,15 +192,15 @@ function ReferralsContent() {
   );
 }
 
-export default function ReferralsAdmin() {
+export default function PayReferralsAdmin() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       {/* Page header */}
       <WelcomeBanner
         title="Administración de Referidos"
-        subtitle="Gestiona los Referidos a pagar"
+        subtitle="Gestiona los Referidos a pagar:"
       />
-      <ReferralsContent />
+      <PayReferralsContent />
     </div>
   );
 }

@@ -17,6 +17,7 @@ const protectedRoutes = [
   "/admin/notices",
   "/admin/presales",
   "/admin/users",
+  "/admin/payreferrals",
 ];
 const publicRoutes = ["/signin", "/signup", "/reset-password"];
 

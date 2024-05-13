@@ -36,10 +36,10 @@ export default function PresaleInvestmentsTable({
                   <div className="font-semibold text-left">NOMBRE</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">TOKENS</div>
+                  <div className="font-semibold text-left">CANTIDAD</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">CANTIDAD</div>
+                  <div className="font-semibold text-left">TOKENS</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap pl-5">
                   <div className="font-semibold text-left">ACCIONES</div>

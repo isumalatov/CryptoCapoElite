@@ -85,6 +85,18 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
+    if (
+      investmentData.amount <
+      (presale as { success: boolean; message: PresaleData }).message.min
+    ) {
+      return { success: false, message: "Error al crear inversión" };
+    }
+    if (
+      investmentData.amount >
+      (presale as { success: boolean; message: PresaleData }).message.max
+    ) {
+      return { success: false, message: "Error al crear inversión" };
+    }
     const investment = new Investment({
       user: {
         id: investmentData.idUser,
@@ -96,14 +108,15 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
           .name,
       },
       amount:
+        investmentData.amount -
         investmentData.amount *
-        (1 -
-          (presale as { success: boolean; message: PresaleData }).message.fees /
+          ((presale as { success: boolean; message: PresaleData }).message
+            .fees /
             100),
       tokens:
-        (investmentData.amount *
-          (1 -
-            (presale as { success: boolean; message: PresaleData }).message
+        (investmentData.amount -
+          investmentData.amount *
+            ((presale as { success: boolean; message: PresaleData }).message
               .fees /
               100)) /
         (presale as { success: boolean; message: PresaleData }).message.price,
@@ -134,6 +147,18 @@ export async function createinvestmentuser(
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
+    if (
+      investmentData.amount <
+      (presale as { success: boolean; message: PresaleData }).message.min
+    ) {
+      return { success: false, message: "Error al crear inversión" };
+    }
+    if (
+      investmentData.amount >
+      (presale as { success: boolean; message: PresaleData }).message.max
+    ) {
+      return { success: false, message: "Error al crear inversión" };
+    }
     const investment = new Investment({
       user: {
         id: session.userId as string,
@@ -145,14 +170,15 @@ export async function createinvestmentuser(
           .name,
       },
       amount:
+        investmentData.amount -
         investmentData.amount *
-        (1 -
-          (presale as { success: boolean; message: PresaleData }).message.fees /
+          ((presale as { success: boolean; message: PresaleData }).message
+            .fees /
             100),
       tokens:
-        (investmentData.amount *
-          (1 -
-            (presale as { success: boolean; message: PresaleData }).message
+        (investmentData.amount -
+          investmentData.amount *
+            ((presale as { success: boolean; message: PresaleData }).message
               .fees /
               100)) /
         (presale as { success: boolean; message: PresaleData }).message.price,
@@ -210,6 +236,18 @@ export async function updateinvestment(
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al actualizar inversión" };
+    if (
+      investmentData.amount <
+      (presale as { success: boolean; message: PresaleData }).message.min
+    ) {
+      return { success: false, message: "Error al actualizar inversión" };
+    }
+    if (
+      investmentData.amount >
+      (presale as { success: boolean; message: PresaleData }).message.max
+    ) {
+      return { success: false, message: "Error al actualizar inversión" };
+    }
     await Investment.updateOne(
       { _id: id },
       {
@@ -224,15 +262,15 @@ export async function updateinvestment(
             .name,
         },
         amount:
+          investmentData.amount -
           investmentData.amount *
-          (1 -
-            (presale as { success: boolean; message: PresaleData }).message
+            ((presale as { success: boolean; message: PresaleData }).message
               .fees /
               100),
         tokens:
-          (investmentData.amount *
-            (1 -
-              (presale as { success: boolean; message: PresaleData }).message
+          (investmentData.amount -
+            investmentData.amount *
+              ((presale as { success: boolean; message: PresaleData }).message
                 .fees /
                 100)) /
           (presale as { success: boolean; message: PresaleData }).message.price,

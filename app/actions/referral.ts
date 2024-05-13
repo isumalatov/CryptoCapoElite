@@ -14,7 +14,7 @@ import { fetchuserid } from "./user";
 export async function fetchreferrals() {
   try {
     await dbConnect();
-    const referrals = await Referral.find();
+    const referrals = await Referral.find({});
     if (!referrals) {
       return {
         success: false,

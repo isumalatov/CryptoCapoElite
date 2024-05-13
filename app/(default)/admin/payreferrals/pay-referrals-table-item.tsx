@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
 
-export default function ReferralTableItem({
+export default function PayReferralsTableItem({
   referral,
   onDelete,
   onUpdate,

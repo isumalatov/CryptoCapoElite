@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 export default function PresaleInfo({ presale }: { presale: PresaleData }) {
   const [step = 1, setStep] = useState<number>(1);
-  const [amount, setAmount] = useState<number>(50);
+  const [amount, setAmount] = useState<number>(presale.min);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
 
@@ -261,7 +261,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
                 aria-label="slider"
                 value={amount}
                 onChange={handleChange}
-                step={50}
+                step={100}
                 min={presale.min}
                 max={presale.max}
               />
