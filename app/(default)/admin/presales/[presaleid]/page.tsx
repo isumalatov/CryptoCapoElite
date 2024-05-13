@@ -107,7 +107,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
     }
   }
 
-  const onGetExporInvestments = async (
+  const onGetExportInvestments = async (
     title?: string,
     worksheetname?: string
   ) => {
@@ -138,7 +138,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
     }
   };
 
-  const onGetExporInvestmentsStateAccepted = async (
+  const onGetExportInvestmentsStateAccepted = async (
     title?: string,
     worksheetname?: string
   ) => {
@@ -151,7 +151,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
           .map((investment: InvestmentData) => ({
             id: investment.id,
             idUser: investment.user.id,
-            userName: investment.user.name,
+            nameUser: investment.user.name,
             amount: investment.amount,
             tokens: investment.tokens,
             txid: investment.txid,
@@ -312,7 +312,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
             </ModalBasic>
           </button>
           <button
-            onClick={() => onGetExporInvestments("Inversiones", "Inversiones")}
+            onClick={() => onGetExportInvestments("Inversiones", "Inversiones")}
             className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
           >
             <DownloadIcon />
@@ -320,7 +320,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
           </button>
           <button
             onClick={() =>
-              onGetExporInvestmentsStateAccepted(
+              onGetExportInvestmentsStateAccepted(
                 "Inversiones Aceptadas",
                 "Inversiones Aceptadas"
               )

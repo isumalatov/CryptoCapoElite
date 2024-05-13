@@ -11,6 +11,8 @@ import {
 import { ReferralData, ReferralDataCreate } from "@/app/lib/definitions";
 import PayReferralsTable from "./pay-referrals-table";
 import ModalBasic from "@/components/modal-basic";
+import * as XLSX from "xlsx";
+import DownloadIcon from "@mui/icons-material/Download";
 import { toast } from "react-toastify";
 
 function PayReferralsContent() {
@@ -99,6 +101,33 @@ function PayReferralsContent() {
     }
   }
 
+  const onGetExportPayReferrals = async (
+    title?: string,
+    worksheetname?: string
+  ) => {
+    try {
+      if (referrals && Array.isArray(referrals)) {
+        const dataToExport = referrals.map((referral: ReferralData) => ({
+          ID: referral.id,
+          idUser: referral.id,
+          nameUser: referral.user.name,
+          Cantidad: referral.amount,
+        }));
+        // Create Excel workbook and worksheet
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils?.json_to_sheet(dataToExport);
+        XLSX.utils.book_append_sheet(workbook, worksheet, worksheetname);
+        // Save the workbook as an Excel file
+        XLSX.writeFile(workbook, `${title}.xlsx`);
+        console.log(`Exported data to ${title}.xlsx`);
+      } else {
+        toast.error("No hay datos para exportar");
+      }
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       {/* Page header */}
@@ -184,6 +213,13 @@ function PayReferralsContent() {
                 </div>
               </div>
             </ModalBasic>
+          </button>
+          <button
+            onClick={() => onGetExportPayReferrals("Referidos", "Referidos")}
+            className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+          >
+            <DownloadIcon />
+            Descargar Pagos Referidos
           </button>
         </div>
       </div>
