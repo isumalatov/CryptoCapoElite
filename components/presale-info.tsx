@@ -6,6 +6,7 @@ import "../styles/custom.css";
 import { createinvestmentuser } from "@/app/actions/investment";
 import { PresaleData, InvestmentDataCreateUser } from "@/app/lib/definitions";
 import Slider from "@mui/material/Slider";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { toast } from "react-toastify";
 
 export default function PresaleInfo({ presale }: { presale: PresaleData }) {
@@ -180,8 +181,16 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
             {/*BUTTON*/}
             <div className="basis-1/5 flex justify-center">
               <button
-                className={presale.state === "Deal Completado" ? "gradient-button-complete w-4/5 text-xl text-white rounded-full mb-6" : "gradient-button w-4/5 text-xl text-white rounded-full mb-6"}
-                onClick={(presale.state === "Participar" ? () => setStep(4) : () => setStep(1))}
+                className={
+                  presale.state === "Deal Completado"
+                    ? "gradient-button-complete w-4/5 text-xl text-white rounded-full mb-6"
+                    : "gradient-button w-4/5 text-xl text-white rounded-full mb-6"
+                }
+                onClick={
+                  presale.state === "Participar"
+                    ? () => setStep(4)
+                    : () => setStep(1)
+                }
               >
                 {presale.state}
               </button>
@@ -210,11 +219,14 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
                 Realiza la inversión a esta wallet
               </p>
               <button
-                className="basis-1/5 font-bold text-center text-2xl"
+                className="basis-1/5 font-bold text-center text-2xl flex justify-center items-center"
                 onClick={handleCopy}
                 title="Copiar al portapapeles"
               >
-                {presale.wallet}
+                <div>{presale.wallet}</div>
+                <div className="ml-1 mb-[5px]">
+                  <ContentPasteIcon />
+                </div>
               </button>
               <p className="basis-1/5 text-center text-sm font-bold">
                 {presale.tokenstandard}

@@ -138,6 +138,14 @@ export async function createinvestmentuser(
   try {
     await dbConnect();
     const session = await getSession();
+    if (
+      !investmentData.txid ||
+      !investmentData.wallet ||
+      investmentData.txid.trim() === "" ||
+      investmentData.wallet.trim() === ""
+    ) {
+      return { success: false, message: "Error al crear inversión" };
+    }
     if (!session) {
       return { success: false, message: "Error al crear inversión" };
     }
