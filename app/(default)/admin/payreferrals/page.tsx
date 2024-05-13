@@ -22,23 +22,28 @@ function PayReferralsContent() {
   const [referrals, setReferrals] = useState<ReferralData[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await fetchreferrals();
-        if (success) {
-          const referralsData: ReferralData[] = message as ReferralData[];
-          setReferrals(referralsData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchData() {
+    try {
+      const { success, message } = await fetchreferrals();
+      if (success) {
+        const referralsData: ReferralData[] = message as ReferralData[];
+        setReferrals(referralsData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [referralCreated, referralUpdated, referralDeleted]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function handleCreateReferral() {
     try {

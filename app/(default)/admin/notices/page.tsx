@@ -22,23 +22,28 @@ function NoticesContent() {
   const [notices, setNotices] = useState<NoticeData[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await fetchnotices();
-        if (success) {
-          const noticesData: NoticeData[] = message as NoticeData[];
-          setNotices(noticesData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchData() {
+    try {
+      const { success, message } = await fetchnotices();
+      if (success) {
+        const noticesData: NoticeData[] = message as NoticeData[];
+        setNotices(noticesData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [noticeCreated, noticeDeleted, noticeUpdated]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function handleCreateNotice() {
     try {

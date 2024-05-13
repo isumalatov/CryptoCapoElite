@@ -11,23 +11,28 @@ function HelpsContent() {
   const [helps, setHelps] = useState<HelpData[]>([]);
   const [noticeDeleted, setNoticeDeleted] = useState(0);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await fetchhelps();
-        if (success) {
-          const helpsData: HelpData[] = message as HelpData[];
-          setHelps(helpsData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchData() {
+    try {
+      const { success, message } = await fetchhelps();
+      if (success) {
+        const helpsData: HelpData[] = message as HelpData[];
+        setHelps(helpsData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [noticeDeleted]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function handleDeleteHelp(id: string) {
     try {

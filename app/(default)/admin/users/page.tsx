@@ -34,23 +34,28 @@ function UsersContent() {
   const [users, setUsers] = useState<UserData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await fetchusers();
-        if (success) {
-          const usersData: UserData[] = message as UserData[];
-          setUsers(usersData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchData() {
+    try {
+      const { success, message } = await fetchusers();
+      if (success) {
+        const usersData: UserData[] = message as UserData[];
+        setUsers(usersData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [userCreated, userDeleted, userUpdated]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function handleCreateUser() {
     try {

@@ -38,23 +38,28 @@ function PresalesContent() {
   const [presales, setPresales] = useState<PresaleData[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await fetchpresales();
-        if (success) {
-          const presalesData: PresaleData[] = message as PresaleData[];
-          setPresales(presalesData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchData() {
+    try {
+      const { success, message } = await fetchpresales();
+      if (success) {
+        const presalesData: PresaleData[] = message as PresaleData[];
+        setPresales(presalesData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [presaleCreated, presaleDeleted, presaleUpdated]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   async function handleCreatePresale() {
     try {
@@ -131,7 +136,10 @@ function PresalesContent() {
     }
   }
 
-  async function handleUpdatePresale(id: string, presaleData: PresaleDataCreate) {
+  async function handleUpdatePresale(
+    id: string,
+    presaleData: PresaleDataCreate
+  ) {
     try {
       const { success, message } = await updatepresale(id, presaleData);
       if (success) {

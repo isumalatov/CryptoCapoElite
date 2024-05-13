@@ -27,23 +27,28 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchInvestmentsData() {
-      try {
-        const { success, message } = await fetchpresaleinvestments(id);
-        if (success) {
-          const investmentsData: InvestmentData[] = message as InvestmentData[];
-          setInvestments(investmentsData);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
+  async function fetchInvestmentsData() {
+    try {
+      const { success, message } = await fetchpresaleinvestments(id);
+      if (success) {
+        const investmentsData: InvestmentData[] = message as InvestmentData[];
+        setInvestments(investmentsData);
       }
+      if (!success) {
+        toast.error(message as string);
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     fetchInvestmentsData();
   }, [investmentCreated, investmentDeleted, investmentUpdated]);
+
+  useEffect(() => {
+    fetchInvestmentsData();
+  }, []);
 
   async function handleCreateInvestment() {
     try {
@@ -314,7 +319,12 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
             Descargar Inversiones
           </button>
           <button
-            onClick={() => onGetExporInvestmentsStateAccepted("Inversiones Aceptadas", "Inversiones Aceptadas")}
+            onClick={() =>
+              onGetExporInvestmentsStateAccepted(
+                "Inversiones Aceptadas",
+                "Inversiones Aceptadas"
+              )
+            }
             className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
           >
             <DownloadIcon />
