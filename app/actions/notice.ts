@@ -26,6 +26,14 @@ export async function fetchnotices() {
 export async function createnotice(noticeData: NoticeDataCreate) {
   try {
     await dbConnect();
+    if (
+      !noticeData.title ||
+      !noticeData.content ||
+      noticeData.title.trim() === "" ||
+      noticeData.content.trim() === ""
+    ) {
+      return { success: false, message: "Error al crear noticia" };
+    }
     const notice = new Notice(noticeData);
     await notice.save();
     return { success: true, message: "Noticia creada" };
@@ -53,6 +61,14 @@ export async function deletenotice(id: string) {
 export async function updatenotice(id: string, noticeData: NoticeDataCreate) {
   try {
     await dbConnect();
+    if (
+      !noticeData.title ||
+      !noticeData.content ||
+      noticeData.title.trim() === "" ||
+      noticeData.content.trim() === ""
+    ) {
+      return { success: false, message: "Error al actualizar noticia" };
+    }
     const notice = await Notice.findById({ _id: id });
     if (!notice) {
       return { success: false, message: "Error al actualizar noticia" };
