@@ -1,6 +1,6 @@
 import { getid } from "@/app/actions/auth";
 import { getreferralwallet } from "@/app/actions/account";
-import { userId } from "@/app/lib/definitions";
+import { userId, userReferralWallet } from "@/app/lib/definitions";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
@@ -33,7 +33,7 @@ export default function FintechIntro() {
       try {
         const { success, message } = await getreferralwallet();
         if (success) {
-          const { referralwallet } = message as { referralwallet: string };
+          const { referralwallet } = message as userReferralWallet;
           setReferralWallet(referralwallet);
         }
         if (!success) {

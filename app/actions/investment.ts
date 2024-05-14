@@ -107,19 +107,25 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount:
-        investmentData.amount -
-        investmentData.amount *
-          ((presale as { success: boolean; message: PresaleData }).message
-            .fees /
-            100),
-      tokens:
-        (investmentData.amount -
+      amount: Number(
+        (
+          investmentData.amount -
           investmentData.amount *
             ((presale as { success: boolean; message: PresaleData }).message
               .fees /
-              100)) /
-        (presale as { success: boolean; message: PresaleData }).message.price,
+              100)
+        ).toFixed(2)
+      ),
+      tokens: Number(
+        (
+          (investmentData.amount -
+            investmentData.amount *
+              ((presale as { success: boolean; message: PresaleData }).message
+                .fees /
+                100)) /
+          (presale as { success: boolean; message: PresaleData }).message.price
+        ).toFixed(2)
+      ),
       txid: investmentData.txid,
       wallet: investmentData.wallet,
       state: investmentData.state,
@@ -177,19 +183,25 @@ export async function createinvestmentuser(
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount:
-        investmentData.amount -
-        investmentData.amount *
-          ((presale as { success: boolean; message: PresaleData }).message
-            .fees /
-            100),
-      tokens:
-        (investmentData.amount -
+      amount: Number(
+        (
+          investmentData.amount -
           investmentData.amount *
             ((presale as { success: boolean; message: PresaleData }).message
               .fees /
-              100)) /
-        (presale as { success: boolean; message: PresaleData }).message.price,
+              100)
+        ).toFixed(2)
+      ),
+      tokens: Number(
+        (
+          (investmentData.amount -
+            investmentData.amount *
+              ((presale as { success: boolean; message: PresaleData }).message
+                .fees /
+                100)) /
+          (presale as { success: boolean; message: PresaleData }).message.price
+        ).toFixed(2)
+      ),
       txid: investmentData.txid,
       wallet: investmentData.wallet,
       state: "Pendiente",
@@ -269,19 +281,26 @@ export async function updateinvestment(
           name: (presale as { success: boolean; message: PresaleData }).message
             .name,
         },
-        amount:
-          investmentData.amount -
-          investmentData.amount *
-            ((presale as { success: boolean; message: PresaleData }).message
-              .fees /
-              100),
-        tokens:
-          (investmentData.amount -
+        amount: Number(
+          (
+            investmentData.amount -
             investmentData.amount *
               ((presale as { success: boolean; message: PresaleData }).message
                 .fees /
-                100)) /
-          (presale as { success: boolean; message: PresaleData }).message.price,
+                100)
+          ).toFixed(2)
+        ),
+        tokens: Number(
+          (
+            (investmentData.amount -
+              investmentData.amount *
+                ((presale as { success: boolean; message: PresaleData }).message
+                  .fees /
+                  100)) /
+            (presale as { success: boolean; message: PresaleData }).message
+              .price
+          ).toFixed(2)
+        ),
         txid: investmentData.txid,
         wallet: investmentData.wallet,
         state: investmentData.state,
@@ -289,16 +308,17 @@ export async function updateinvestment(
     );
     if (
       (profile as { success: boolean; message: UserData }).message.referral
-        .id != "" &&
+        .id &&
+      (
+        profile as { success: boolean; message: UserData }
+      ).message.referral.id.trim() !== "" &&
       investmentData.state == "Aceptado"
     ) {
       const referralData: ReferralDataCreate = {
         idUser: (profile as { success: boolean; message: UserData }).message.id,
-        amount:
-          investmentData.amount *
-          ((presale as { success: boolean; message: PresaleData }).message
-            .fees /
-            200),
+        amount: investmentData.amount * 0.01,
+        wallet: (profile as { success: boolean; message: UserData }).message
+          .referralwallet,
       };
       await createreferral(referralData);
     }

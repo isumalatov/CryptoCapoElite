@@ -52,7 +52,7 @@ export default function Referrals() {
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       <WelcomeBanner
         title="Tus Referidos 🚀"
-        subtitle="¡Por un referido obtienes el 1% de sus compra, por 3 un 3% y por 5 un 7%!"
+        subtitle="¡Por un referido obtienes el 1% de sus compra, por 3 un 3% y por 5 o mas un 7%!"
       />
       <FintechIntro />
       <ReferralsContent />

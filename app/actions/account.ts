@@ -3,16 +3,21 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User from "@/models/User";
 import { getSession } from "../lib/session";
-import {
-  ProfileFormData,
-  NotificationFormData,
-} from "@/app/lib/definitions";
+import { ProfileFormData, NotificationFormData } from "@/app/lib/definitions";
 
 export async function changeprofile(profileData: ProfileFormData) {
   try {
     await dbConnect();
-    if(!profileData.name || !profileData.email || profileData.name.trim() === "" || profileData.email.trim() === "") {
-      return { success: false, message: "Error al modificar datos del usuario" };
+    if (
+      !profileData.name ||
+      !profileData.email ||
+      profileData.name.trim() === "" ||
+      profileData.email.trim() === ""
+    ) {
+      return {
+        success: false,
+        message: "Error al modificar datos del usuario",
+      };
     }
     const session = await getSession();
     if (!session) {
@@ -97,7 +102,10 @@ export async function getreferralwallet() {
     if (!user) {
       return { success: false, message: "Error al cargar wallet de referidos" };
     }
-    return { success: true, message: user.referralwallet };
+    const referralwallet = {
+      referralwallet: user.referralwallet,
+    };
+    return { success: true, message: referralwallet };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al cargar wallet de referidos" };

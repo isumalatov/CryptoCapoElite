@@ -14,10 +14,12 @@ import ModalBasic from "@/components/modal-basic";
 import * as XLSX from "xlsx";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toast } from "react-toastify";
+import { set } from "mongoose";
 
 function PayReferralsContent() {
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState(0);
+  const [wallet, setWallet] = useState("");
   const [referralCreated, setReferralCreated] = useState(0);
   const [referralUpdated, setReferralUpdated] = useState(0);
   const [referralDeleted, setReferralDeleted] = useState(0);
@@ -52,6 +54,7 @@ function PayReferralsContent() {
       const referralData: ReferralDataCreate = {
         idUser: idUser,
         amount: amount,
+        wallet: wallet,
       };
       const { success, message } = await createreferral(referralData);
       if (success) {
@@ -112,6 +115,7 @@ function PayReferralsContent() {
           idUser: referral.id,
           nameUser: referral.user.name,
           Cantidad: referral.amount,
+          Wallet: referral.wallet,
         }));
         // Create Excel workbook and worksheet
         const workbook = XLSX.utils.book_new();
@@ -189,6 +193,22 @@ function PayReferralsContent() {
                       required
                       value={amount}
                       onChange={(e) => setAmount(Number(e.target.value))}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="wallet"
+                    >
+                      Wallet <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="wallet"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={wallet}
+                      onChange={(e) => setWallet(e.target.value)}
                     />
                   </div>
                 </div>

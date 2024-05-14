@@ -13,6 +13,7 @@ export default function PayReferralsTableItem({
 }) {
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState<number>(0);
+  const [wallet, setWallet] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
   async function handleDeleteReferral(id: string) {
@@ -23,6 +24,7 @@ export default function PayReferralsTableItem({
     onUpdate(referral.id, {
       idUser,
       amount,
+      wallet,
     });
     setModalOpen(false);
   }
@@ -34,6 +36,9 @@ export default function PayReferralsTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="font-medium text-sky-500">{referral.amount}$</div>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <div className="font-medium text-sky-500">{referral.wallet}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">

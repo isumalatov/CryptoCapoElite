@@ -222,9 +222,11 @@ export interface ReferralData {
   id: string;
   user: { id: string; name: string };
   amount: number;
+  wallet: string;
 }
 
 export interface ReferralDataCreate {
   idUser: string;
   amount: number;
+  wallet: string;
 }

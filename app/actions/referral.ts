@@ -26,6 +26,7 @@ export async function fetchreferrals() {
         id: r._id.toString(),
         user: { id: r.user.id, name: r.user.name },
         amount: r.amount,
+        wallet: r.wallet,
       };
     });
     return { success: true, message: referralData };
@@ -90,6 +91,7 @@ export async function createreferral(referralData: ReferralDataCreate) {
         name: (profile as { success: boolean; message: UserData }).message.name,
       },
       amount: referralData.amount,
+      wallet: referralData.wallet,
     });
     await referral.save();
     return { success: true, message: "Referido creado" };
@@ -136,6 +138,7 @@ export async function updatereferral(
             .name,
         },
         amount: referralData.amount,
+        wallet: referralData.wallet,
       }
     );
     return { success: true, message: "Referido actualizado" };
