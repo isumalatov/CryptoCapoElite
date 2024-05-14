@@ -314,10 +314,7 @@ export async function updateinvestment(
     );
     if (
       (profile as { success: boolean; message: UserData }).message.referral
-        .id &&
-      (
-        profile as { success: boolean; message: UserData }
-      ).message.referral.id.trim() !== "" &&
+        .id != "" &&
       investmentData.state == "Aceptado"
     ) {
       const referralData: ReferralDataCreate = {
