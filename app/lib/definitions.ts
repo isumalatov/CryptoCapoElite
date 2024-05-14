@@ -221,12 +221,14 @@ export interface InvestmentDataCreateUser {
 export interface ReferralData {
   id: string;
   user: { id: string; name: string };
+  investment : { id: string };
   amount: number;
   wallet: string;
 }
 
 export interface ReferralDataCreate {
   idUser: string;
+  idInvestment: string;
   amount: number;
   wallet: string;
 }

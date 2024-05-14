@@ -18,6 +18,7 @@ import { set } from "mongoose";
 
 function PayReferralsContent() {
   const [idUser, setIdUser] = useState("");
+  const [idInvestment, setIdInvestment] = useState("");
   const [amount, setAmount] = useState(0);
   const [wallet, setWallet] = useState("");
   const [referralCreated, setReferralCreated] = useState(0);
@@ -53,6 +54,7 @@ function PayReferralsContent() {
     try {
       const referralData: ReferralDataCreate = {
         idUser: idUser,
+        idInvestment: idInvestment,
         amount: amount,
         wallet: wallet,
       };
@@ -177,6 +179,22 @@ function PayReferralsContent() {
                       required
                       value={idUser}
                       onChange={(e) => setIdUser(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="investment"
+                    >
+                      ID Inversion <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="investment"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={idInvestment}
+                      onChange={(e) => setIdInvestment(e.target.value)}
                     />
                   </div>
                   <div>

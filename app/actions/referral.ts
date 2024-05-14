@@ -25,6 +25,7 @@ export async function fetchreferrals() {
       return {
         id: r._id.toString(),
         user: { id: r.user.id, name: r.user.name },
+        investment: { id: r.investment.id },
         amount: r.amount,
         wallet: r.wallet,
       };
@@ -90,6 +91,7 @@ export async function createreferral(referralData: ReferralDataCreate) {
         id: referralData.idUser,
         name: (profile as { success: boolean; message: UserData }).message.name,
       },
+      investment: { id: referralData.idInvestment },
       amount: referralData.amount,
       wallet: referralData.wallet,
     });
@@ -116,6 +118,22 @@ export async function deletereferral(id: string) {
   }
 }
 
+export async function deletereferralinvestmentid(id: string) {
+  try {
+    await dbConnect();
+    const referral = await Referral.findById({ "investment.id": id });
+    if (!referral) {
+      return { success: false, message: "Referido no encontrado" };
+    }
+    await Referral.deleteOne({ "investment.id": id });
+    return { success: true, message: "Referido eliminado" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al eliminar referido" };
+  }
+}
+
+
 export async function updatereferral(
   id: string,
   referralData: ReferralDataCreate
@@ -137,6 +155,7 @@ export async function updatereferral(
           name: (profile as { success: boolean; message: UserData }).message
             .name,
         },
+        investment: { id: referralData.idInvestment },
         amount: referralData.amount,
         wallet: referralData.wallet,
       }

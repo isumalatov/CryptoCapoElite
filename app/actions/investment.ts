@@ -13,7 +13,7 @@ import {
 import { getSession } from "../lib/session";
 import { fetchuserid } from "./user";
 import { fetchpresaleid } from "./presale";
-import { createreferral, deletereferral } from "./referral";
+import { createreferral, deletereferralinvestmentid } from "./referral";
 
 export async function fetchpresaleinvestments(id: string) {
   try {
@@ -229,9 +229,7 @@ export async function deleteinvestment(id: string) {
       (profile as { success: boolean; message: UserData }).message.referral
         .id != ""
     ) {
-      await deletereferral(
-        (profile as { success: boolean; message: UserData }).message.referral.id
-      );
+      await deletereferralinvestmentid(investment._id.toString());
     }
     return { success: true, message: "Inversión eliminada" };
   } catch (err) {
@@ -317,11 +315,18 @@ export async function updateinvestment(
         .id != "" &&
       investmentData.state == "Aceptado"
     ) {
+      const referralprofile = await fetchuserid(
+        (profile as { success: boolean; message: UserData }).message.referral.id
+      );
+      if (!(referralprofile as { success: boolean; message: UserData }).success)
+        return { success: false, message: "Error al actualizar inversión" };
       const referralData: ReferralDataCreate = {
-        idUser: (profile as { success: boolean; message: UserData }).message.id,
+        idUser: (referralprofile as { success: boolean; message: UserData })
+          .message.id,
+        idInvestment: investment._id.toString(),
         amount: investmentData.amount * 0.01,
-        wallet: (profile as { success: boolean; message: UserData }).message
-          .referralwallet,
+        wallet: (referralprofile as { success: boolean; message: UserData })
+          .message.referralwallet,
       };
       await createreferral(referralData);
     }
@@ -330,9 +335,8 @@ export async function updateinvestment(
         .id != "" &&
       investmentData.state == "Denegado"
     ) {
-      await deletereferral(
-        (profile as { success: boolean; message: UserData }).message.referral.id
-      );
+      await deletereferralinvestmentid(investment._id.toString());
+      investment._id.toString();
     }
     return { success: true, message: "Inversión actualizada" };
   } catch (err) {
