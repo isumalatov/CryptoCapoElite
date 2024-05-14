@@ -33,7 +33,7 @@ export default function PayReferralsTableItem({
         <div className="font-medium text-sky-500">{referral.user.name}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{referral.amount}</div>
+        <div className="font-medium text-sky-500">{referral.amount}$</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
