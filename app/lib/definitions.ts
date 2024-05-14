@@ -14,6 +14,7 @@ export interface UserData {
   allowemailcancel: boolean;
   allowemailnew: boolean;
   referral: { id: string; name: string };
+  referralwallet: string;
 }
 
 export interface UserDataCreate {
@@ -27,6 +28,7 @@ export interface UserDataCreate {
   allowemailcancel: boolean;
   allowemailnew: boolean;
   idUser: string;
+  referralwallet: string;
 }
 
 export interface UserDataUpdate {
@@ -39,6 +41,7 @@ export interface UserDataUpdate {
   allowemailcancel: boolean;
   allowemailnew: boolean;
   idUser: string;
+  referralwallet: string;
 }
 
 export interface SignInFormData {
@@ -74,6 +77,7 @@ export interface ProfileFormData {
   email: string;
   telegram: string;
   discord: string;
+  referralwallet: string;
 }
 
 export interface NotificationFormData {
@@ -92,6 +96,10 @@ export interface userId {
 
 export interface userName {
   name: string;
+}
+
+export interface userReferralWallet {
+  referralwallet: string;
 }
 
 export interface WelcomeBannerProps {

@@ -16,6 +16,7 @@ import {
 import UsersTable from "./users-table";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
+import { set } from "mongoose";
 
 function UsersContent() {
   const [admin, setAdmin] = useState(false);
@@ -28,6 +29,7 @@ function UsersContent() {
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
   const [userId, setUserId] = useState("");
+  const [referralwallet, setReferralWallet] = useState("");
   const [userCreated, setUserCreated] = useState(0);
   const [userDeleted, setUserDeleted] = useState(0);
   const [userUpdated, setUserUpdated] = useState(0);
@@ -70,6 +72,7 @@ function UsersContent() {
         allowemailcancel: allowemailcancel,
         allowemailnew: allowemailnew,
         idUser: userId,
+        referralwallet: referralwallet,
       };
       const { success, message } = await createuser(userData);
       if (success) {
@@ -342,6 +345,23 @@ function UsersContent() {
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="referralwallet"
+                      >
+                        Billetera de referido
+                        <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        id="referralwallet"
+                        className="form-input w-full px-2 py-1"
+                        type="text"
+                        required
+                        value={referralwallet}
+                        onChange={(e) => setReferralWallet(e.target.value)}
                       />
                     </div>
                   </div>

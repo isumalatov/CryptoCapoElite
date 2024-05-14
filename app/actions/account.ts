@@ -85,3 +85,21 @@ export async function changenotifications(
     return { success: false, message: "Error al modificar notificaciones" };
   }
 }
+
+export async function getreferralwallet() {
+  try {
+    await dbConnect();
+    const session = await getSession();
+    if (!session) {
+      return { success: false, message: "Error al cargar wallet de referidos" };
+    }
+    const user = await User.findOne({ _id: session.userId });
+    if (!user) {
+      return { success: false, message: "Error al cargar wallet de referidos" };
+    }
+    return { success: true, message: user.referralwallet };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar wallet de referidos" };
+  }
+}

@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import WelcomeBanner from "../welcome-banner";
 import FintechIntro from "../fintech-intro";
-import { getid } from "@/app/actions/auth";
 import { fetchreferredusers, getusertotalamount } from "@/app/actions/referral";
-import { userId, UserData } from "@/app/lib/definitions";
+import { UserData } from "@/app/lib/definitions";
 import ReferralsTable from "./referrals-table";
 import { toast } from "react-toastify";
 
@@ -49,32 +48,13 @@ function ReferralsContent() {
 }
 
 export default function Referrals() {
-  const [id, setId] = useState("");
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { success, message } = await getid();
-        if (success) {
-          const { id } = message as userId;
-          setId(id);
-        }
-        if (!success) {
-          toast.error(message as string);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fetchData();
-  }, []);
-
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       <WelcomeBanner
         title="Tus Referidos 🚀"
         subtitle="¡Por un referido obtienes el 1% de sus compra, por 3 un 3% y por 5 un 7%!"
       />
-      <FintechIntro/>
+      <FintechIntro />
       <ReferralsContent />
     </div>
   );

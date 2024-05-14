@@ -83,6 +83,7 @@ export async function signup(prevState: any, formData: FormData) {
       telegram: "",
       resetpasswordtoken: "",
       referral: { id: "", name: "" },
+      referralwallet: "",
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);
@@ -166,6 +167,7 @@ export async function signupreferral(
       telegram: "",
       resetpasswordtoken: "",
       referral: { id: idUser, name: profile.name },
+      referralwallet: "",
     });
     await user.save();
     await createSession(user._id, user.admin, user.name);

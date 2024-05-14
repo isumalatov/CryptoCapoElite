@@ -12,6 +12,7 @@ export interface Users extends mongoose.Document {
   allowemailnew: boolean;
   resetpasswordtoken: string;
   referral: Users;
+  referralwallet: string;
 }
 
 const UserSchema = new mongoose.Schema<Users>({
@@ -29,6 +30,7 @@ const UserSchema = new mongoose.Schema<Users>({
     id: { type: String, required: false },
     name: { type: String, required: false },
   },
+  referralwallet: { type: String, required: false },
 });
 
 export default mongoose.models.User ||

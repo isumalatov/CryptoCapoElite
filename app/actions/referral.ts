@@ -68,6 +68,7 @@ export async function fetchreferredusers() {
         allowemailcancel: u.allowemailcancel,
         allowemailnew: u.allowemailnew,
         referral: { id: u.referral.id, name: u.referral.name },
+        referralwallet: u.referralwallet,
       };
     });
     return { success: true, message: UserData };

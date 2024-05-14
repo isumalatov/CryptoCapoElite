@@ -29,6 +29,7 @@ export async function fetchusers() {
       allowemailcancel: n.allowemailcancel,
       allowemailnew: n.allowemailnew,
       referral: { id: n.referral.id, name: n.referral.name },
+      referralwallet: n.referralwallet,
     }));
     return { success: true, message: usersData };
   } catch (err) {
@@ -60,6 +61,7 @@ export async function fetchuser() {
       allowemailcancel: user.allowemailcancel,
       allowemailnew: user.allowemailnew,
       referral: { id: user.referral.id, name: user.referral.name },
+      referralwallet: user.referralwallet,
     };
     return { success: true, message: userData };
   } catch (err) {
@@ -87,6 +89,7 @@ export async function fetchuserid(id: string) {
       allowemailcancel: user.allowemailcancel,
       allowemailnew: user.allowemailnew,
       referral: { id: user.referral.id, name: user.referral.name },
+      referralwallet: user.referralwallet,
     };
     return { success: true, message: userData };
   } catch (err) {
@@ -119,6 +122,7 @@ export async function createuser(userData: UserDataCreate) {
         id: userData.idUser,
         name: profile ? (profile as { success: boolean; message: UserData }).message.name : "",
       },
+      referralwallet: userData.referralwallet,
     });
     await user.save();
     return { success: true, message: "Usuario creado" };
@@ -185,6 +189,7 @@ export async function updateuser(id: string, userData: UserDataUpdate) {
           name: (profile as { success: boolean; message: UserData }).message
             .name,
         },
+        referralwallet: userData.referralwallet,
       }
     );
     return { success: true, message: "Usuario actualizado" };

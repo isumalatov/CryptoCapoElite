@@ -1,15 +1,19 @@
 import { getid } from "@/app/actions/auth";
+import { getreferralwallet } from "@/app/actions/account";
 import { userId } from "@/app/lib/definitions";
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { toast } from "react-toastify";
 
 export default function FintechIntro() {
+  const router = useRouter();
   const [id, setId] = useState("");
   const [link, setLink] = useState("");
+  const [referralwallet, setReferralWallet] = useState("");
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchDataId() {
       try {
         const { success, message } = await getid();
         if (success) {
@@ -24,7 +28,23 @@ export default function FintechIntro() {
         console.error(err);
       }
     }
-    fetchData();
+    
+    async function fetchDataReferralWallet() {
+      try {
+        const { success, message } = await getreferralwallet();
+        if (success) {
+          const { referralwallet } = message as { referralwallet: string };
+          setReferralWallet(referralwallet);
+        }
+        if (!success) {
+          toast.error(message as string);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchDataId();
+    fetchDataReferralWallet();
   }, []);
 
   const handleCopy = useCallback(async () => {
@@ -39,20 +59,35 @@ export default function FintechIntro() {
           {/* Left side */}
           <div className="flex items-center mb-4 md:mb-0">
             {/* User info */}
-            <div>
-              <div className="mb-2">Este es tu link de referido:</div>
-              <button
-                className="text-3xl font-bold text-emerald-500 flex justify-center items-center"
-                onClick={handleCopy}
-                title="Copiar al portapapeles"
-              >
-                <div className="hidden md:block">{link}</div>
-                <div className="md:hidden">Copiar Link:</div>
-                <div className="ml-1 mb-[2x]">
-                  <ContentPasteIcon />
+            {!referralwallet || referralwallet.trim() === "" ? (
+              <div>
+                <div className="mb-2">
+                  Para obtener el link, debes de establecer una billetera de
+                  referridos en Ajustes:
                 </div>
-              </button>
-            </div>
+                <button
+                  className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                  onClick={() => router.push("/settings/account")}
+                >
+                  Ir a Ajustes
+                </button>
+              </div>
+            ) : (
+              <div>
+                <div className="mb-2">Este es tu link de referido:</div>
+                <button
+                  className="text-3xl font-bold text-emerald-500 flex justify-center items-center"
+                  onClick={handleCopy}
+                  title="Copiar al portapapeles"
+                >
+                  <div className="hidden md:block">{link}</div>
+                  <div className="md:hidden">Copiar Link:</div>
+                  <div className="ml-1 mb-[2x]">
+                    <ContentPasteIcon />
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

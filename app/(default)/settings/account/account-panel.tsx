@@ -14,6 +14,7 @@ export default function AccountPanel() {
   const [email, setEmail] = useState("");
   const [telegram, setTelegram] = useState("");
   const [discord, setDiscord] = useState("");
+  const [referralwallet, setReferralWallet] = useState("");
   const [oldpassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [repeatpassword, setRepeatPassword] = useState("");
@@ -29,6 +30,7 @@ export default function AccountPanel() {
           setEmail(email);
           setTelegram(telegram);
           setDiscord(discord);
+          setReferralWallet(referralwallet);
         } else {
           toast.error(message as string);
         }
@@ -46,6 +48,7 @@ export default function AccountPanel() {
         email,
         telegram,
         discord,
+        referralwallet,
       };
       const { success, message } = await changeprofile(profileData);
       if (success) {
@@ -239,6 +242,30 @@ export default function AccountPanel() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </div>
+        </section>
+        {/* Referral Wallet */}
+        <section>
+          <h2 className="text-xl leading-snug text-slate-800 dark:text-slate-100 font-bold mb-1">
+            Billetera de Referido
+          </h2>
+          <div className="text-sm">
+            ¡Cambia la dirreccion de la billetera donde recibirás las
+            recompensas por referido!
+          </div>
+          <div className="flex flex-wrap mt-5">
+            <div className="mr-2">
+              <label className="sr-only" htmlFor="referralwallet">
+                Billetera de Referido
+              </label>
+              <input
+                id="referralwallet"
+                className="form-input"
+                type="text"
+                value={referralwallet}
+                onChange={(e) => setReferralWallet(e.target.value)}
               />
             </div>
           </div>

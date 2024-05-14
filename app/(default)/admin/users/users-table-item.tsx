@@ -20,6 +20,7 @@ export default function NoticesTableItem({
   const [allowemailcancel, setAllowEmailCancel] = useState(false);
   const [allowemailnew, setAllowEmailNew] = useState(false);
   const [userId, setUserId] = useState("");
+  const [referralwallet, setReferralWallet] = useState("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function handleDeleteUser(id: string) {
@@ -37,6 +38,7 @@ export default function NoticesTableItem({
       allowemailcancel,
       allowemailnew,
       idUser: userId,
+      referralwallet,
     });
     setModalOpen(false);
   }
@@ -50,7 +52,9 @@ export default function NoticesTableItem({
         <div className="font-medium text-sky-500">{user.name}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{user.telegram ? user.telegram : "Sin establecer"}</div>
+        <div className="font-medium text-sky-500">
+          {user.telegram ? user.telegram : "Sin establecer"}
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -277,6 +281,23 @@ export default function NoticesTableItem({
                       type="text"
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="referralwallet"
+                    >
+                      Billetera de referido
+                      <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="referralwallet"
+                      className="form-input w-full px-2 py-1"
+                      type="text"
+                      required
+                      value={referralwallet}
+                      onChange={(e) => setReferralWallet(e.target.value)}
                     />
                   </div>
                 </div>
