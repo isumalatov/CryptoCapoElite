@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import WelcomeBanner from "../welcome-banner";
+import FintechIntro from "../fintech-intro";
 import { getid } from "@/app/actions/auth";
 import { fetchreferredusers, getusertotalamount } from "@/app/actions/referral";
 import { userId, UserData } from "@/app/lib/definitions";
@@ -71,8 +72,9 @@ export default function Referrals() {
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
       <WelcomeBanner
         title="Tus Referidos 🚀"
-        subtitle={`¡Gana dinero por cada usuario invitado con este link! : https://crypto-capo-elite.vercel.app/signup/${id}`}
+        subtitle="¡Por un referido obtienes el 1% de sus compra, por 3 un 3% y por 5 un 7%!"
       />
+      <FintechIntro/>
       <ReferralsContent />
     </div>
   );
