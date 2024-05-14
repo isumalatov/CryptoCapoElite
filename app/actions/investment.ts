@@ -281,26 +281,32 @@ export async function updateinvestment(
           name: (presale as { success: boolean; message: PresaleData }).message
             .name,
         },
-        amount: Number(
-          (
-            investmentData.amount -
-            investmentData.amount *
-              ((presale as { success: boolean; message: PresaleData }).message
-                .fees /
-                100)
-          ).toFixed(2)
-        ),
-        tokens: Number(
-          (
-            (investmentData.amount -
-              investmentData.amount *
-                ((presale as { success: boolean; message: PresaleData }).message
-                  .fees /
-                  100)) /
-            (presale as { success: boolean; message: PresaleData }).message
-              .price
-          ).toFixed(2)
-        ),
+        amount:
+          investmentData.amount === investment.amount
+            ? investment.amount
+            : Number(
+                (
+                  investmentData.amount -
+                  investmentData.amount *
+                    ((presale as { success: boolean; message: PresaleData })
+                      .message.fees /
+                      100)
+                ).toFixed(2)
+              ),
+        tokens:
+          investmentData.amount === investment.amount
+            ? investment.tokens
+            : Number(
+                (
+                  (investmentData.amount -
+                    investmentData.amount *
+                      ((presale as { success: boolean; message: PresaleData })
+                        .message.fees /
+                        100)) /
+                  (presale as { success: boolean; message: PresaleData })
+                    .message.price
+                ).toFixed(2)
+              ),
         txid: investmentData.txid,
         wallet: investmentData.wallet,
         state: investmentData.state,
