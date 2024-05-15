@@ -26,6 +26,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
       const { success, message } = await createinvestmentuser(investment);
       if (success) {
         toast.success(message);
+        setStep(1);
       }
       if (!success) {
         toast.error(message as string);
@@ -219,7 +220,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
                 Realiza la inversión a esta wallet
               </p>
               <button
-                className="basis-1/5 font-bold text-center text-2xl flex justify-center items-center"
+                className="basis-1/5 font-bold text-center text-2xl flex justify-center"
                 onClick={handleCopy}
                 title="Copiar al portapapeles"
               >

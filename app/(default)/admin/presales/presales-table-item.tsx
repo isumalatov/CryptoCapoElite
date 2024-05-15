@@ -4,6 +4,7 @@ import { deleteImage, uploadImage } from "@/app/actions/presale";
 import ModalBasic from "@/components/modal-basic";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { set } from "mongoose";
 
 export default function PresalesTableItem({
   presale,
@@ -133,6 +134,9 @@ export default function PresalesTableItem({
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="font-medium text-sky-500">{presale.title}</div>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <div className="font-medium text-sky-500">{presale.state}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -279,8 +283,8 @@ export default function PresalesTableItem({
                       className="form-input w-full px-2 py-1"
                       type="text"
                       required
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={wallet}
+                      onChange={(e) => setWallet(e.target.value)}
                     />
                   </div>
                   <div>

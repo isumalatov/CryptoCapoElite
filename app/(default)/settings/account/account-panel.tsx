@@ -25,7 +25,8 @@ export default function AccountPanel() {
       try {
         const { success, message } = await fetchuser();
         if (success) {
-          const { name, email, telegram, discord } = message as ProfileFormData;
+          const { name, email, telegram, discord, referralwallet } =
+            message as ProfileFormData;
           setName(name);
           setEmail(email);
           setTelegram(telegram);
