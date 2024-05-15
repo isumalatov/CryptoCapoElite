@@ -54,7 +54,10 @@ export default function PayReferralsTableItem({
             onClick={() => {
               setModalOpen(true);
               setIdUser(referral.user.id);
+              setIdInvestment(referral.investment.id);
               setAmount(referral.amount);
+              setWallet(referral.wallet);
+              setState(referral.state);
             }}
           >
             <span className="sr-only">Editar</span>

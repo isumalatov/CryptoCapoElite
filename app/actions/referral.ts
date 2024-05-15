@@ -10,6 +10,7 @@ import {
   UserData,
 } from "@/app/lib/definitions";
 import { fetchuserid } from "./user";
+import mongoose from 'mongoose';
 
 export async function fetchreferrals() {
   try {
@@ -44,7 +45,8 @@ export async function fetchreferrals() {
 export async function fetchreferralinvestmentid(idInvestment: string) {
   try {
     await dbConnect();
-    const referral = await Referral.findById({ "investment.id": idInvestment });
+    const referralId = new mongoose.Types.ObjectId(idInvestment);
+    const referral = await Referral.findOne({ "investment.id": referralId });
     if (!referral) {
       return {
         success: false,
@@ -148,7 +150,8 @@ export async function deletereferral(id: string) {
 export async function deletereferralinvestmentid(idInvestment: string) {
   try {
     await dbConnect();
-    const referral = await Referral.findOne({ "investment.id": idInvestment });
+    const referralId = new mongoose.Types.ObjectId(idInvestment);
+    const referral = await Referral.findOne({ "investment.id": referralId });
     if (!referral) {
       return { success: false, message: "Referido no encontrado" };
     }
@@ -203,7 +206,8 @@ export async function updatereferralinvestmentid(
     const profile = await fetchuserid(referralData.idUser);
     if (!(profile as { success: boolean; message: UserData }).success)
       return { success: false, message: "Error al actualizar inversión" };
-    const referral = await Referral.findOne({ "investment.id": idInvestment });
+    const referralId = new mongoose.Types.ObjectId(idInvestment);
+    const referral = await Referral.findOne({ "investment.id": referralId });
     if (!referral) {
       return { success: false, message: "Referido no encontrado" };
     }

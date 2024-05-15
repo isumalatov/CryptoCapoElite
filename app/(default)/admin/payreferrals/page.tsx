@@ -114,12 +114,44 @@ function PayReferralsContent() {
     try {
       if (referrals && Array.isArray(referrals)) {
         const dataToExport = referrals.map((referral: ReferralData) => ({
-          ID: referral.id,
+          id: referral.id,
           idUser: referral.id,
           nameUser: referral.user.name,
-          Cantidad: referral.amount,
-          Wallet: referral.wallet,
+          amount: referral.amount,
+          wallet: referral.wallet,
+          state: referral.state,
         }));
+        // Create Excel workbook and worksheet
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils?.json_to_sheet(dataToExport);
+        XLSX.utils.book_append_sheet(workbook, worksheet, worksheetname);
+        // Save the workbook as an Excel file
+        XLSX.writeFile(workbook, `${title}.xlsx`);
+        console.log(`Exported data to ${title}.xlsx`);
+      } else {
+        toast.error("No hay datos para exportar");
+      }
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
+
+  const onGetExportPayReferralsStateAccepted = async (
+    title?: string,
+    worksheetname?: string
+  ) => {
+    try {
+      if (referrals && Array.isArray(referrals)) {
+        const dataToExport = referrals
+          .filter((referral: ReferralData) => referral.state === "Aceptado")
+          .map((referral: ReferralData) => ({
+            id: referral.id,
+            idUser: referral.id,
+            nameUser: referral.user.name,
+            amount: referral.amount,
+            wallet: referral.wallet,
+            state: referral.state,
+          }));
         // Create Excel workbook and worksheet
         const workbook = XLSX.utils.book_new();
         const worksheet = XLSX.utils?.json_to_sheet(dataToExport);
@@ -279,6 +311,18 @@ function PayReferralsContent() {
           >
             <DownloadIcon />
             Descargar Pagos Referidos
+          </button>
+          <button
+            onClick={() =>
+              onGetExportPayReferralsStateAccepted(
+                "Referidos Aceptados",
+                "Referidos Aceptados"
+              )
+            }
+            className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+          >
+            <DownloadIcon />
+            Descargar Pagos Referidos Aceptados
           </button>
         </div>
       </div>

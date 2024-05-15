@@ -398,7 +398,8 @@ export async function updateinvestment(
             (investment.amount /
               (1 -
                 (presale as { success: boolean; message: PresaleData }).message
-                  .fees)) *
+                  .fees /
+                  100)) *
             0.01
           ).toFixed(2)
         ),
