@@ -7,6 +7,7 @@ export interface Referrals extends mongoose.Document {
   investment: Investments;
   amount: number;
   wallet: string;
+  state: string;
 }
 
 const ReferralSchema = new mongoose.Schema<Referrals>({
@@ -19,6 +20,7 @@ const ReferralSchema = new mongoose.Schema<Referrals>({
   },
   amount: { type: Number, required: true },
   wallet: { type: String, required: true },
+  state: { type: String, required: true },
 });
 
 export default mongoose.models.Referral ||

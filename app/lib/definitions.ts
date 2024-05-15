@@ -224,6 +224,7 @@ export interface ReferralData {
   investment : { id: string };
   amount: number;
   wallet: string;
+  state: string;
 }
 
 export interface ReferralDataCreate {
@@ -231,4 +232,5 @@ export interface ReferralDataCreate {
   idInvestment: string;
   amount: number;
   wallet: string;
+  state: string;
 }

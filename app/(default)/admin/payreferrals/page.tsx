@@ -14,13 +14,13 @@ import ModalBasic from "@/components/modal-basic";
 import * as XLSX from "xlsx";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toast } from "react-toastify";
-import { set } from "mongoose";
 
 function PayReferralsContent() {
   const [idUser, setIdUser] = useState("");
   const [idInvestment, setIdInvestment] = useState("");
   const [amount, setAmount] = useState(0);
   const [wallet, setWallet] = useState("");
+  const [state, setState] = useState("");
   const [referralCreated, setReferralCreated] = useState(0);
   const [referralUpdated, setReferralUpdated] = useState(0);
   const [referralDeleted, setReferralDeleted] = useState(0);
@@ -57,6 +57,7 @@ function PayReferralsContent() {
         idInvestment: idInvestment,
         amount: amount,
         wallet: wallet,
+        state: state,
       };
       const { success, message } = await createreferral(referralData);
       if (success) {
@@ -228,6 +229,26 @@ function PayReferralsContent() {
                       value={wallet}
                       onChange={(e) => setWallet(e.target.value)}
                     />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="state"
+                    >
+                      Estado
+                    </label>
+                    <select
+                      id="state"
+                      className="form-select w-full px-2 py-1"
+                      required
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
+                    >
+                      <option value="">Selecciona un estado</option>
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="Aceptado">Aceptado</option>
+                      <option value="Denegado">Denegado</option>
+                    </select>
                   </div>
                 </div>
               </div>

@@ -28,6 +28,7 @@ export async function fetchreferrals() {
         investment: { id: r.investment.id },
         amount: r.amount,
         wallet: r.wallet,
+        state: r.state,
       };
     });
     return { success: true, message: referralData };
@@ -37,6 +38,31 @@ export async function fetchreferrals() {
       success: false,
       message: "Error al cargar datos de los referidos",
     };
+  }
+}
+
+export async function fetchreferralinvestmentid(idInvestment: string) {
+  try {
+    await dbConnect();
+    const referral = await Referral.findById({ "investment.id": idInvestment });
+    if (!referral) {
+      return {
+        success: false,
+        message: "Error al cargar datos del referido",
+      };
+    }
+    const referralData: ReferralData = {
+      id: referral._id.toString(),
+      user: { id: referral.user.id, name: referral.user.name },
+      investment: { id: referral.investment.id },
+      amount: referral.amount,
+      wallet: referral.wallet,
+      state: referral.state,
+    };
+    return { success: true, message: referralData };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar datos del referido" };
   }
 }
 
@@ -94,6 +120,7 @@ export async function createreferral(referralData: ReferralDataCreate) {
       investment: { id: referralData.idInvestment },
       amount: referralData.amount,
       wallet: referralData.wallet,
+      state: referralData.state,
     });
     await referral.save();
     return { success: true, message: "Referido creado" };
@@ -118,21 +145,20 @@ export async function deletereferral(id: string) {
   }
 }
 
-export async function deletereferralinvestmentid(id: string) {
+export async function deletereferralinvestmentid(idInvestment: string) {
   try {
     await dbConnect();
-    const referral = await Referral.findById({ "investment.id": id });
+    const referral = await Referral.findOne({ "investment.id": idInvestment });
     if (!referral) {
       return { success: false, message: "Referido no encontrado" };
     }
-    await Referral.deleteOne({ "investment.id": id });
+    await Referral.deleteOne({ "investment.id": idInvestment });
     return { success: true, message: "Referido eliminado" };
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al eliminar referido" };
   }
 }
-
 
 export async function updatereferral(
   id: string,
@@ -158,6 +184,41 @@ export async function updatereferral(
         investment: { id: referralData.idInvestment },
         amount: referralData.amount,
         wallet: referralData.wallet,
+        state: referralData.state,
+      }
+    );
+    return { success: true, message: "Referido actualizado" };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al actualizar referido" };
+  }
+}
+
+export async function updatereferralinvestmentid(
+  idInvestment: string,
+  referralData: ReferralDataCreate
+) {
+  try {
+    await dbConnect();
+    const profile = await fetchuserid(referralData.idUser);
+    if (!(profile as { success: boolean; message: UserData }).success)
+      return { success: false, message: "Error al actualizar inversión" };
+    const referral = await Referral.findOne({ "investment.id": idInvestment });
+    if (!referral) {
+      return { success: false, message: "Referido no encontrado" };
+    }
+    await Referral.updateOne(
+      { _id: referral._id.toString() },
+      {
+        user: {
+          id: referralData.idUser,
+          name: (profile as { success: boolean; message: UserData }).message
+            .name,
+        },
+        investment: { id: idInvestment },
+        amount: referralData.amount,
+        wallet: referralData.wallet,
+        state: referralData.state,
       }
     );
     return { success: true, message: "Referido actualizado" };

@@ -15,6 +15,7 @@ export default function PayReferralsTableItem({
   const [idInvestment, setIdInvestment] = useState("");
   const [amount, setAmount] = useState<number>(0);
   const [wallet, setWallet] = useState("");
+  const [state, setState] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
   async function handleDeleteReferral(id: string) {
@@ -27,6 +28,7 @@ export default function PayReferralsTableItem({
       idInvestment,
       amount,
       wallet,
+      state,
     });
     setModalOpen(false);
   }
@@ -41,6 +43,9 @@ export default function PayReferralsTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="font-medium text-sky-500">{referral.wallet}</div>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <div className="font-medium text-sky-500">{referral.state}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -127,6 +132,26 @@ export default function PayReferralsTableItem({
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
                   />
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="state"
+                  >
+                    Estado
+                  </label>
+                  <select
+                    id="state"
+                    className="form-select w-full px-2 py-1"
+                    required
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                  >
+                    <option value="">Selecciona un estado</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Aceptado">Aceptado</option>
+                    <option value="Denegado">Denegado</option>
+                  </select>
                 </div>
               </div>
             </div>

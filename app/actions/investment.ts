@@ -8,12 +8,18 @@ import {
   InvestmentDataCreateUser,
   UserData,
   PresaleData,
+  ReferralData,
   ReferralDataCreate,
 } from "@/app/lib/definitions";
 import { getSession } from "../lib/session";
 import { fetchuserid } from "./user";
 import { fetchpresaleid } from "./presale";
-import { createreferral, deletereferralinvestmentid } from "./referral";
+import {
+  createreferral,
+  updatereferralinvestmentid,
+  deletereferralinvestmentid,
+  fetchreferralinvestmentid,
+} from "./referral";
 
 export async function fetchpresaleinvestments(id: string) {
   try {
@@ -131,6 +137,34 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
       state: investmentData.state,
     });
     await investment.save();
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != ""
+    ) {
+      const referralprofile = await fetchuserid(
+        (profile as { success: boolean; message: UserData }).message.referral.id
+      );
+      if (!(referralprofile as { success: boolean; message: UserData }).success)
+        return { success: false, message: "Error al crear inversión" };
+      const referralData: ReferralDataCreate = {
+        idUser: (referralprofile as { success: boolean; message: UserData })
+          .message.id,
+        idInvestment: investment._id.toString(),
+        amount: Number(
+          (
+            (investment.amount /
+              (1 -
+                (presale as { success: boolean; message: PresaleData }).message
+                  .fees)) *
+            0.01
+          ).toFixed(2)
+        ),
+        wallet: (referralprofile as { success: boolean; message: UserData })
+          .message.referralwallet,
+        state: investmentData.state,
+      };
+      await createreferral(referralData);
+    }
     return { success: true, message: "Inversión creada" };
   } catch (err) {
     console.log(err);
@@ -207,6 +241,34 @@ export async function createinvestmentuser(
       state: "Pendiente",
     });
     await investment.save();
+    if (
+      (profile as { success: boolean; message: UserData }).message.referral
+        .id != ""
+    ) {
+      const referralprofile = await fetchuserid(
+        (profile as { success: boolean; message: UserData }).message.referral.id
+      );
+      if (!(referralprofile as { success: boolean; message: UserData }).success)
+        return { success: false, message: "Error al crear inversión" };
+      const referralData: ReferralDataCreate = {
+        idUser: (referralprofile as { success: boolean; message: UserData })
+          .message.id,
+        idInvestment: investment._id.toString(),
+        amount: Number(
+          (
+            (investment.amount /
+              (1 -
+                (presale as { success: boolean; message: PresaleData }).message
+                  .fees)) *
+            0.01
+          ).toFixed(2)
+        ),
+        wallet: (referralprofile as { success: boolean; message: UserData })
+          .message.referralwallet,
+        state: "Pendiente",
+      };
+      await createreferral(referralData);
+    }
     return { success: true, message: "Inversión creada" };
   } catch (err) {
     console.log(err);
@@ -229,7 +291,10 @@ export async function deleteinvestment(id: string) {
       (profile as { success: boolean; message: UserData }).message.referral
         .id != ""
     ) {
-      await deletereferralinvestmentid(investment._id.toString());
+      const referral = await fetchreferralinvestmentid(id);
+      if (!(referral as { success: boolean; message: ReferralData }).success)
+        return { success: false, message: "Error al eliminar inversión" };
+      await deletereferralinvestmentid(id);
     }
     return { success: true, message: "Inversión eliminada" };
   } catch (err) {
@@ -312,31 +377,36 @@ export async function updateinvestment(
     );
     if (
       (profile as { success: boolean; message: UserData }).message.referral
-        .id != "" &&
-      investmentData.state == "Aceptado"
+        .id != ""
     ) {
       const referralprofile = await fetchuserid(
         (profile as { success: boolean; message: UserData }).message.referral.id
       );
       if (!(referralprofile as { success: boolean; message: UserData }).success)
         return { success: false, message: "Error al actualizar inversión" };
+      const referral = await fetchreferralinvestmentid(
+        investment._id.toString()
+      );
+      if (!(referral as { success: boolean; message: ReferralData }).success)
+        return { success: false, message: "Error al actualizar inversión" };
       const referralData: ReferralDataCreate = {
         idUser: (referralprofile as { success: boolean; message: UserData })
           .message.id,
         idInvestment: investment._id.toString(),
-        amount: investmentData.amount * 0.01,
+        amount: Number(
+          (
+            (investment.amount /
+              (1 -
+                (presale as { success: boolean; message: PresaleData }).message
+                  .fees)) *
+            0.01
+          ).toFixed(2)
+        ),
         wallet: (referralprofile as { success: boolean; message: UserData })
           .message.referralwallet,
+        state: investmentData.state,
       };
-      await createreferral(referralData);
-    }
-    if (
-      (profile as { success: boolean; message: UserData }).message.referral
-        .id != "" &&
-      investmentData.state == "Denegado"
-    ) {
-      await deletereferralinvestmentid(investment._id.toString());
-      investment._id.toString();
+      await updatereferralinvestmentid(investment._id.toString(), referralData);
     }
     return { success: true, message: "Inversión actualizada" };
   } catch (err) {
