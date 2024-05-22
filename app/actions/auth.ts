@@ -7,7 +7,6 @@ import {
   ChangePasswordFormData,
   SignUpReferralFormData,
 } from "@/app/lib/definitions";
-import bcrypt from "bcryptjs";
 
 export async function signup(prevState: any, formData: FormData) {
   try {
@@ -69,13 +68,11 @@ export async function signup(prevState: any, formData: FormData) {
       };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
       admin: false,
       email: email,
       name: name,
-      password: hashedPassword,
+      password: password,
       allowemailprev: allowemail,
       allowemailcancel: allowemail,
       allowemailnew: allowemail,
@@ -153,13 +150,11 @@ export async function signupreferral(
       return { success: false, message: "El email ya está registrado" };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
       admin: false,
       email: email,
       name: name,
-      password: hashedPassword,
+      password: password,
       allowemailprev: allowemail,
       allowemailcancel: allowemail,
       allowemailnew: allowemail,
@@ -195,7 +190,7 @@ export async function signin(prevState: any, formData: FormData) {
       return { success: false, message: "Email o contraseña incorrectos" };
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (password !== user.password) {
       return { success: false, message: "Email o contraseña incorrectos" };
     }
     await createSession(user._id, user.admin, user.name);
@@ -227,10 +222,9 @@ export async function resetpassword(
         message: "La contraseña debe tener entre 8 y 20 caracteres",
       };
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
     await User.updateOne(
       { _id: user._id },
-      { password: hashedPassword, resetpasswordtoken: "" }
+      { password: password, resetpasswordtoken: "" }
     );
     await createSession(user._id, user.admin, user.name);
     return { success: true, message: "Contraseña restablecida correctamente" };
@@ -253,9 +247,7 @@ export async function changepassword(
       return { success: false, message: "Error al cargar datos del usuario" };
     }
 
-    if (
-      !(await bcrypt.compare(changepasswordData.oldpassword, user.password))
-    ) {
+    if (changepasswordData.oldpassword !== user.password) {
       return { success: false, message: "Contraseña actual incorrecta" };
     }
 
@@ -273,8 +265,10 @@ export async function changepassword(
       };
     }
 
-    const hashedPassword = await bcrypt.hash(changepasswordData.password, 10);
-    await User.updateOne({ _id: session.userId }, { password: hashedPassword });
+    await User.updateOne(
+      { _id: session.userId },
+      { password: changepasswordData.password }
+    );
     return { success: true, message: "Contraseña actualizada correctamente" };
   } catch (error) {
     console.error(error);
