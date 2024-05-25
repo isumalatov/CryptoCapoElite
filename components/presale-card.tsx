@@ -7,7 +7,7 @@ export default function PresaleCard({ presale }: { presale: PresaleData }) {
   const router = useRouter();
   return (
     <div
-      className="w-full sm:w-1/3 lg:w-1/4 bg-gradient-to-r from-slate-700 to-slate-800 flex flex-col items-center justify-center rounded-xl m-2 relative"
+      className="w-full sm:w-1/3 lg:w-1/4 min-h-[200px] max-h-[210px] bg-gradient-to-r from-slate-700 to-slate-800 flex flex-col items-center justify-center rounded-xl m-2 relative"
       style={{ top: "50px" }}
     >
       <div
@@ -23,7 +23,7 @@ export default function PresaleCard({ presale }: { presale: PresaleData }) {
         />
       </div>
       <div className="flex flex-col items-center w-full relative">
-        <h1 className="text-custom w-full text-center text-white m-2 font-bold">
+        <h1 className="text-xs sm:text-sm md:text-lg lg:text-xl w-full text-center text-white m-2 font-bold">
           {presale.title}
         </h1>
         <div className="flex justify-between w-full m-2">
