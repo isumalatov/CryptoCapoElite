@@ -19,7 +19,7 @@ export default function FintechIntro() {
         if (success) {
           const { id } = message as userId;
           setId(id);
-          setLink(`https://crypto-capo-elite.vercel.app/signup/${id}`);
+          setLink(`https://cryptocapoelite.com/signup/${id}`);
         }
         if (!success) {
           toast.error(message as string);
