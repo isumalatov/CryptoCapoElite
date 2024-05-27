@@ -63,7 +63,7 @@ export default function FintechIntro() {
               <div>
                 <div className="mb-2">
                   Para obtener el link, debes de establecer una billetera de
-                  referridos en Ajustes:
+                  referidos en Ajustes:
                 </div>
                 <button
                   className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
