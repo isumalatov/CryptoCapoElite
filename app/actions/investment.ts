@@ -2,6 +2,11 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Investment from "@/models/Investment";
+import InvestmentCopia from "@/models/InvestmentCopia";
+import PresaleCopia from "@/models/PresaleCopia";
+import UserCopia from "@/models/UserCopia";
+import User from "@/models/User";
+import Presale from "@/models/Presale";
 import {
   InvestmentData,
   InvestmentDataCreate,
@@ -440,3 +445,55 @@ export async function getusertotalamount() {
     return { success: false, message: "Error al cargar cantidad total" };
   }
 }
+
+// export async function createinvestmentsfromcopia(){
+//   try {
+//     console.log("Creando inversiones");
+//     await dbConnect();
+//     const investmentscopia = await InvestmentCopia.find({});
+//     if (!investmentscopia) {
+//       return {
+//         success: false,
+//         message: "Error al cargar inversiones",
+//       };
+//     }
+//     for (let i = 0; i < investmentscopia.length; i++) {
+//       const usercopia = await UserCopia.findOne({ id: investmentscopia[i].user_id });
+//       const presalecopia = await PresaleCopia.findOne({ id: investmentscopia[i].project_id });
+//       const user = await User.findOne({ email: usercopia.email });
+//       if (!user) {
+//         console.log(`No se encontró el usuario con el correo electrónico: ${usercopia.email}`);
+//         continue; // salta a la siguiente iteración del bucle
+//       }
+      
+//       const presale = await Presale.findOne({ title: presalecopia.title });
+//       if (!presale) {
+//         console.log(`No se encontró la pre-venta con el título: ${presalecopia.title}`);
+//         continue; // salta a la siguiente iteración del bucle
+//       }
+//       const investment = new Investment({
+//         user: {
+//           id: user._id.toString(),
+//           name: user.name,
+//         },
+//         presale: {
+//           id: presale._id.toString(),
+//           name: presale.title,
+//         },
+//         amount: investmentscopia[i].amount,
+//         tokens: investmentscopia[i].amount / presale.price,
+//         txid: investmentscopia[i].transaction_id,
+//         wallet: investmentscopia[i].wallet,
+//         state: "Pendiente",
+//       });
+//       await investment.save();
+//       console.log(investment);
+//       console.log("Inversión creada: " + i);
+//     }
+//     console.log("Inversiones creadas");
+//     return { success: true, message: "Inversiones creadas" };
+//   } catch (err) {
+//     console.log(err);
+//     return { success: false, message: "Error al cargar inversiones" };
+//   }
+// }
