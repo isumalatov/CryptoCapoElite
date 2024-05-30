@@ -8,7 +8,6 @@ import {
   UserDataCreate,
   UserDataUpdate,
 } from "@/app/lib/definitions";
-import bcrypt from "bcryptjs";
 
 export async function fetchusers() {
   try {
@@ -105,9 +104,8 @@ export async function createuser(userData: UserDataCreate) {
     if (userData.idUser) {
       profile = await fetchuserid(userData.idUser);
       if (!(profile as { success: boolean; message: UserData }).success)
-        return { success: false, message: "Error al crear usuario" };
+        profile = null;
     }
-    userData.password = await bcrypt.hash(userData.password, 10);
     const user = new User({
       admin: userData.admin,
       name: userData.name,

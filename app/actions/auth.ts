@@ -70,14 +70,14 @@ export async function signup(prevState: any, formData: FormData) {
 
     const user = new User({
       admin: false,
-      email: email,
       name: name,
+      email: email,
       password: password,
+      discord: "",
+      telegram: "",
       allowemailprev: allowemail,
       allowemailcancel: allowemail,
       allowemailnew: allowemail,
-      discord: "",
-      telegram: "",
       resetpasswordtoken: "",
       referral: { id: "", name: "" },
       referralwallet: "",
