@@ -353,7 +353,6 @@ function UsersContent() {
                         htmlFor="referralwallet"
                       >
                         Billetera de referido
-                        <span className="text-rose-500">*</span>
                       </label>
                       <input
                         id="referralwallet"
