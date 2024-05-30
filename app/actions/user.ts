@@ -100,7 +100,9 @@ export async function fetchuserid(id: string) {
 export async function createuser(userData: UserDataCreate) {
   try {
     await dbConnect();
-    const existingUser = await fetchuserid(userData.email);
+    // comprobar si el email ya está registrado
+    const existingUser = await User.findOne({ email: userData.email });
+
     if (existingUser) {
       return { success: false, message: "El email ya está registrado" };
     }
