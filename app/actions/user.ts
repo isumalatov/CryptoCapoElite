@@ -100,7 +100,11 @@ export async function fetchuserid(id: string) {
 export async function createuser(userData: UserDataCreate) {
   try {
     await dbConnect();
-    let profile;
+    const existingUser = await fetchuserid(userData.email);
+    if (existingUser) {
+      return { success: false, message: "El email ya está registrado" };
+    }
+    let profile = null;
     if (userData.idUser) {
       profile = await fetchuserid(userData.idUser);
       if (!(profile as { success: boolean; message: UserData }).success)
@@ -118,7 +122,9 @@ export async function createuser(userData: UserDataCreate) {
       allowemailnew: userData.allowemailnew,
       referral: {
         id: userData.idUser,
-        name: profile ? (profile as { success: boolean; message: UserData }).message.name : "",
+        name: profile
+          ? (profile as { success: boolean; message: UserData }).message.name
+          : "",
       },
       referralwallet: userData.referralwallet,
     });
