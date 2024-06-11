@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 function PresaleInvestmentsContent({ id }: { id: string }) {
   const [idUser, setIdUser] = useState("");
   const [amount, setAmount] = useState<number>(0);
+  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
@@ -56,6 +57,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
         idUser: idUser,
         idPresale: id,
         amount: amount,
+        tokens: tokens,
         txid: txid,
         wallet: wallet,
         state: state,
@@ -209,7 +211,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       className="block text-sm font-medium mb-1"
                       htmlFor="user"
                     >
-                      ID Usuario <span className="text-rose-500">*</span>
+                      ID Usuario
                     </label>
                     <input
                       id="user"
@@ -225,15 +227,39 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       className="block text-sm font-medium mb-1"
                       htmlFor="amount"
                     >
-                      Cantidad <span className="text-rose-500">*</span>
+                      Cantidad
                     </label>
                     <input
                       id="amount"
                       className="form-input w-full px-2 py-1"
                       type="number"
                       required
-                      value={amount}
-                      onChange={(e) => setAmount(Number(e.target.value))}
+                      value={amount === 0 ? "" : amount}
+                      onChange={(e) =>
+                        setAmount(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-1"
+                      htmlFor="tokens"
+                    >
+                      Tokens
+                    </label>
+                    <input
+                      id="tokens"
+                      className="form-input w-full px-2 py-1"
+                      type="number"
+                      required
+                      value={tokens === 0 ? "" : tokens}
+                      onChange={(e) =>
+                        setTokens(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </div>
                   <div>
@@ -241,7 +267,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       className="block text-sm font-medium mb-1"
                       htmlFor="txid"
                     >
-                      TXID <span className="text-rose-500">*</span>
+                      TXID
                     </label>
                     <input
                       id="txid"
@@ -257,7 +283,7 @@ function PresaleInvestmentsContent({ id }: { id: string }) {
                       className="block text-sm font-medium mb-1"
                       htmlFor="wallet"
                     >
-                      Wallet <span className="text-rose-500">*</span>
+                      Wallet
                     </label>
                     <input
                       id="wallet"

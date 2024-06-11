@@ -181,7 +181,7 @@ function UsersContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="name"
                     >
-                      Nombre <span className="text-rose-500">*</span>
+                      Nombre
                     </label>
                     <input
                       id="name"
@@ -197,7 +197,7 @@ function UsersContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="email"
                     >
-                      Email <span className="text-rose-500">*</span>
+                      Email
                     </label>
                     <input
                       id="email"
@@ -213,7 +213,7 @@ function UsersContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="password"
                     >
-                      Contraseña <span className="text-rose-500">*</span>
+                      Contraseña
                     </label>
                     <input
                       id="password"

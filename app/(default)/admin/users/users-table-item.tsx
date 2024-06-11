@@ -74,6 +74,7 @@ export default function NoticesTableItem({
               setAllowEmailCancel(user.allowemailcancel);
               setAllowEmailNew(user.allowemailnew);
               setUserId(user.referral.id);
+              setReferralWallet(user.referralwallet);
             }}
           >
             <span className="sr-only">Editar</span>
@@ -136,7 +137,7 @@ export default function NoticesTableItem({
                     className="block text-sm font-medium mb-1"
                     htmlFor="name"
                   >
-                    Nombre <span className="text-rose-500">*</span>
+                    Nombre
                   </label>
                   <input
                     id="name"
@@ -152,7 +153,7 @@ export default function NoticesTableItem({
                     className="block text-sm font-medium mb-1"
                     htmlFor="email"
                   >
-                    Email <span className="text-rose-500">*</span>
+                    Email
                   </label>
                   <input
                     id="email"
@@ -292,7 +293,6 @@ export default function NoticesTableItem({
                       htmlFor="referralwallet"
                     >
                       Billetera de referido
-                      <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="referralwallet"

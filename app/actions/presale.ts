@@ -2,6 +2,7 @@
 
 import dbConnect from "@/app/lib/dbConnect";
 import Presale from "@/models/Presale";
+import Investment from "@/models/Investment";
 import { PresaleData, PresaleDataCreate } from "@/app/lib/definitions";
 import {
   DeleteObjectCommand,
@@ -107,15 +108,41 @@ export async function deletepresale(id: string) {
   }
 }
 
-export async function updatepresale(id: string, presaleData: PresaleDataCreate) {
+export async function updatepresale(
+  id: string,
+  presaleData: PresaleDataCreate
+) {
   try {
     await dbConnect();
-    const presale = await Presale.findById({ _id: id });
+    const presale = await Presale.findById(id);
     if (!presale) {
       return { success: false, message: "Preventa no encontrada" };
     }
-    await Presale.updateOne({ _id: id }, presaleData);
-    return { success: true, message: "Preventa actualizada" };
+
+    if (presale.price !== presaleData.price) {
+      await Presale.updateOne({ _id: id }, presaleData);
+
+      const investments = await Investment.find({ "presale.id": id });
+
+      investments.forEach(async (investment) => {
+        await Investment.updateOne(
+          { _id: investment._id },
+          {
+            tokens: Number(
+              (
+                (investment.amount - investment.amount * (presale.fees / 100)) /
+                presaleData.price
+              ).toFixed(2)
+            ),
+          }
+        );
+      });
+
+      return { success: true, message: "Preventa y inversiones actualizadas" };
+    } else {
+      await Presale.updateOne({ _id: id }, presaleData);
+      return { success: true, message: "Preventa actualizada" };
+    }
   } catch (err) {
     console.log(err);
     return { success: false, message: "Error al actualizar preventa" };

@@ -14,6 +14,7 @@ export default function PresaleInvestmentsTableItem({
   onUpdate: (id: string, investmentData: InvestmentDataCreate) => void;
 }) {
   const [amount, setAmount] = useState<number>(0);
+  const [tokens, setTokens] = useState<number>(0);
   const [txid, setTxid] = useState("");
   const [wallet, setWallet] = useState("");
   const [state, setState] = useState("");
@@ -28,6 +29,7 @@ export default function PresaleInvestmentsTableItem({
       idUser: investment.user.id,
       idPresale: id,
       amount,
+      tokens,
       txid,
       wallet,
       state,
@@ -41,19 +43,29 @@ export default function PresaleInvestmentsTableItem({
         <div className="font-medium text-xs text-sky-500">{investment.id}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-xs text-sky-500">{investment.user.name}</div>
+        <div className="font-medium text-xs text-sky-500">
+          {investment.user.name}
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-xs text-sky-500">{investment.amount}$</div>
+        <div className="font-medium text-xs text-sky-500">
+          {investment.amount}$
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-xs text-sky-500">{investment.tokens}</div>
+        <div className="font-medium text-xs text-sky-500">
+          {investment.tokens}
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-xs text-sky-500">{investment.txid}</div>
+        <div className="font-medium text-xs text-sky-500">
+          {investment.txid}
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-xs text-sky-500">{investment.wallet}</div>
+        <div className="font-medium text-xs text-sky-500">
+          {investment.wallet}
+        </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
@@ -62,6 +74,7 @@ export default function PresaleInvestmentsTableItem({
             onClick={() => {
               setModalOpen(true);
               setAmount(investment.amount);
+              setTokens(investment.tokens);
               setTxid(investment.txid);
               setWallet(investment.wallet);
               setState(investment.state);
@@ -100,7 +113,7 @@ export default function PresaleInvestmentsTableItem({
                     className="block text-sm font-medium mb-1"
                     htmlFor="amount"
                   >
-                    Cantidad <span className="text-rose-500">*</span>
+                    Cantidad
                   </label>
                   <input
                     id="amount"
@@ -118,9 +131,29 @@ export default function PresaleInvestmentsTableItem({
                 <div>
                   <label
                     className="block text-sm font-medium mb-1"
+                    htmlFor="tokens"
+                  >
+                    Tokens
+                  </label>
+                  <input
+                    id="tokens"
+                    className="form-input w-full px-2 py-1"
+                    type="number"
+                    required
+                    value={tokens === 0 ? "" : tokens}
+                    onChange={(e) =>
+                      setTokens(
+                        e.target.value === "" ? 0 : Number(e.target.value)
+                      )
+                    }
+                  />
+                </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
                     htmlFor="txid"
                   >
-                    TXID <span className="text-rose-500">*</span>
+                    TXID
                   </label>
                   <input
                     id="txid"
@@ -136,7 +169,7 @@ export default function PresaleInvestmentsTableItem({
                     className="block text-sm font-medium mb-1"
                     htmlFor="wallet"
                   >
-                    Wallet <span className="text-rose-500">*</span>
+                    Wallet
                   </label>
                   <input
                     id="wallet"

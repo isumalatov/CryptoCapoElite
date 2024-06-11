@@ -176,9 +176,12 @@ export async function updateuser(id: string, userData: UserDataUpdate) {
     if (session.userId === id) {
       return { success: false, message: "No puedes actualizarte a ti mismo" };
     }
-    const profile = await fetchuserid(userData.idUser);
-    if (!(profile as { success: boolean; message: UserData }).success)
-      return { success: false, message: "Error al actualizar usuario" };
+    let profile = null;
+    if (userData.idUser) {
+      profile = await fetchuserid(userData.idUser);
+      if (!(profile as { success: boolean; message: UserData }).success)
+        profile = null;
+    }
     await User.updateOne(
       { _id: id },
       {
@@ -192,8 +195,9 @@ export async function updateuser(id: string, userData: UserDataUpdate) {
         allowemailnew: userData.allowemailnew,
         referral: {
           id: userData.idUser,
-          name: (profile as { success: boolean; message: UserData }).message
-            .name,
+          name: profile
+            ? (profile as { success: boolean; message: UserData }).message.name
+            : "",
         },
         referralwallet: userData.referralwallet,
       }

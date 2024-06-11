@@ -96,18 +96,6 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al crear inversión" };
-    if (
-      investmentData.amount <
-      (presale as { success: boolean; message: PresaleData }).message.min
-    ) {
-      return { success: false, message: "Error al crear inversión" };
-    }
-    if (
-      investmentData.amount >
-      (presale as { success: boolean; message: PresaleData }).message.max
-    ) {
-      return { success: false, message: "Error al crear inversión" };
-    }
     const investment = new Investment({
       user: {
         id: investmentData.idUser,
@@ -118,25 +106,8 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount: Number(
-        (
-          investmentData.amount -
-          investmentData.amount *
-            ((presale as { success: boolean; message: PresaleData }).message
-              .fees /
-              100)
-        ).toFixed(2)
-      ),
-      tokens: Number(
-        (
-          (investmentData.amount -
-            investmentData.amount *
-              ((presale as { success: boolean; message: PresaleData }).message
-                .fees /
-                100)) /
-          (presale as { success: boolean; message: PresaleData }).message.price
-        ).toFixed(2)
-      ),
+      amount: Number(investmentData.amount.toFixed(2)),
+      tokens: Number(investmentData.tokens.toFixed(2)),
       txid: investmentData.txid,
       wallet: investmentData.wallet,
       state: investmentData.state,
@@ -324,18 +295,6 @@ export async function updateinvestment(
     const presale = await fetchpresaleid(investmentData.idPresale);
     if (!(presale as { success: boolean; message: PresaleData }).success)
       return { success: false, message: "Error al actualizar inversión" };
-    if (
-      investmentData.amount <
-      (presale as { success: boolean; message: PresaleData }).message.min
-    ) {
-      return { success: false, message: "Error al actualizar inversión" };
-    }
-    if (
-      investmentData.amount >
-      (presale as { success: boolean; message: PresaleData }).message.max
-    ) {
-      return { success: false, message: "Error al actualizar inversión" };
-    }
     await Investment.updateOne(
       { _id: id },
       {
@@ -349,32 +308,8 @@ export async function updateinvestment(
           name: (presale as { success: boolean; message: PresaleData }).message
             .name,
         },
-        amount:
-          investmentData.amount === investment.amount
-            ? investment.amount
-            : Number(
-                (
-                  investmentData.amount -
-                  investmentData.amount *
-                    ((presale as { success: boolean; message: PresaleData })
-                      .message.fees /
-                      100)
-                ).toFixed(2)
-              ),
-        tokens:
-          investmentData.amount === investment.amount
-            ? investment.tokens
-            : Number(
-                (
-                  (investmentData.amount -
-                    investmentData.amount *
-                      ((presale as { success: boolean; message: PresaleData })
-                        .message.fees /
-                        100)) /
-                  (presale as { success: boolean; message: PresaleData })
-                    .message.price
-                ).toFixed(2)
-              ),
+        amount: Number(investmentData.amount.toFixed(2)),
+        tokens: Number(investmentData.tokens.toFixed(2)),
         txid: investmentData.txid,
         wallet: investmentData.wallet,
         state: investmentData.state,
@@ -465,7 +400,7 @@ export async function getusertotalamount() {
 //         console.log(`No se encontró el usuario con el correo electrónico: ${usercopia.email}`);
 //         continue; // salta a la siguiente iteración del bucle
 //       }
-      
+
 //       const presale = await Presale.findOne({ title: presalecopia.title });
 //       if (!presale) {
 //         console.log(`No se encontró la pre-venta con el título: ${presalecopia.title}`);

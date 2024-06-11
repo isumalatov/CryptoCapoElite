@@ -236,7 +236,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="description"
                     >
-                      Descripción
+                      Descripción <span className="text-rose-500">*</span>
                     </label>
                     <textarea
                       id="description"
@@ -251,7 +251,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="wallet"
                     >
-                      Wallet
+                      Wallet <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="wallet"
@@ -267,7 +267,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="state"
                     >
-                      Estado
+                      Estado <span className="text-rose-500">*</span>
                     </label>
                     <select
                       id="state"
@@ -286,7 +286,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="round"
                     >
-                      Ronda
+                      Ronda <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="round"
@@ -302,7 +302,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="price"
                     >
-                      Precio
+                      Precio <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="price"
@@ -322,7 +322,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="min"
                     >
-                      Minimo
+                      Minimo <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="min"
@@ -342,7 +342,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="max"
                     >
-                      Maximo
+                      Maximo <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="max"
@@ -362,7 +362,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="vesting"
                     >
-                      Vesting
+                      Vesting <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="vesting"
@@ -378,7 +378,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="tokenstandard"
                     >
-                      Token Standard
+                      Token Standard <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="tokenstandard"
@@ -394,7 +394,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="fees"
                     >
-                      Fees
+                      Fees <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="fees"
@@ -414,7 +414,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="url"
                     >
-                      URL
+                      URL <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="url"
@@ -430,7 +430,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="urltelegram"
                     >
-                      URL Telegram
+                      URL Telegram <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="urltelegram"
@@ -446,7 +446,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="urltwitter"
                     >
-                      URL Twitter
+                      URL Twitter <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="urltwitter"
@@ -462,7 +462,7 @@ function PresalesContent() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="urldocs"
                     >
-                      URL Docs
+                      URL Docs <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="urldocs"

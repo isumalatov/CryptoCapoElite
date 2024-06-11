@@ -202,6 +202,7 @@ export interface InvestmentDataCreate {
   idUser: string;
   idPresale: string;
   amount: number;
+  tokens: number;
   txid: string;
   wallet: string;
   state: string;
