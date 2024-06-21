@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import WelcomeBanner from "../welcome-banner";
 import FintechIntro from "../fintech-intro";
-import { fetchreferredusers, getusertotalamount } from "@/app/actions/referral";
+import { fetchreferredusersuser, getusertotalamount } from "@/app/actions/referral";
 import { UserData } from "@/app/lib/definitions";
 import ReferralsTable from "./referrals-table";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ function ReferralsContent() {
   useEffect(() => {
     async function fetchDataUsers() {
       try {
-        const { success, message } = await fetchreferredusers();
+        const { success, message } = await fetchreferredusersuser();
         if (success) {
           const usersData: UserData[] = message as UserData[];
           setUsers(usersData);

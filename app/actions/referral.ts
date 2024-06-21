@@ -68,7 +68,40 @@ export async function fetchreferralinvestmentid(idInvestment: string) {
   }
 }
 
-export async function fetchreferredusers() {
+export async function fetchreferredusers(id: string) {
+  try {
+    await dbConnect();
+    const users = await User.find({ "referral.id": id });
+    if (!users) {
+      return {
+        success: false,
+        message: "Error al cargar datos de los usuarios",
+      };
+    }
+    const UserData: UserData[] = users.map((u) => {
+      return {
+        id: u._id.toString(),
+        admin: u.admin,
+        name: u.name,
+        email: u.email,
+        password: u.password,
+        discord: u.discord,
+        telegram: u.telegram,
+        allowemailprev: u.allowemailprev,
+        allowemailcancel: u.allowemailcancel,
+        allowemailnew: u.allowemailnew,
+        referral: { id: u.referral.id, name: u.referral.name },
+        referralwallet: u.referralwallet,
+      };
+    });
+    return { success: true, message: UserData };
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: "Error al cargar datos de los usuarios" };
+  }
+}
+
+export async function fetchreferredusersuser() {
   try {
     await dbConnect();
     const session = await getSession();

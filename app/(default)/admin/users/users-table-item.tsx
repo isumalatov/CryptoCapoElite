@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { UserData, UserDataUpdate } from "@/app/lib/definitions";
 import ModalBasic from "@/components/modal-basic";
+import { useRouter } from "next/navigation";
 
 export default function NoticesTableItem({
   user,
@@ -11,6 +12,7 @@ export default function NoticesTableItem({
   onDelete: (id: string) => void;
   onUpdate: (id: string, userDataUpdate: UserDataUpdate) => void;
 }) {
+  const router = useRouter();
   const [admin, setAdmin] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -61,6 +63,20 @@ export default function NoticesTableItem({
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
         <div className="space-x-1">
+          <button
+            className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
+            onClick={() => router.push(`/admin/users/${user.id}`)}
+          >
+            <span className="sr-only">Ver</span>
+            <svg
+              className="w-4 h-4 shrink-0 fill-current text-slate-400 dark:text-slate-500 group-hover:text-slate-500 dark:group-hover:text-slate-400 mb-[7px] mr-2"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
+              <path d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z" />
+            </svg>
+          </button>
           <button
             className="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400 rounded-full"
             onClick={() => {

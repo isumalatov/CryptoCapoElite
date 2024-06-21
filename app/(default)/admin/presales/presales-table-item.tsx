@@ -24,12 +24,12 @@ export default function PresalesTableItem({
   const [imageurl, setImageUrl] = useState("");
   const [state, setState] = useState("");
   const [round, setRound] = useState("");
-  const [price, setPrice] = useState<number>(0);
-  const [min, setMin] = useState<number>(0);
-  const [max, setMax] = useState<number>(0);
+  const [price, setPrice] = useState("");
+  const [min, setMin] = useState("");
+  const [max, setMax] = useState("");
   const [vesting, setVesting] = useState("");
   const [tokenstandard, setTokenStandard] = useState("");
-  const [fees, setFees] = useState<number>(0);
+  const [fees, setFees] = useState("");
   const [url, setUrl] = useState("");
   const [urltelegram, setUrlTelegram] = useState("");
   const [urltwitter, setUrlTwitter] = useState("");
@@ -88,12 +88,12 @@ export default function PresalesTableItem({
               imageurl: newImageUrl,
               state,
               round,
-              price,
-              min,
-              max,
+              price: Number(price),
+              min: Number(min),
+              max: Number(max),
               vesting,
               tokenstandard,
-              fees,
+              fees: Number(fees),
               url,
               urltelegram,
               urltwitter,
@@ -111,12 +111,12 @@ export default function PresalesTableItem({
           imageurl,
           state,
           round,
-          price,
-          min,
-          max,
+          price: Number(price),
+          min: Number(min),
+          max: Number(max),
           vesting,
           tokenstandard,
-          fees,
+          fees: Number(fees),
           url,
           urltelegram,
           urltwitter,
@@ -166,12 +166,12 @@ export default function PresalesTableItem({
               setImageUrl(presale.imageurl);
               setState(presale.state);
               setRound(presale.round);
-              setPrice(presale.price);
-              setMin(presale.min);
-              setMax(presale.max);
+              setPrice(presale.price.toString());
+              setMin(presale.min.toString());
+              setMax(presale.max.toString());
               setVesting(presale.vesting);
               setTokenStandard(presale.tokenstandard);
-              setFees(presale.fees);
+              setFees(presale.fees.toString());
               setUrl(presale.url);
               setUrlTelegram(presale.urltelegram);
               setUrlTwitter(presale.urltwitter);
@@ -327,19 +327,15 @@ export default function PresalesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="price"
                     >
-                      Precio
+                      Precio <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="price"
                       className="form-input w-full px-2 py-1"
-                      type="number"
+                      type="text"
                       required
-                      value={price === 0 ? "" : price}
-                      onChange={(e) =>
-                        setPrice(
-                          e.target.value === "" ? 0 : Number(e.target.value)
-                        )
-                      }
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
                     />
                   </div>
                   <div>
@@ -347,19 +343,15 @@ export default function PresalesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="min"
                     >
-                      Minimo
+                      Minimo <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="min"
                       className="form-input w-full px-2 py-1"
-                      type="number"
+                      type="text"
                       required
-                      value={min === 0 ? "" : min}
-                      onChange={(e) =>
-                        setMin(
-                          e.target.value === "" ? 0 : Number(e.target.value)
-                        )
-                      }
+                      value={min}
+                      onChange={(e) => setMin(e.target.value)}
                     />
                   </div>
                   <div>
@@ -367,19 +359,15 @@ export default function PresalesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="max"
                     >
-                      Maximo
+                      Maximo <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="max"
                       className="form-input w-full px-2 py-1"
-                      type="number"
+                      type="text"
                       required
-                      value={max === 0 ? "" : max}
-                      onChange={(e) =>
-                        setMax(
-                          e.target.value === "" ? 0 : Number(e.target.value)
-                        )
-                      }
+                      value={max}
+                      onChange={(e) => setMax(e.target.value)}
                     />
                   </div>
                   <div>
@@ -419,19 +407,15 @@ export default function PresalesTableItem({
                       className="block text-sm font-medium mb-1"
                       htmlFor="fees"
                     >
-                      Fees
+                      Fees <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="fees"
                       className="form-input w-full px-2 py-1"
-                      type="number"
+                      type="text"
                       required
-                      value={fees === 0 ? "" : fees}
-                      onChange={(e) =>
-                        setFees(
-                          e.target.value === "" ? 0 : Number(e.target.value)
-                        )
-                      }
+                      value={fees}
+                      onChange={(e) => setFees(e.target.value)}
                     />
                   </div>
                   <div>

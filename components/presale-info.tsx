@@ -274,7 +274,7 @@ export default function PresaleInfo({ presale }: { presale: PresaleData }) {
                 aria-label="slider"
                 value={amount}
                 onChange={handleChange}
-                step={100}
+                step={25}
                 min={presale.min}
                 max={presale.max}
               />

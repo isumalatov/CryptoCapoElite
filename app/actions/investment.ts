@@ -113,34 +113,6 @@ export async function createinvestment(investmentData: InvestmentDataCreate) {
       state: investmentData.state,
     });
     await investment.save();
-    if (
-      (profile as { success: boolean; message: UserData }).message.referral
-        .id != ""
-    ) {
-      const referralprofile = await fetchuserid(
-        (profile as { success: boolean; message: UserData }).message.referral.id
-      );
-      if (!(referralprofile as { success: boolean; message: UserData }).success)
-        return { success: false, message: "Error al crear inversión" };
-      const referralData: ReferralDataCreate = {
-        idUser: (referralprofile as { success: boolean; message: UserData })
-          .message.id,
-        idInvestment: investment._id.toString(),
-        amount: Number(
-          (
-            (investment.amount /
-              (1 -
-                (presale as { success: boolean; message: PresaleData }).message
-                  .fees)) *
-            0.01
-          ).toFixed(2)
-        ),
-        wallet: (referralprofile as { success: boolean; message: UserData })
-          .message.referralwallet,
-        state: investmentData.state,
-      };
-      await createreferral(referralData);
-    }
     return { success: true, message: "Inversión creada" };
   } catch (err) {
     console.log(err);
@@ -193,15 +165,7 @@ export async function createinvestmentuser(
         name: (presale as { success: boolean; message: PresaleData }).message
           .name,
       },
-      amount: Number(
-        (
-          investmentData.amount -
-          investmentData.amount *
-            ((presale as { success: boolean; message: PresaleData }).message
-              .fees /
-              100)
-        ).toFixed(2)
-      ),
+      amount: Number(investmentData.amount.toFixed(2)),
       tokens: Number(
         (
           (investmentData.amount -
@@ -232,11 +196,7 @@ export async function createinvestmentuser(
         idInvestment: investment._id.toString(),
         amount: Number(
           (
-            (investment.amount /
-              (1 -
-                (presale as { success: boolean; message: PresaleData }).message
-                  .fees)) *
-            0.01
+            investmentData.amount * 0.01
           ).toFixed(2)
         ),
         wallet: (referralprofile as { success: boolean; message: UserData })
